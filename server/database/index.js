@@ -7,6 +7,8 @@ const Trade = require('./models/Trade');
 const Vote = require('./models/Vote');
 const EthereumWallet = require('./models/EthereumWallet')
 const UserGroup = require('./models/UserGroup')
+const AssignedChores = require('./models/AssignedChores')
+const SellChore = require('./models/SellChore')
 
 // add model associations here
 
