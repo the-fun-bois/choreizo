@@ -5,11 +5,13 @@ const Group = require('./models/Group');
 const Chore = require('./models/Chore');
 const Trade = require('./models/Trade');
 const Vote = require('./models/Vote');
+const EthereumWallet = require('./models/EthereumWallet')
+const UserGroup = require('./models/UserGroup')
 
 // add model associations here
 
 /*----- User and Group Associations -----*/
-User.belongsToMany(Group, { through: 'UserGroup' });
+User.belongsToMany(Group, { through: 'userGroup' });
 Group.hasMany(User);
 
 /*----- Chore Associations -----*/

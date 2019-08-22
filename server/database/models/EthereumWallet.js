@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('./../db');
 
-const EthereumWallet = db.create('EthereumWallet', {
+const EthereumWallet = db.define('ethereumWallet', {
     userId: {
         type: Sequelize.INTEGER,
         allowNull:false
