@@ -9,6 +9,7 @@ const EthereumWallet = require('./models/EthereumWallet')
 const UserGroup = require('./models/UserGroup')
 const AssignedChores = require('./models/AssignedChores')
 const SellChore = require('./models/SellChore')
+const SwapChore = require('./models/SwapChore')
 
 // add model associations here
 
@@ -23,7 +24,7 @@ Group.hasMany(Chore);
 /*----- Vote Associations -----*/
 User.hasMany(Vote, { foreignKey: 'voterId', sourceKey: 'id' });
 Vote.belongsTo(User, { foreignKey: 'voterId', targetKey: 'id' });
-// Vote.belongsTo(AssignedChore)
+// Vote.belongsTo(AssignedChores)
 // AssignedChore.hasMany(Vote);
 
 /*----- Trade Associations -----*/
@@ -42,4 +43,9 @@ module.exports = {
   Chore,
   Trade,
   Vote,
+  EthereumWallet,
+  UserGroup,
+  AssignedChores,
+  SellChore,
+  SwapChore,
 };
