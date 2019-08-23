@@ -6,14 +6,6 @@ const AssignedChore = db.define('assignedChores', {
         type: Sequelize.INTEGER,
         allowNull: false,
     },
-    userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-    },
-    choreId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-    },
     completed:{
         type: Sequelize.ENUM(['accepted', 'declined', 'pending']),
         defaultValue: 'pending',
