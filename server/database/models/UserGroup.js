@@ -1,5 +1,5 @@
-const Sequelize = require('./node_modules/sequelize');
-const db = require('../db');
+const Sequelize = require('sequelize');
+const db = require('./../db');
 
 const UserGroup = db.define('userGroup', {
     userId: {
