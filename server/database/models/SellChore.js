@@ -2,10 +2,6 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const SellChore = db.define('sellChore', {
-    saleId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-    },
     originalOwnerId: {
         type: Sequelize.INTEGER,
         allowNull:false,
