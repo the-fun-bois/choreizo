@@ -7,7 +7,7 @@ const Trade = require('./models/Trade');
 const Vote = require('./models/Vote');
 const EthereumWallet = require('./models/EthereumWallet')
 const UserGroup = require('./models/UserGroup')
-const AssignedChores = require('./models/AssignedChores')
+const AssignedChore = require('./models/AssignedChores')
 const SellChore = require('./models/SellChore')
 const SwapChore = require('./models/SwapChore')
 
@@ -32,7 +32,7 @@ Trade.belongsTo(User, { foreignKey: 'originalOwnerId' });
 Trade.belongsTo(User, { foreignKey: 'newOwnerId' });
 User.hasMany(Trade, { foreignKey: 'originalOwnerId' });
 User.hasMany(Trade, { foreignKey: 'newOwnerId' });
-// Trade.belongsTo(AssignedChore)
+// Trade.belongsTo(AssignedChores)
 // AssignedChore.hasOne(Trade)
 
 // export models here
@@ -45,7 +45,7 @@ module.exports = {
   Vote,
   EthereumWallet,
   UserGroup,
-  AssignedChores,
+  AssignedChore,
   SellChore,
   SwapChore,
 };

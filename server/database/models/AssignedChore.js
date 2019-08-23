@@ -1,7 +1,7 @@
 const Sequelize = require('./node_modules/sequelize');
 const db = require('../db');
 
-const AssignedChores = db.define('assignedChores', {
+const AssignedChore = db.define('assignedChores', {
     assignedChoreId: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -24,4 +24,4 @@ const AssignedChores = db.define('assignedChores', {
     }
 })
 
-module.exports = AssignedChores
+module.exports = AssignedChore
