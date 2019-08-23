@@ -47,12 +47,13 @@ AssignedChore.belongsTo(Chore)
 Chore.hasMany(AssignedChore)
 
 /*-------SellChore Associations----*/
-SellChore.belongsTo(User, {as: 'originalOwnerId'})
-SellChore.belongsTo(User, {as: 'newOwnerId'})
-User.hasMany(SellChore)
+SellChore.belongsTo(User, {as: 'originalOwner'})
+SellChore.belongsTo(User, {as: 'newOwner'})
+SellChore.belongsTo(Chore, {as: 'assignedChore'})
 
-SellChore.belongsTo(Chore)
-Chore.hasMany(SellChore)
+//User.hasMany(SellChore)
+// SellChore.belongsTo(Chore)
+// Chore.hasMany(SellChore)
 
 /*-------SwapChore Associations------*/
 SwapChore.belongsTo(User, {as: 'user1'})
