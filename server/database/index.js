@@ -39,7 +39,30 @@ User.hasMany(Trade, { foreignKey: 'newOwnerId' });
 EthereumWallet.belongsTo(User)
 User.hasOne(EthereumWallet)
 
-/*--------*/
+/*----AssignedChore Associations----*/
+AssignedChore.belongsTo(User)
+User.hasMany(AssignedChore)
+
+AssignedChore.belongsTo(Chore)
+Chore.hasMany(AssignedChore)
+
+/*-------SellChore Associations----*/
+SellChore.belongsTo(User, {as: 'originalOwnerId'})
+SellChore.belongsTo(User, {as: 'newOwnerId'})
+User.hasMany(SellChore)
+
+SellChore.belongsTo(Chore)
+Chore.hasMany(SellChore)
+
+/*-------SwapChore Associations------*/
+SwapChore.belongsTo(User, {as: 'user1'})
+SwapChore.belongsTo(User, {as: 'user2'})
+SwapChore.belongsTo(AssignedChore, {as: 'assignedChoreId1'})
+SwapChore.belongsTo(AssignedChore, {as: 'assignedChoreId2'})
+// User.hasMany(SwapChore)
+// AssignedChore.hasMany(SwapChore)
+
+
 // export models here
 module.exports = {
   db,

@@ -11,3 +11,5 @@ const SwapChore = db.define('swapChore', {
         defaultValue: 'pending',
     },
 })
+
+module.exports = SwapChore
