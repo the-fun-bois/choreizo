@@ -58,8 +58,8 @@ SellChore.belongsTo(Chore, {as: 'assignedChore'})
 /*-------SwapChore Associations------*/
 SwapChore.belongsTo(User, {as: 'user1'})
 SwapChore.belongsTo(User, {as: 'user2'})
-SwapChore.belongsTo(AssignedChore, {as: 'assignedChoreId1'})
-SwapChore.belongsTo(AssignedChore, {as: 'assignedChoreId2'})
+SwapChore.belongsTo(AssignedChore, {as: 'assignedChore1'})
+SwapChore.belongsTo(AssignedChore, {as: 'assignedChore2'})
 // User.hasMany(SwapChore)
 // AssignedChore.hasMany(SwapChore)
 

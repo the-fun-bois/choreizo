@@ -3,6 +3,6 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const Sequelize = require('sequelize');
-const db = new Sequelize(/*process.env.DATABASE_URL*/'postgres://:5432/choreApp', { logging: false });
+const db = new Sequelize(process.env.DATABASE_URL, { logging: false });
 
 module.exports = db;
