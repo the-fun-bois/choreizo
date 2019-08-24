@@ -9,7 +9,9 @@ const Group = db.define('group', {
       notEmpty: true,
     },
   },
-  // add admin id throught associations
+  description: {
+    type: Sequelize.TEXT,
+  },
 });
 
 module.exports = Group;

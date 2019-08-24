@@ -3,9 +3,9 @@
 // "
 
 const Sequelize = require('sequelize');
-const db = require('./../db');
+const db = require('../db');
 
-const Trade = db.define('trade', {
+const Trade = db.define('tradeChore', {
   tradeTerms: {
     type: Sequelize.TEXT,
     allowNull: false,
@@ -17,7 +17,6 @@ const Trade = db.define('trade', {
     type: Sequelize.ENUM(['accepted', 'declined', 'pending']),
     defaultValue: 'pending',
   },
-  // add originalOwner, newOwner, assignedChore through associations
 });
 
 module.exports = Trade;
