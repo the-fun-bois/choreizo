@@ -58,3 +58,6 @@ buck-out/
 # Misc
 #
 .env
+
+# vscode workspace settings
+.vscode

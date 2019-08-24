@@ -20,7 +20,7 @@ const Chore = db.define('chore', {
   penalty: {
     type: Sequelize.DECIMAL(10, 3),
   },
-  active: {
+  isActive: {
     type: Sequelize.BOOLEAN,
     defaultValue: true,
   },
@@ -31,7 +31,9 @@ const Chore = db.define('chore', {
       min: 1,
     },
   },
-  // add group id through association
+  details: {
+    type: Sequelize.ARRAY(Sequelize.STRING),
+  },
 });
 
 module.exports = Chore;
