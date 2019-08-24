@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
-const db = require('./../db');
+const db = require('../db');
 
-const SellChore = db.define('sellChore', {
+const TransferChore = db.define('transferChore', {
   price: {
     type: Sequelize.DECIMAL(10, 5),
     allowNull: false,
@@ -12,4 +12,4 @@ const SellChore = db.define('sellChore', {
   },
 });
 
-module.exports = SellChore;
+module.exports = TransferChore;
