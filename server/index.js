@@ -2,13 +2,14 @@ const { db } = require('./database');
 const app = require('./server');
 const chalk = require('chalk');
 
-const { PORT } = process.env;
+const { PORT, DB_FORCE, NODE_ENV } = process.env;
 
-const force = true;
-db.sync({ force }).then(() => {
+db.sync({ force: DB_FORCE === 'true' }).then(() => {
   console.log('db synced');
-  if (force) {
-    console.log(chalk.red('**** WARNING \n {force: true} is enabled'));
+  if (NODE_ENV !== 'production') {
+    console.log(
+      chalk.red(`****  db.sync({force: ${DB_FORCE === 'true'}}) is enabled`)
+    );
   }
   app.listen(PORT, () => {
     console.log(`
