@@ -32,7 +32,7 @@ Trade.belongsTo(User, { foreignKey: 'originalOwnerId' });
 Trade.belongsTo(User, { foreignKey: 'newOwnerId' });
 User.hasMany(Trade, { foreignKey: 'originalOwnerId' });
 User.hasMany(Trade, { foreignKey: 'newOwnerId' });
-// Trade.belongsTo(AssignedChores)
+// Trade.belongsTo(AssignedChore)
 // AssignedChore.hasOne(Trade)
 
 /*-----EtheriumWallet Associations-----*/
