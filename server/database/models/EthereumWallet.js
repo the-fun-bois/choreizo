@@ -3,7 +3,7 @@ const db = require('./../db');
 
 const EthereumWallet = db.define('ethereumWallet', {
   balance: {
-    type: Sequelize.DECIMAL(10, 10),
+    type: Sequelize.DECIMAL(20, 18),
     allowNull: false,
   },
 });
