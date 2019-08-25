@@ -9,6 +9,7 @@ const UserGroup = db.define('userGroup', {
   userStatus: {
     type: Sequelize.ENUM(['active', 'inactive', 'pending']),
     allowNull: false,
+    defaultValue: 'pending',
   },
 });
 
