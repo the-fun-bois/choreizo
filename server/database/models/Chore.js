@@ -18,7 +18,7 @@ const Chore = db.define('chore', {
     },
   },
   penalty: {
-    type: Sequelize.DECIMAL(10, 3),
+    type: Sequelize.DECIMAL(10, 8),
   },
   isActive: {
     type: Sequelize.BOOLEAN,

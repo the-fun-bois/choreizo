@@ -3,7 +3,7 @@ const db = require('../db');
 
 const TransferChore = db.define('transferChore', {
   price: {
-    type: Sequelize.DECIMAL(10, 5),
+    type: Sequelize.DECIMAL(10, 8),
     allowNull: false,
   },
   status: {
