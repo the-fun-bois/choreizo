@@ -15,7 +15,7 @@ const SwapChore = require('./models/SwapChore');
 
 /*----- User and Group Associations -----*/
 User.belongsToMany(Group, { through: 'userGroup' });
-Group.hasMany(User);
+Group.belongsToMany(User, { through: 'userGroup' });
 
 /*----- Chore Associations -----*/
 Chore.belongsTo(Group);
