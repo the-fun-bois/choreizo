@@ -25,7 +25,7 @@ const Chore = db.define('chore', {
     defaultValue: true,
   },
   // unit: days
-  timeLimiit: {
+  timeLimit: {
     type: Sequelize.INTEGER,
     validate: {
       min: 1,

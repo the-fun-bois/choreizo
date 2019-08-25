@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:start-server": "./node_modules/.bin/nodemon ./index.js",
-    "dev": "npm run dev:start-server"
+    "dev": "npm run dev:start-server",
+    "seed": "node ./database/seed/index.js"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "sequelize": "^5.16.0"
   },
   "devDependencies": {
+    "faker": "^4.1.0",
     "nodemon": "^1.19.1"
   }
 }
