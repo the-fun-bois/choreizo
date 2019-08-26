@@ -47,7 +47,8 @@ SwapChore.belongsTo(User, { as: 'user1' });
 SwapChore.belongsTo(User, { as: 'user2' });
 SwapChore.belongsTo(AssignedChore, { as: 'assignedChore1' });
 SwapChore.belongsTo(AssignedChore, { as: 'assignedChore2' });
-AssignedChore.hasOne(SwapChore);
+AssignedChore.hasOne(SwapChore, { as: 'assignedChore1' });
+AssignedChore.hasOne(SwapChore, { as: 'assignedChore2' });
 
 /*----- TradeChore Associations -----*/
 TradeChore.belongsTo(User, { as: 'originalOwner' });
