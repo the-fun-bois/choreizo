@@ -1,5 +1,14 @@
 const chalk = require('chalk');
-const { db, User, Chore, Group, EthereumWallet, UserGroup } = require('./../');
+const {
+  db,
+  User,
+  Chore,
+  Group,
+  EthereumWallet,
+  UserGroup,
+  AssignedChore,
+} = require('./../');
+
 const usersSeed = require('./data/usersSeed');
 const groupsSeed = require('./data/groupsSeed');
 const choresSeed = require('./data/choresSeed');
@@ -40,12 +49,27 @@ const seed = async () => {
       })
     );
     console.log('creating chores');
-    await Promise.all(
+    const chores = await Promise.all(
       choresSeed.map(chore => {
         chore.groupId = groups[0].id;
         return Chore.create(chore);
       })
     );
+
+    console.log('assigning chores');
+    const totalUsers = users.length;
+    let currentUser = 0;
+    for (let i = 0; i < chores.length; i++) {
+      // rotate back to first user
+      if (currentUser >= totalUsers) {
+        currentUser = 0;
+      }
+      await AssignedChore.create({
+        choreId: chores[i].id,
+        userId: users[currentUser].id,
+      });
+      currentUser += 1;
+    }
   } catch (e) {
     console.error(e);
     console.log(chalk.red(e));
