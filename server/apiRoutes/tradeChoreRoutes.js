@@ -13,14 +13,29 @@ const createTrade = (userId, assignedChoreId, tradeTerms, res, next) => {
       userId,
       id: assignedChoreId,
     },
-    include: [TransferChore, TradeChore, SwapChore],
+    include: [
+      TransferChore,
+      TradeChore,
+      { model: SwapChore, as: 'swapAssignedChore1' },
+      { model: SwapChore, as: 'swapAssignedChore2' },
+    ],
   }).then(assignedChore => {
     if (!assignedChore) {
       return res.status(400).send({ error: 'No such assigned chore exists' });
     }
 
-    const { swapChore, tradeChore, transferChore } = assignedChore;
-    if (swapChore || tradeChore || transferChore) {
+    const {
+      swapAssignedChore1,
+      swapAssignedChore2,
+      tradeChore,
+      transferChore,
+    } = assignedChore;
+    if (
+      swapAssignedChore1 ||
+      swapAssignedChore2 ||
+      tradeChore ||
+      transferChore
+    ) {
       return res.status(400).send({
         error:
           'Error creating trade. This chore is already in the marketplace.',

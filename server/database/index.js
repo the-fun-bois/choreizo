@@ -45,10 +45,10 @@ AssignedChore.hasOne(TransferChore);
 /*-------SwapChore Associations------*/
 SwapChore.belongsTo(User, { as: 'user1' });
 SwapChore.belongsTo(User, { as: 'user2' });
-SwapChore.belongsTo(AssignedChore, { as: 'assignedChore1' });
-SwapChore.belongsTo(AssignedChore, { as: 'assignedChore2' });
-AssignedChore.hasOne(SwapChore, { as: 'assignedChore1' });
-AssignedChore.hasOne(SwapChore, { as: 'assignedChore2' });
+SwapChore.belongsTo(AssignedChore, { as: 'swapAssignedChore1' });
+SwapChore.belongsTo(AssignedChore, { as: 'swapAssignedChore2' });
+AssignedChore.hasOne(SwapChore, { as: 'swapAssignedChore1' });
+AssignedChore.hasOne(SwapChore, { as: 'swapAssignedChore2' });
 
 /*----- TradeChore Associations -----*/
 TradeChore.belongsTo(User, { as: 'originalOwner' });
