@@ -7,6 +7,20 @@ const {
   TradeChore,
 } = require('./../database/index');
 
+const checkIfChoreIsAlreadyInMarketPlace = assignedChore => {
+  const {
+    swapAssignedChore1,
+    swapAssignedChore2,
+    tradeChore,
+    transferChore,
+  } = assignedChore;
+
+  if (swapAssignedChore1 || swapAssignedChore2 || tradeChore || transferChore) {
+    return true;
+  }
+  return false;
+};
+
 const createSwap = (
   user1Id,
   user2Id,
@@ -15,40 +29,61 @@ const createSwap = (
   res,
   next
 ) => {
-  // check that user and assignedchore id are
-  return AssignedChore.findOne({
-    where: {
-      userId,
-      id: assignedChoreId,
-    },
-    include: [TransferChore, TradeChore, SwapChore],
-  }).then(assignedChore => {
-    if (!assignedChore) {
-      return res.status(400).send({ error: 'No such assigned chore exists' });
-    }
-
-    const { swapChore, tradeChore, transferChore } = assignedChore;
-    if (swapChore || tradeChore || transferChore) {
-      return res.status(400).send({
-        error:
-          'Error creating trade. This chore is already in the marketplace.',
+  // check that both assigned chores exist
+  return Promise.all([
+    AssignedChore.findOne({
+      where: {
+        userId: user1Id,
+        id: assignedChore1Id,
+      },
+      include: [
+        { model: SwapChore, as: 'swapAssignedChore1' },
+        { model: SwapChore, as: 'swapAssignedChore2' },
+        TradeChore,
+        TransferChore,
+      ],
+    }),
+    AssignedChore.findOne({
+      where: {
+        userId: user2Id,
+        id: assignedChore2Id,
+      },
+      include: [
+        { model: SwapChore, as: 'swapAssignedChore1' },
+        { model: SwapChore, as: 'swapAssignedChore2' },
+        TradeChore,
+        TransferChore,
+      ],
+    }),
+  ])
+    .then(([aC1, aC2]) => {
+      if (!aC1 || !aC2) {
+        return res.status(400).send({ error: 'Assigned chore not found' });
+      }
+      // check joins
+      const ac1IsInMp = checkIfChoreIsAlreadyInMarketPlace(aC1);
+      const ac2IsInMp = checkIfChoreIsAlreadyInMarketPlace(aC2);
+      if (ac1IsInMp || ac2IsInMp) {
+        return res
+          .status(400)
+          .send({ error: 'An assigned chore is already in the market' });
+      }
+      SwapChore.create({
+        user1Id,
+        user2Id,
+        swapAssignedChore1Id: assignedChore1Id,
+        swapAssignedChore2Id: assignedChore2Id,
+        status: 'pending',
+      }).then(swapChore => {
+        res.status(200).send(swapChore);
       });
-    }
-    SwapChore.create({
-      assignedChoreId: assignedChore.id,
-      tradeTerms,
-      originalOwnerId: userId,
-      status: 'pending',
     })
-      .then(tradeChore => {
-        res.status(201).send(tradeChore);
-      })
-      .catch(next);
-  });
+    .catch(next);
 };
 
 router.post('/create_swap', (req, res, next) => {
-  res.send('swap chore');
+  const { user1Id, user2Id, assignedChore1Id, assignedChore2Id } = req.body;
+  createSwap(user1Id, user2Id, assignedChore1Id, assignedChore2Id, res, next);
 });
 
 module.exports = router;
