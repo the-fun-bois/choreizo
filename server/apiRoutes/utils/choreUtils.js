@@ -8,13 +8,6 @@ const checkIfChoreIsAlreadyInMarketPlace = assignedChore => {
     transferChore,
   } = assignedChore;
 
-  console.log(
-    'chore utils output',
-    swapAssignedChore1,
-    swapAssignedChore2,
-    tradeChore,
-    transferChore
-  );
   if (swapAssignedChore1 || swapAssignedChore2 || tradeChore || transferChore) {
     return true;
   }
