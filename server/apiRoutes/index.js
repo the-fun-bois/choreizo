@@ -3,7 +3,7 @@ const apiRoutes = express.Router();
 //import api routes here
 <<<<<<< HEAD
 
-const choresAPIRoutes = require('./chores');
+const choresAPIRoutes = require('./ChoresRoutes');
 
 =======
 const tradeChoreRoutes = require('./tradeChoreRoutes');
