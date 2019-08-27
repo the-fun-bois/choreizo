@@ -41,6 +41,14 @@ const choresSeed = [
     timeLimit: Math.floor(Math.random() * 7) + 1,
     details: createArrayOfSentences(Math.floor(Math.random() * 3) + 1),
   },
+  {
+    name: 'Vacuum the living room',
+    difficulty: Math.floor(Math.random() * 10) + 1,
+    penalty: Math.random() * 5,
+    isActive: true,
+    timeLimit: Math.floor(Math.random() * 7) + 1,
+    details: createArrayOfSentences(Math.floor(Math.random() * 3) + 1),
+  },
 ];
 
 module.exports = choresSeed;
