@@ -40,7 +40,7 @@ router.post('/', async (req, res, next) => {
  * @ACCESS: private
  */
 router.post('/all_assigned_chores', async (req, res, next) => {
-  let chores = {};
+  let chores;
   const groups = [];
   const userId = req.body.userId;
   const allGroups = await findGroupInfo(userId);
@@ -50,10 +50,22 @@ router.post('/all_assigned_chores', async (req, res, next) => {
     groups.push(allGroups[i].groupId);
   }
 
+  //get all chores that are assigned in the group
   for (let i = 0; i < groups.length; i++) {
-    const choreList = await Chore.findAll({ where: { groupId: groups[i] } });
+    const choreList = await Chore.findAll({
+      where: { groupId: groups[i] },
+      include: [{ model: AssignedChore }],
+    });
+    chores = choreList;
   }
-
+  //At this point we have chores and users info for those chores, or no chores are assigned
+  if (chores) {
+    res.send(chores);
+  } else {
+    res.send(
+      'You do not have any assigned chores for your group, get to work!'
+    );
+  }
   //adminStatusByGroup.forEach(group => {
   //change into a for loop and await each pull from Assigned Chores
   // for (let i = 0; i < adminStatusByGroup.length; i++) {
@@ -65,8 +77,6 @@ router.post('/all_assigned_chores', async (req, res, next) => {
   //     chores[id] = choresList;
   //   }
   // }
-
-  res.send(chores);
 });
 
 /*
