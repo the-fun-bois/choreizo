@@ -7,35 +7,25 @@ const {
   TradeChore,
 } = require('./../database/index');
 
+const {
+  checkIfChoreIsAlreadyInMarketPlace,
+  choreIncludeParams,
+} = require('./utils/choreUtils');
+
 const createTrade = (userId, assignedChoreId, tradeTerms, res, next) => {
   return AssignedChore.findOne({
     where: {
       userId,
       id: assignedChoreId,
     },
-    include: [
-      TransferChore,
-      TradeChore,
-      { model: SwapChore, as: 'swapAssignedChore1' },
-      { model: SwapChore, as: 'swapAssignedChore2' },
-    ],
+    include: choreIncludeParams,
   }).then(assignedChore => {
     if (!assignedChore) {
       return res.status(400).send({ error: 'No such assigned chore exists' });
     }
 
-    const {
-      swapAssignedChore1,
-      swapAssignedChore2,
-      tradeChore,
-      transferChore,
-    } = assignedChore;
-    if (
-      swapAssignedChore1 ||
-      swapAssignedChore2 ||
-      tradeChore ||
-      transferChore
-    ) {
+    const acIsInMp = checkIfChoreIsAlreadyInMarketPlace(assignedChore);
+    if (acIsInMp) {
       return res.status(400).send({
         error:
           'Error creating trade. This chore is already in the marketplace.',
@@ -89,16 +79,14 @@ const cancelTrade = (userId, tradeChoreId, res, next) => {
         });
       }
       tradeChore.destroy().then(destroyedTrade => {
-        res
-          .status(200)
-          .json({ message: 'chore canceled successfully', destroyedTrade });
+        res.status(200).json({ message: 'chore canceled successfully' });
       });
     })
     .catch(next);
 };
 
 /*
- * @ROUTE: POST to /api/tradeChore/create_trade
+ * @ROUTE: POST to /api/trade_chore/create_trade
  * @DESC: create a new trade
  * @ACCESS: private
  */
@@ -108,7 +96,7 @@ router.post('/create_trade', (req, res, next) => {
 });
 
 /*
- * @ROUTE: PUT to /api/tradeChore/accept_trade
+ * @ROUTE: PUT to /api/trade_chore/accept_trade
  * @DESC: accept a trade
  * @ACCESS: private
  */
@@ -118,7 +106,7 @@ router.put('/accept_trade', (req, res, next) => {
 });
 
 /*
- * @ROUTE: DELETE to /api/tradeChore/cancel_trade
+ * @ROUTE: DELETE to /api/trade_chore/cancel_trade
  * @DESC: cancel a trade and remove from db
  * @ACCESS: private
  */

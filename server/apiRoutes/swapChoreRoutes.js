@@ -7,19 +7,10 @@ const {
   TradeChore,
 } = require('./../database/index');
 
-const checkIfChoreIsAlreadyInMarketPlace = assignedChore => {
-  const {
-    swapAssignedChore1,
-    swapAssignedChore2,
-    tradeChore,
-    transferChore,
-  } = assignedChore;
-
-  if (swapAssignedChore1 || swapAssignedChore2 || tradeChore || transferChore) {
-    return true;
-  }
-  return false;
-};
+const {
+  checkIfChoreIsAlreadyInMarketPlace,
+  choreIncludeParams,
+} = require('./utils/choreUtils');
 
 const createSwap = (
   user1Id,
@@ -48,12 +39,7 @@ const createSwap = (
         userId: user2Id,
         id: assignedChore2Id,
       },
-      include: [
-        { model: SwapChore, as: 'swapAssignedChore1' },
-        { model: SwapChore, as: 'swapAssignedChore2' },
-        TradeChore,
-        TransferChore,
-      ],
+      include: choreIncludeParams,
     }),
   ])
     .then(([aC1, aC2]) => {
@@ -81,9 +67,95 @@ const createSwap = (
     .catch(next);
 };
 
+const acceptSwap = (userId, swapChoreId, res, next) => {
+  // check whether the swap exists and wheter it was been accepted
+  return SwapChore.findOne({
+    where: { user2Id: userId, id: swapChoreId },
+    include: [
+      { model: AssignedChore, as: 'swapAssignedChore1' },
+      { model: AssignedChore, as: 'swapAssignedChore2' },
+    ],
+  })
+    .then(swapChore => {
+      if (!swapChore) {
+        return res.status(400).send({ error: 'Could not find selected swap' });
+      }
+      if (swapChore.status === 'accepted') {
+        return res
+          .status(400)
+          .sent({ error: 'Trade has already been accepted.' });
+      }
+      // swap assigned chores and change swapChore status to 'accepted;
+      const {
+        swapAssignedChore1,
+        swapAssignedChore2,
+        user1Id,
+        user2Id,
+      } = swapChore;
+      Promise.all([
+        swapAssignedChore1.update({ userId: user2Id }),
+        swapAssignedChore2.update({ userId: user1Id }),
+        swapChore.update({ status: 'accepted' }),
+      ]).then(([assignedChore1, assignedChore2, swapChore]) => {
+        res.status(200).send({ assignedChore1, assignedChore2, swapChore });
+      });
+    })
+    .catch(next);
+};
+
+const cancelSwap = (userId, swapChoreId, res, next) => {
+  return SwapChore.findOne({
+    where: {
+      user1Id: userId,
+      id: swapChoreId,
+    },
+  })
+    .then(swapChore => {
+      if (!swapChore) {
+        return res.status(400).send({ error: 'Could not find selected swap' });
+      }
+      if (swapChore.status === 'accepted') {
+        return res.status(400).send({
+          error:
+            'Error canceling swap. Swap has already been accepted by another user',
+        });
+      }
+      swapChore.destroy().then(() => {
+        return res.status(200).send({ message: 'Swap cancelled successfully' });
+      });
+    })
+    .catch(next);
+};
+
+/*
+ * @ROUTE: POST to /api/swap_chore/create_swap
+ * @DESC: create a swap
+ * @ACCESS: private
+ */
+
 router.post('/create_swap', (req, res, next) => {
   const { user1Id, user2Id, assignedChore1Id, assignedChore2Id } = req.body;
   createSwap(user1Id, user2Id, assignedChore1Id, assignedChore2Id, res, next);
+});
+/*
+ * @ROUTE: PUT to /api/swap_chore/accept_swap
+ * @DESC: accept a swap
+ * @ACCESS: private
+ */
+router.put('/accept_swap', (req, res, next) => {
+  const { userId, swapChoreId } = req.body;
+  acceptSwap(userId, swapChoreId, res, next);
+});
+
+/*
+ * @ROUTE: DELETE to /api/swap_chore/cancel_swap
+ * @DESC: remove a swap from db
+ * @ACCESS: private
+ */
+
+router.delete('/cancel_swap', (req, res, next) => {
+  const { userId, swapChoreId } = req.body;
+  cancelSwap(userId, swapChoreId, res, next);
 });
 
 module.exports = router;
