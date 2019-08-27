@@ -10,11 +10,11 @@ const morganMode = process.env.NODE_ENV === 'production' ? 'tiny' : 'dev';
 app.use(morgan(morganMode));
 
 app.use(express.json());
+
 if (process.env.NODE_ENV === 'development') {
   app.use(express.urlencoded({ extended: false }));
 }
 
-// session cookies
 const apiRoutes = require('./apiRoutes');
 app.use('/api', apiRoutes);
 

@@ -40,20 +40,22 @@ Chore.hasMany(AssignedChore);
 TransferChore.belongsTo(User, { as: 'originalOwner' });
 TransferChore.belongsTo(User, { as: 'newOwner' });
 TransferChore.belongsTo(AssignedChore);
+AssignedChore.hasOne(TransferChore);
 
 /*-------SwapChore Associations------*/
 SwapChore.belongsTo(User, { as: 'user1' });
 SwapChore.belongsTo(User, { as: 'user2' });
-SwapChore.belongsTo(AssignedChore, { as: 'assignedChore1' });
-SwapChore.belongsTo(AssignedChore, { as: 'assignedChore2' });
+SwapChore.belongsTo(AssignedChore, { as: 'swapAssignedChore1' });
+SwapChore.belongsTo(AssignedChore, { as: 'swapAssignedChore2' });
+AssignedChore.hasOne(SwapChore, { as: 'swapAssignedChore1' });
+AssignedChore.hasOne(SwapChore, { as: 'swapAssignedChore2' });
 
 /*----- TradeChore Associations -----*/
-TradeChore.belongsTo(User, { foreignKey: 'originalOwnerId' });
-TradeChore.belongsTo(User, { foreignKey: 'newOwnerId' });
-User.hasMany(TradeChore, { foreignKey: 'originalOwnerId' });
-User.hasMany(TradeChore, { foreignKey: 'newOwnerId' });
+TradeChore.belongsTo(User, { as: 'originalOwner' });
+TradeChore.belongsTo(User, { as: 'newOwner' });
+TradeChore.belongsTo(AssignedChore);
+AssignedChore.hasOne(TradeChore);
 
-// export models here
 module.exports = {
   db,
   User,
