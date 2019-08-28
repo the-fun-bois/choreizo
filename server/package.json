@@ -8,7 +8,8 @@
     "test-watch": "./node_modules/.bin/jest --config ./jest.config.js --watch",
     "dev:start-server": "./node_modules/.bin/nodemon ./index.js",
     "dev": "npm run dev:start-server",
-    "seed": "node ./database/seed/index.js"
+    "seed": "node ./database/seed/index.js",
+    "lint": "eslint --ignore-path ../.gitignore . --ext .js"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +29,11 @@
     "jest": "^24.9.0",
     "nodemon": "^1.19.1",
     "superagent": "^5.1.0",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3"
   }
 }
