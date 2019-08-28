@@ -61,7 +61,7 @@ const createSwap = (
         swapAssignedChore2Id: assignedChore2Id,
         status: 'pending',
       }).then(swapChore => {
-        res.status(200).send(swapChore);
+        res.status(201).send(swapChore);
       });
     })
     .catch(next);
