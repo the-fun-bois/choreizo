@@ -6,9 +6,20 @@ const { Group } = require('../database/index');
  * @DESC: Allows for an admin to create a new group with passed in info
  * @ACCESS: admin only
  */
-router.post('/creategroup', async (req, res, next) => {
+router.post('/creategroup', (req, res, next) => {
   const { name, description } = req.body;
-  res.send(name);
+  Group.create({ name, description })
+    .then(response => res.send(response))
+    .catch(e => console.error(e));
+});
+
+/*
+ * @ROUTE: POST to /api/admin/addchore
+ * @DESC: Allows for an admin to add a chore to their specific group
+ * @ACCESS: admin only
+ */
+router.post('/addchore', (req, res, next) => {
+  const { userId, name, difficulty, timeLimit, details } = req.body;
 });
 
 module.exports = router;
