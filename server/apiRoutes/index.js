@@ -7,11 +7,13 @@ const tradeChoreRoutes = require('./tradeChoreRoutes');
 const swapChoreRoutes = require('./swapChoreRoutes');
 const transferChoreRoutes = require('./transferChoreRoutes');
 const choresRoutes = require('./ChoresRoutes');
+const adminRoutes = require('./adminRoutes');
 
 // set api routes here
 apiRoutes.use('/trade_chore', tradeChoreRoutes);
 apiRoutes.use('/swap_chore', swapChoreRoutes);
 apiRoutes.use('/transfer_chore', transferChoreRoutes);
 apiRoutes.use('/chores', choresRoutes);
+apiRoutes.use('./admin', adminRoutes);
 
 module.exports = apiRoutes;
