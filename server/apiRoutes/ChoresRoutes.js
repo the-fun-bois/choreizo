@@ -13,7 +13,7 @@ const findGroupInfo = userId => {
 
 /*
  * @ROUTE: POST to /api/chores/
- * @DESC: allow admin to see all chores (if admin of any group), return nothing if not admin
+ * @DESC: allow admin to see all chores (if admin of some group), return nothing if not admin of ANY group
  * @ACCESS: admin only
  */
 router.post('/', async (req, res, next) => {
@@ -27,7 +27,7 @@ router.post('/', async (req, res, next) => {
     }
   }
   if (isAdmin) {
-    const chores = await Chore.findAll({});
+    const chores = await Chore.findAll({ include: [{ model: AssignedChore }] });
     res.send(chores);
   } else {
     res.send('You are not authorized, only admins can see chores');
