@@ -74,13 +74,6 @@ const seed = async () => {
       });
       currentUser += 1;
     }
-
-    // const assignedChoresByGroup = await AssignedChore.findAll({
-    //   include: [{ model: Chore, attributes: ['groupId'], group: ['groupId'] }],
-    //   attributes: ['id', 'userId', 'choreId'],
-    //   plain: true,
-    // });
-    // console.log(assignedChoresByGroup);
   } catch (e) {
     console.error(e);
     console.log(chalk.red(e));
