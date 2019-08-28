@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+  - "10.13"
+
+env:
+  - TEST_SERVER=server POSTGRES_CI=postgres://postgres@127.0.0.1:5432/chores
+
+before_install:
+  - npm i -g npm@6.4.1
+
+cache: npm
+
+services:
+  - postgresql
+
+before_script:
+  - psql -c "create database chores;" -U postgres
+
+jobs:
+  include:
+    - stage: test
+      name: "Unit tests"
+      script: cd $TEST_SERVER && npm install && npm test
