@@ -6,7 +6,6 @@ const apiRoutes = express.Router();
 const tradeChoreRoutes = require('./tradeChoreRoutes');
 const swapChoreRoutes = require('./swapChoreRoutes');
 const transferChoreRoutes = require('./transferChoreRoutes');
-const choresRoutes = require('./ChoresRoutes');
 const adminRoutes = require('./adminRoutes');
 const choresAPIRoutes = require('./choresRoutes');
 
@@ -14,7 +13,7 @@ const choresAPIRoutes = require('./choresRoutes');
 apiRoutes.use('/trade_chore', tradeChoreRoutes);
 apiRoutes.use('/swap_chore', swapChoreRoutes);
 apiRoutes.use('/transfer_chore', transferChoreRoutes);
-
 apiRoutes.use('/chores', choresAPIRoutes);
+apiRoutes.use('/admin', adminRoutes);
 
 module.exports = apiRoutes;
