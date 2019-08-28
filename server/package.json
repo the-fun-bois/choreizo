@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/jest --config ./jest.config.js --runInBand",
+    "test-watch": "./node_modules/.bin/jest --config ./jest.config.js --watch",
     "dev:start-server": "./node_modules/.bin/nodemon ./index.js",
     "dev": "npm run dev:start-server",
     "seed": "node ./database/seed/index.js"
@@ -24,6 +25,9 @@
   },
   "devDependencies": {
     "faker": "^4.1.0",
-    "nodemon": "^1.19.1"
+    "jest": "^24.9.0",
+    "nodemon": "^1.19.1",
+    "superagent": "^5.1.0",
+    "supertest": "^4.0.2"
   }
 }
