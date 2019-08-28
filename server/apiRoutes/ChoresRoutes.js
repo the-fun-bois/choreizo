@@ -40,7 +40,7 @@ router.post('/', async (req, res, next) => {
  * @ACCESS: private
  */
 router.post('/all_assigned_chores', async (req, res, next) => {
-  let chores;
+  let chores = {};
   const groups = [];
   const userId = req.body.userId;
   const allGroups = await findGroupInfo(userId);
@@ -56,7 +56,7 @@ router.post('/all_assigned_chores', async (req, res, next) => {
       where: { groupId: groups[i] },
       include: [{ model: AssignedChore }],
     });
-    chores = choreList;
+    chores[groups[i]] = choreList;
   }
   //At this point we have chores and users info for those chores, or no chores are assigned
   if (chores) {
