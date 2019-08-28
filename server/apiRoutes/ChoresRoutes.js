@@ -88,19 +88,13 @@ router.post('/all_personal_chores', async (req, res, next) => {
   let { userId } = req.body;
   const chores = {};
   const group = await UserGroup.findAll({ where: { userId } });
-  console.log(group);
   for (let i = 0; i < group.length; i++) {
     const test = await AssignedChore.findAll({
       where: { userId },
     });
     chores[group[i].groupId] = test;
   }
-
   res.send(chores);
-
-  // AssignedChore.findAll({ where: { userId } })
-  //   .then(result => res.send(result))
-  //   .catch(e => console.error(e));
 });
 
 module.exports = router;
