@@ -28,15 +28,15 @@ const seed = async () => {
 
     console.log('putting users in group');
     // using sequelize magic method 'addGroup'
-    await Promise.all(users.map(user => user.addGroup(groups[0])));
-    // make first user admin
-    const usersAndGroups = await UserGroup.findAll({ order: ['userId'] });
-    await usersAndGroups[0].update({ userIsAdmin: true });
-    // make all users status = active
-    await Promise.all(
-      usersAndGroups.map(usergroup => {
-        return usergroup.update({ userStatus: 'active' });
-      })
+    for (let i = 0; i < groups.length; i++) {
+      await Promise.all(users.map(user => user.addGroup(groups[i])));
+    }
+
+    // make first user admin in all groups
+    await UserGroup.update({ userIsAdmin: true }, { where: { userId: 1 } });
+    await UserGroup.update(
+      { userStatus: 'active' },
+      { where: { userStatus: 'pending' } }
     );
     // add a random balance to each users wallet
     console.log('creating wallets');
@@ -49,23 +49,27 @@ const seed = async () => {
       })
     );
     console.log('creating chores');
-    const chores = await Promise.all(
-      choresSeed.map(chore => {
-        chore.groupId = groups[0].id;
-        return Chore.create(chore);
-      })
-    );
+    let allChores = [];
+    for (let i = 0; i < groups.length; i++) {
+      const groupChores = await Promise.all(
+        choresSeed.map(chore => {
+          chore.groupId = groups[i].id;
+          return Chore.create(chore);
+        })
+      );
+      allChores = [...allChores, ...groupChores];
+    }
 
     console.log('assigning chores');
     const totalUsers = users.length;
     let currentUser = 0;
-    for (let i = 0; i < chores.length; i++) {
+    for (let i = 0; i < allChores.length; i++) {
       // rotate back to first user
       if (currentUser >= totalUsers) {
         currentUser = 0;
       }
       await AssignedChore.create({
-        choreId: chores[i].id,
+        choreId: allChores[i].id,
         userId: users[currentUser].id,
       });
       currentUser += 1;
@@ -76,7 +80,7 @@ const seed = async () => {
     db.close();
   }
 
-  console.log('closing connectiom');
+  console.log('closing connection');
   db.close();
 };
 
