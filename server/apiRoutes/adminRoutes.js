@@ -76,7 +76,7 @@ router.post('/create_group', (req, res, next) => {
   const { name, description } = req.body;
   Group.create({ name, description })
     //add the user as admin to the group
-    .then(response => res.send(response))
+    .then(group => console.log(group.id))
     .catch(e => console.error(e));
 });
 
