@@ -14,7 +14,8 @@ const findGroupInfo = userId => {
  * @DESC: allow admin to see all chores (if admin of some group), return nothing if not admin of ANY group
  * @ACCESS: admin only
  */
-router.post('/', async (req, res, next) => {
+router.post('/all_chores', async (req, res, next) => {
+  //replicate the chores route and give me only the assigned from groups where is admin
   const userId = req.body.userId;
   let isAdmin = false;
   const adminStatusByGroup = await findGroupInfo(userId);
@@ -74,6 +75,7 @@ router.post('/all_assigned_chores', async (req, res, next) => {
 router.post('/create_group', (req, res, next) => {
   const { name, description } = req.body;
   Group.create({ name, description })
+    //add the user as admin to the group
     .then(response => res.send(response))
     .catch(e => console.error(e));
 });
@@ -87,6 +89,7 @@ router.post('/add_chore', async (req, res, next) => {
   const { userId, name, difficulty, timeLimit, details } = req.body;
   const userInfo = await UserGroup.findOne({ where: { userId } });
   if (userInfo.userIsAdmin) {
+    console.log('******************hit');
     Chore.create({
       name,
       difficulty,
