@@ -1,6 +1,6 @@
 const { SwapChore, TradeChore, TransferChore } = require('./../../database');
 
-const checkIfChoreIsAlreadyInMarketPlace = (assignedChore) => {
+const checkIfChoreIsAlreadyInMarketPlace = assignedChore => {
   const {
     swapAssignedChore1,
     swapAssignedChore2,

@@ -28,12 +28,7 @@ const createSwap = (
         userId: user1Id,
         id: assignedChore1Id,
       },
-      include: [
-        { model: SwapChore, as: 'swapAssignedChore1' },
-        { model: SwapChore, as: 'swapAssignedChore2' },
-        TradeChore,
-        TransferChore,
-      ],
+      include: choreIncludeParams,
     }),
     AssignedChore.findOne({
       where: {
@@ -51,9 +46,9 @@ const createSwap = (
       const ac1IsInMp = checkIfChoreIsAlreadyInMarketPlace(aC1);
       const ac2IsInMp = checkIfChoreIsAlreadyInMarketPlace(aC2);
       if (ac1IsInMp || ac2IsInMp) {
-        return res
-          .status(400)
-          .send({ error: 'An assigned chore is already in the market' });
+        return res.status(400).send({
+          error: 'An assigned chore is already in the market',
+        });
       }
       SwapChore.create({
         user1Id,
