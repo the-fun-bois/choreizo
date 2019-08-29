@@ -1,83 +1,8 @@
 const router = require('express').Router();
 const { AssignedChore, Chore, UserGroup } = require('../database/index');
+const { choreIncludeParamsAccepted } = require('./utils/choreUtils');
 
 //assumes only UserId is coming in for each route
-
-const findGroupInfo = userId => {
-  return UserGroup.findAll({
-    where: { userId, userStatus: 'active' },
-  })
-    .then(result => result)
-    .catch(e => console.error(e));
-};
-
-/*
- * @ROUTE: POST to /api/chores/
- * @DESC: allow admin to see all chores (if admin of some group), return nothing if not admin of ANY group
- * @ACCESS: admin only
- */
-router.post('/', async (req, res, next) => {
-  const userId = req.body.userId;
-  let isAdmin = false;
-  const adminStatusByGroup = await findGroupInfo(userId);
-  //res.send(adminStatusByGroup);
-  for (let i = 0; i < adminStatusByGroup.length; i++) {
-    if (adminStatusByGroup[i].userIsAdmin) {
-      isAdmin = true;
-    }
-  }
-  if (isAdmin) {
-    const chores = await Chore.findAll({ include: [{ model: AssignedChore }] });
-    res.send(chores);
-  } else {
-    res.send('You are not authorized, only admins can see chores');
-  }
-});
-
-/*
- * @ROUTE: POST to /api/chores/allassignedchores
- * @DESC: allow admin to see all assigned chores, return nothing if not admin
- * @ACCESS: private
- */
-router.post('/all_assigned_chores', async (req, res, next) => {
-  let chores = {};
-  const groups = [];
-  const userId = req.body.userId;
-  const allGroups = await findGroupInfo(userId);
-
-  //slim out groups to only those belonged to
-  for (let i = 0; i < allGroups.length; i++) {
-    groups.push(allGroups[i].groupId);
-  }
-
-  //get all chores that are assigned in the group
-  for (let i = 0; i < groups.length; i++) {
-    const choreList = await Chore.findAll({
-      where: { groupId: groups[i] },
-      include: [{ model: AssignedChore }],
-    });
-    chores[groups[i]] = choreList;
-  }
-  //At this point we have chores and users info for those chores, or no chores are assigned
-  if (chores) {
-    res.send(chores);
-  } else {
-    res.send(
-      'You do not have any assigned chores for your group, get to work!'
-    );
-  }
-  //adminStatusByGroup.forEach(group => {
-  //change into a for loop and await each pull from Assigned Chores
-  // for (let i = 0; i < adminStatusByGroup.length; i++) {
-  //   if (adminStatusByGroup[i].userIsAdmin) {
-  //     const choresList = await AssignedChore.findAll({
-  //       where: adminStatusByGroup.userId,
-  //     });
-  //     let id = adminStatusByGroup[i].groupId;
-  //     chores[id] = choresList;
-  //   }
-  // }
-});
 
 /*
  * @ROUTE: POST to /api/chores/allpersonalchores
@@ -87,14 +12,30 @@ router.post('/all_assigned_chores', async (req, res, next) => {
 router.post('/all_personal_chores', async (req, res, next) => {
   let { userId } = req.body;
   const chores = {};
-  const group = await UserGroup.findAll({ where: { userId } });
+  const group = await UserGroup.findAll({
+    where: { userId },
+  });
   for (let i = 0; i < group.length; i++) {
     const test = await AssignedChore.findAll({
-      where: { userId },
+      where: { userId, status: 'pending' },
     });
     chores[group[i].groupId] = test;
   }
   res.send(chores);
+});
+
+/*
+ * @ROUTE: POST to /api/chores/personal_chore_history
+ * @DESC: allow a user to see all their historical chores
+ * @ACCESS: private
+ */
+router.post('/personal_chore_history', (req, res, next) => {
+  let { userId } = req.body;
+  AssignedChore.findAll({
+    where: { userId, status: 'completed' },
+  })
+    .then(response => res.send(response))
+    .catch(next);
 });
 
 module.exports = router;
