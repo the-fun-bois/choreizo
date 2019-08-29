@@ -1,6 +1,7 @@
 const express = require('express');
+
 const apiRoutes = express.Router();
-//import api routes here
+// import api routes here
 
 const tradeChoreRoutes = require('./tradeChoreRoutes');
 const swapChoreRoutes = require('./swapChoreRoutes');
@@ -10,7 +11,6 @@ const choresRoutes = require('./ChoresRoutes');
 apiRoutes.use('/trade_chore', tradeChoreRoutes);
 apiRoutes.use('/swap_chore', swapChoreRoutes);
 apiRoutes.use('/transfer_chore', transferChoreRoutes);
-
 apiRoutes.use('/chores', choresRoutes);
 
 module.exports = apiRoutes;

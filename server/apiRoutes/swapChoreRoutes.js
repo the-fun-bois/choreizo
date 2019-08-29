@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 const {
   AssignedChore,
@@ -18,10 +19,10 @@ const createSwap = (
   assignedChore1Id,
   assignedChore2Id,
   res,
-  next
-) => {
-  // check that both assigned chores exist
-  return Promise.all([
+  next,
+) =>
+  Promise.all([
+    // check that both assigned chores exist
     AssignedChore.findOne({
       where: {
         userId: user1Id,
@@ -65,11 +66,9 @@ const createSwap = (
       });
     })
     .catch(next);
-};
-
-const acceptSwap = (userId, swapChoreId, res, next) => {
+const acceptSwap = (userId, swapChoreId, res, next) =>
   // check whether the swap exists and wheter it was been accepted
-  return SwapChore.findOne({
+  SwapChore.findOne({
     where: { user2Id: userId, id: swapChoreId },
     include: [
       { model: AssignedChore, as: 'swapAssignedChore1' },
@@ -101,10 +100,8 @@ const acceptSwap = (userId, swapChoreId, res, next) => {
       });
     })
     .catch(next);
-};
-
-const cancelSwap = (userId, swapChoreId, res, next) => {
-  return SwapChore.findOne({
+const cancelSwap = (userId, swapChoreId, res, next) =>
+  SwapChore.findOne({
     where: {
       user1Id: userId,
       id: swapChoreId,
@@ -120,12 +117,13 @@ const cancelSwap = (userId, swapChoreId, res, next) => {
             'Error canceling swap. Swap has already been accepted by another user',
         });
       }
-      swapChore.destroy().then(() => {
-        return res.status(200).send({ message: 'Swap cancelled successfully' });
-      });
+      swapChore
+        .destroy()
+        .then(() =>
+          res.status(200).send({ message: 'Swap cancelled successfully' }),
+        );
     })
     .catch(next);
-};
 
 /*
  * @ROUTE: POST to /api/swap_chore/create_swap

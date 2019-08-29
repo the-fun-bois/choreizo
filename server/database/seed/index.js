@@ -23,7 +23,7 @@ const seed = async () => {
 
     console.log('creating groups');
     const groups = await Promise.all(
-      groupsSeed.map(group => Group.create(group))
+      groupsSeed.map(group => Group.create(group)),
     );
 
     console.log('putting users in group');
@@ -36,26 +36,24 @@ const seed = async () => {
     await UserGroup.update({ userIsAdmin: true }, { where: { userId: 1 } });
     await UserGroup.update(
       { userStatus: 'active' },
-      { where: { userStatus: 'pending' } }
+      { where: { userStatus: 'pending' } },
     );
     // add a random balance to each users wallet
     console.log('creating wallets');
     await Promise.all(
-      users.map(user => {
-        return EthereumWallet.create({
-          userId: user.id,
-          balance: Math.random() * 100,
-        });
-      })
+      users.map(user => EthereumWallet.create({
+        userId: user.id,
+        balance: Math.random() * 100,
+      })),
     );
     console.log('creating chores');
     let allChores = [];
     for (let i = 0; i < groups.length; i++) {
       const groupChores = await Promise.all(
-        choresSeed.map(chore => {
+        choresSeed.map((chore) => {
           chore.groupId = groups[i].id;
           return Chore.create(chore);
-        })
+        }),
       );
       allChores = [...allChores, ...groupChores];
     }

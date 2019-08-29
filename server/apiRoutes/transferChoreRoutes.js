@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 const {
   AssignedChore,
@@ -13,109 +14,103 @@ const {
   choreIncludeParams,
 } = require('./utils/choreUtils');
 
-const createTransfer = async (userId, assignedChoreId, price, res, next) => {
-  return AssignedChore.findOne({
-    where: {
-      userId,
-      id: assignedChoreId,
-    },
-    include: choreIncludeParams,
-  }).then(async assignedChore => {
-    if (!assignedChore) {
-      return res.status(400).send({ error: 'No such assigned chore exists' });
-    }
+const createTransfer = async (userId, assignedChoreId, price, res, next) => AssignedChore.findOne({
+  where: {
+    userId,
+    id: assignedChoreId,
+  },
+  include: choreIncludeParams,
+}).then(async (assignedChore) => {
+  if (!assignedChore) {
+    return res.status(400).send({ error: 'No such assigned chore exists' });
+  }
 
-    const acIsInMp = checkIfChoreIsAlreadyInMarketPlace(assignedChore);
-    if (acIsInMp) {
-      return res.status(400).send({
-        error:
+  const acIsInMp = checkIfChoreIsAlreadyInMarketPlace(assignedChore);
+  if (acIsInMp) {
+    return res.status(400).send({
+      error:
           'Error creating trade. This chore is already in the marketplace.',
-      });
-    }
-
-    const userEthWallet = await EthereumWallet.findOne({ where: { userId } });
-    const userTransfers = await TransferChore.findAll({
-      where: { originalOwnerId: userId, status: 'pending' },
     });
+  }
 
-    // sum up the cost of all of the user's pending transfers
-    const pendingTransferTotalCost = userTransfers.reduce(
-      (totalSum, currTransfer) => {
-        return totalSum + parseFloat(currTransfer.price);
-      },
-      0
-    );
-
-    // check if user has enough eth to create the transfer request
-    if (
-      parseFloat(price) + pendingTransferTotalCost >
-      parseFloat(userEthWallet.balance)
-    ) {
-      return res.status(400).send({ error: 'Not enough eth in wallet' });
-    }
-
-    TransferChore.create({
-      assignedChoreId: assignedChore.id,
-      price,
-      originalOwnerId: userId,
-      status: 'pending',
-    })
-      .then(transferChore => {
-        res.status(201).send(transferChore);
-      })
-      .catch(next);
+  const userEthWallet = await EthereumWallet.findOne({ where: { userId } });
+  const userTransfers = await TransferChore.findAll({
+    where: { originalOwnerId: userId, status: 'pending' },
   });
-};
 
-const acceptTransfer = (userId, transferChoreId, res, next) => {
-  return TransferChore.findByPk(transferChoreId, { include: [AssignedChore] })
-    .then(async transferChore => {
-      if (!transferChore) {
-        return res
-          .status(400)
-          .send({ error: 'Could not find selected transfer' });
-      }
-      if (transferChore.status === 'accepted') {
-        return res.status(400).send({
-          error: 'Transfer has already been accepted by another user',
-        });
-      }
+  // sum up the cost of all of the user's pending transfers
+  const pendingTransferTotalCost = userTransfers.reduce(
+    (totalSum, currTransfer) => totalSum + parseFloat(currTransfer.price),
+    0,
+  );
 
-      // all checks pass, initiate transfer
-      const { price, originalOwnerId, assignedChore } = transferChore;
-      const numericPrice = parseFloat(price);
-      const newOwnerId = userId;
+  // check if user has enough eth to create the transfer request
+  if (
+    parseFloat(price) + pendingTransferTotalCost
+      > parseFloat(userEthWallet.balance)
+  ) {
+    return res.status(400).send({ error: 'Not enough eth in wallet' });
+  }
 
-      const [originalOwnerWallet, newOwnerWallet] = await Promise.all([
-        EthereumWallet.findOne({
-          where: { userId: originalOwnerId },
-        }),
-        EthereumWallet.findOne({
-          where: { userId: newOwnerId },
-        }),
-      ]);
-      const originalOwnerBalance = parseFloat(originalOwnerWallet.balance);
-      const newOwnerBalance = parseFloat(newOwnerWallet.balance);
-
-      Promise.all([
-        transferChore.update({ newOwnerId: userId, status: 'accepted' }),
-        assignedChore.update({ userId }),
-        originalOwnerWallet.update({
-          balance: originalOwnerBalance - numericPrice,
-        }),
-        newOwnerWallet.update({ balance: newOwnerBalance + numericPrice }),
-      ]).then(([tradeChore, assignedChore, ...wallets]) => {
-        res.status(200).send({ tradeChore, assignedChore, wallets });
-      });
+  TransferChore.create({
+    assignedChoreId: assignedChore.id,
+    price,
+    originalOwnerId: userId,
+    status: 'pending',
+  })
+    .then((transferChore) => {
+      res.status(201).send(transferChore);
     })
     .catch(next);
-};
+});
+
+const acceptTransfer = (userId, transferChoreId, res, next) => TransferChore.findByPk(transferChoreId, { include: [AssignedChore] })
+  .then(async (transferChore) => {
+    if (!transferChore) {
+      return res
+        .status(400)
+        .send({ error: 'Could not find selected transfer' });
+    }
+    if (transferChore.status === 'accepted') {
+      return res.status(400).send({
+        error: 'Transfer has already been accepted by another user',
+      });
+    }
+
+    // all checks pass, initiate transfer
+    const { price, originalOwnerId, assignedChore } = transferChore;
+    const numericPrice = parseFloat(price);
+    const newOwnerId = userId;
+
+    const [originalOwnerWallet, newOwnerWallet] = await Promise.all([
+      EthereumWallet.findOne({
+        where: { userId: originalOwnerId },
+      }),
+      EthereumWallet.findOne({
+        where: { userId: newOwnerId },
+      }),
+    ]);
+    const originalOwnerBalance = parseFloat(originalOwnerWallet.balance);
+    const newOwnerBalance = parseFloat(newOwnerWallet.balance);
+
+    Promise.all([
+      transferChore.update({ newOwnerId: userId, status: 'accepted' }),
+      assignedChore.update({ userId }),
+      originalOwnerWallet.update({
+        balance: originalOwnerBalance - numericPrice,
+      }),
+      newOwnerWallet.update({ balance: newOwnerBalance + numericPrice }),
+    ]).then(([tradeChore, assignedChore, ...wallets]) => {
+      res.status(200).send({ tradeChore, assignedChore, wallets });
+    });
+  })
+  .catch(next);
 
 const cancelTransfer = (userId, transferChoreId, res, next) => {
   TransferChore.findOne({
     where: { originalOwnerId: userId, id: transferChoreId },
   })
-    .then(transferChore => {
+    .then((transferChore) => {
       if (!transferChore) {
         return res.status(400).json({ error: 'Could not find selected trade' });
       }
@@ -125,7 +120,7 @@ const cancelTransfer = (userId, transferChoreId, res, next) => {
             'Error canceling trade. Trade has already been accepted by another user',
         });
       }
-      transferChore.destroy().then(destroyedTransfer => {
+      transferChore.destroy().then((destroyedTransfer) => {
         res.status(200).json({ message: 'chore canceled successfully' });
       });
     })

@@ -1,4 +1,4 @@
-//import models here
+// import models here
 const db = require('./db');
 const User = require('./models/User');
 const Group = require('./models/Group');
@@ -13,36 +13,36 @@ const SwapChore = require('./models/SwapChore');
 
 // add model associations here
 
-/*----- User and Group Associations -----*/
+/* ----- User and Group Associations -----*/
 User.belongsToMany(Group, { through: 'userGroup' });
 Group.belongsToMany(User, { through: 'userGroup' });
 
-/*----- Chore Associations -----*/
+/* ----- Chore Associations -----*/
 Chore.belongsTo(Group);
 Group.hasMany(Chore);
 
-/*----- Vote Associations -----*/
+/* ----- Vote Associations -----*/
 User.hasMany(Vote, { foreignKey: 'voterId', sourceKey: 'id' });
 Vote.belongsTo(User, { foreignKey: 'voterId', targetKey: 'id' });
 
-/*-----EthereumWallet Associations-----*/
+/* -----EthereumWallet Associations-----*/
 EthereumWallet.belongsTo(User);
 User.hasOne(EthereumWallet);
 
-/*----AssignedChore Associations----*/
+/* ----AssignedChore Associations----*/
 AssignedChore.belongsTo(User);
 User.hasMany(AssignedChore);
 
 AssignedChore.belongsTo(Chore);
 Chore.hasMany(AssignedChore);
 
-/*-------TransferChore Associations----*/
+/* -------TransferChore Associations----*/
 TransferChore.belongsTo(User, { as: 'originalOwner' });
 TransferChore.belongsTo(User, { as: 'newOwner' });
 TransferChore.belongsTo(AssignedChore);
 AssignedChore.hasOne(TransferChore);
 
-/*-------SwapChore Associations------*/
+/* -------SwapChore Associations------*/
 SwapChore.belongsTo(User, { as: 'user1' });
 SwapChore.belongsTo(User, { as: 'user2' });
 SwapChore.belongsTo(AssignedChore, { as: 'swapAssignedChore1' });
@@ -50,7 +50,7 @@ SwapChore.belongsTo(AssignedChore, { as: 'swapAssignedChore2' });
 AssignedChore.hasOne(SwapChore, { as: 'swapAssignedChore1' });
 AssignedChore.hasOne(SwapChore, { as: 'swapAssignedChore2' });
 
-/*----- TradeChore Associations -----*/
+/* ----- TradeChore Associations -----*/
 TradeChore.belongsTo(User, { as: 'originalOwner' });
 TradeChore.belongsTo(User, { as: 'newOwner' });
 TradeChore.belongsTo(AssignedChore);

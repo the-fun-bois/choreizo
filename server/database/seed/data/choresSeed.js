@@ -1,6 +1,6 @@
 const faker = require('faker');
 
-const createArrayOfSentences = numberOfSentences => {
+const createArrayOfSentences = (numberOfSentences) => {
   const sentenceArr = [];
   Array(numberOfSentences)
     .fill(1)

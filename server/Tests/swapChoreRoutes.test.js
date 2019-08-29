@@ -66,9 +66,7 @@ beforeEach(async () => {
   });
   //
 });
-afterAll(() => {
-  return db.close();
-});
+afterAll(() => db.close());
 
 describe('/api/swap_chore/create_swap', () => {
   test('a user can create a swap with another users assigned chore', async done => {
@@ -92,7 +90,7 @@ describe('/api/swap_chore/create_swap', () => {
             swapAssignedChore1Id: assignedChore1.id,
             swapAssignedChore2Id: assignedChore2.id,
             status: 'pending',
-          })
+          }),
         );
       })
       .then(() => {
@@ -102,7 +100,6 @@ describe('/api/swap_chore/create_swap', () => {
 
   test('a user can not create a swap if either chore is already in the market', async done => {
     let tradeChore1Id;
-    let tradeChore2Id;
     // create a trade for assigned chore 1
     await request(app)
       .post('/api/trade_chore/create_trade')
@@ -156,10 +153,8 @@ describe('/api/swap_chore/create_swap', () => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(201)
-      .then(res => {
-        tradeChore2Id = res.body.id;
-      });
+      .expect(201);
+
     // try to swap assigned  chore 2
     await request(app)
       .post('/api/swap_chore/create_swap')
