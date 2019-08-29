@@ -31,4 +31,25 @@ choreIncludeParams = [
   },
 ];
 
-module.exports = { checkIfChoreIsAlreadyInMarketPlace, choreIncludeParams };
+choreIncludeParamsAccepted = [
+  { model: TransferChore, where: { status: 'accepted' }, required: false },
+  { model: TradeChore, where: { status: 'accepted' }, required: false },
+  {
+    model: SwapChore,
+    as: 'swapAssignedChore1',
+    where: { status: 'accepted' },
+    required: false,
+  },
+  {
+    model: SwapChore,
+    as: 'swapAssignedChore2',
+    where: { status: 'accepted' },
+    required: false,
+  },
+];
+
+module.exports = {
+  checkIfChoreIsAlreadyInMarketPlace,
+  choreIncludeParams,
+  choreIncludeParamsAccepted,
+};
