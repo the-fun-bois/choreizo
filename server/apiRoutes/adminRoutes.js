@@ -88,6 +88,11 @@ router.post('/create_group', (req, res, next) => {
 router.post('/add_chore', async (req, res, next) => {
   const { userId, name, difficulty, timeLimit, details } = req.body;
   const userInfo = await UserGroup.findOne({ where: { userId } });
+  console.log('userId: ', userId);
+  console.log('name: ', name);
+  console.log('difficulty: ', difficulty);
+  console.log('timeLimit: ', timeLimit);
+  console.log('details: ', details);
   if (userInfo.userIsAdmin) {
     console.log('******************hit');
     Chore.create({
