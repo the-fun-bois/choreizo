@@ -1,5 +1,11 @@
 const router = require('express').Router();
-const { Group, UserGroup, Chore, AssignedChore } = require('../database/index');
+const {
+  Group,
+  UserGroup,
+  Chore,
+  AssignedChore,
+  User,
+} = require('../database/index');
 
 const findGroupInfo = userId => {
   return UserGroup.findAll({
@@ -93,13 +99,15 @@ router.post('/create_group', (req, res, next) => {
       })
     )
     .then(assignedInfo =>
-      res.send(`${userId} created for group '${name}' and assigned as Admin`)
+      res.send(
+        `User ${userId} created for group '${name}' and assigned as Admin`
+      )
     )
     .catch(e => console.error(e));
 });
 
 /*
- * @ROUTE: POST to /api/admin/addchore
+ * @ROUTE: POST to /api/admin/add_chore
  * @DESC: Allows for an admin to add a chore to their specific group
  * @ACCESS: admin only
  */
@@ -123,4 +131,51 @@ router.post('/add_chore', async (req, res, next) => {
   }
 });
 
+/*
+ * @ROUTE: POST to /api/admin/extend_chore_time
+ * @DESC: Allows for an admin to extend a chores time
+ * @ACCESS: admin only
+ */
+router.post('/extend_chore_time', async (req, res, next) => {
+  const { userIdToModify, choreId, newDueDate } = req.body;
+  const newDueDateConverted = new Date(newDueDate);
+  const adjusted = new Date(newDueDate);
+  console.log(adjusted);
+  AssignedChore.update(
+    { expiresOn: adjusted },
+    { where: { userId: userIdToModify, choreId } }
+  )
+    .then(newChore => res.send(newChore))
+    .catch(next);
+});
+
+/*
+ * @ROUTE: POST to /api/admin/add_new_user
+ * @DESC: Allows for an admin to extend a chores time
+ * @ACCESS: admin only
+ */
+router.post('/add_new_user', async (req, res, next) => {
+  const { userId, firstName, surName, email, groupId, adminRights } = req.body;
+  let newUserId = 0;
+  const isAdmin = await UserGroup.findOne({ where: { userId, groupId } })
+    .then(user => {
+      if (user.userIsAdmin === true && user.userStatus === 'active') {
+        return true;
+      }
+      return false;
+    })
+    .catch(next);
+  if (isAdmin) {
+    const newUser = await User.create({ firstName, surName, email }).catch(
+      next
+    );
+    newUserId = newUser.id;
+    const group = await UserGroup.create({
+      userIsAdmin: adminRights,
+      userStatus: 'active',
+      userId: newUserId,
+      groupId: groupId,
+    }).catch(next);
+  }
+});
 module.exports = router;
