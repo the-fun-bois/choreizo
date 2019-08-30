@@ -82,10 +82,19 @@ router.post('/all_assigned_chores', async (req, res, next) => {
  * @ACCESS: private
  */
 router.post('/create_group', (req, res, next) => {
-  const { name, description } = req.body;
+  const { name, description, userId } = req.body;
   Group.create({ name, description })
-    //add the user as admin to the group
-    .then(group => console.log(group.id))
+    .then(group =>
+      UserGroup.create({
+        userIsAdmin: true,
+        userStatus: 'active',
+        userId,
+        groupId: group.id,
+      })
+    )
+    .then(assignedInfo =>
+      res.send(`${userId} created for group '${name}' and assigned as Admin`)
+    )
     .catch(e => console.error(e));
 });
 
