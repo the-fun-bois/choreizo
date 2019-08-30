@@ -41,7 +41,6 @@ AssignedChore.beforeValidate(assignedChoreInstance => {
           .add(timeLimit, 'day')
           .format('L');
         assignedChoreInstance.expiresOn = expiresOn;
-        console.log(assignedChoreInstance);
       })
       .catch(e => {
         throw new Error('Error creating expiresOn date');
