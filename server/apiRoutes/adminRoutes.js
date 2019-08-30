@@ -9,6 +9,15 @@ const findGroupInfo = userId => {
     .catch(e => console.error(e));
 };
 
+//Taken from Seed
+const createArrayOfSentences = numberOfSentences => {
+  const sentenceArr = [];
+  Array(numberOfSentences)
+    .fill(1)
+    .forEach(val => sentenceArr.push(faker.lorem.sentence()));
+  return sentenceArr;
+};
+
 /*
  * @ROUTE: POST to /api/admin/
  * @DESC: allow admin to see all chores (if admin of some group), return nothing if not admin of ANY group
@@ -88,18 +97,14 @@ router.post('/create_group', (req, res, next) => {
 router.post('/add_chore', async (req, res, next) => {
   const { userId, name, difficulty, timeLimit, details } = req.body;
   const userInfo = await UserGroup.findOne({ where: { userId } });
-  console.log('userId: ', userId);
-  console.log('name: ', name);
-  console.log('difficulty: ', difficulty);
-  console.log('timeLimit: ', timeLimit);
-  console.log('details: ', details);
+  const detailsArray = Array(details);
   if (userInfo.userIsAdmin) {
-    console.log('******************hit');
     Chore.create({
       name,
       difficulty,
+      penalty: 1,
       timeLimit,
-      details,
+      details: detailsArray,
       groupId: userInfo.groupId,
     })
       .then(newChore => res.send(newChore))
