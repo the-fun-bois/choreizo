@@ -14,6 +14,7 @@ const AssignedChore = db.define('assignedChore', {
   },
 });
 
+<<<<<<< HEAD
 AssignedChore.beforeValidate((assignedChoreInstance) => {
   const { choreId } = assignedChoreInstance;
   return Chore.findByPk(choreId)
@@ -27,5 +28,25 @@ AssignedChore.beforeValidate((assignedChoreInstance) => {
     .catch((e) => {
       throw new Error('Error creating expiresOn date');
     });
+=======
+AssignedChore.beforeValidate(assignedChoreInstance => {
+  // creates expiresOn date automatically when assigned chore is created
+  // skips this if updating expiresOn
+  if (!assignedChoreInstance.expiresOn) {
+    const { choreId } = assignedChoreInstance;
+    return Chore.findByPk(choreId)
+      .then(chore => {
+        const { timeLimit } = chore;
+        const expiresOn = moment()
+          .add(timeLimit, 'day')
+          .format('L');
+        assignedChoreInstance.expiresOn = expiresOn;
+        console.log(assignedChoreInstance);
+      })
+      .catch(e => {
+        throw new Error('Error creating expiresOn date');
+      });
+  }
+>>>>>>> fixed /extend_chore_time route
 });
 module.exports = AssignedChore;
