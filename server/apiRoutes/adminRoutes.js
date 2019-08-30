@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const sequelize = require('sequelize');
 const {
   Group,
   UserGroup,
@@ -138,7 +139,6 @@ router.post('/add_chore', async (req, res, next) => {
  */
 router.post('/extend_chore_time', async (req, res, next) => {
   const { userIdToModify, choreId, newDueDate } = req.body;
-  const newDueDateConverted = new Date(newDueDate);
   const adjusted = new Date(newDueDate);
   console.log(adjusted);
   AssignedChore.update(
