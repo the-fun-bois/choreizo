@@ -176,16 +176,9 @@ router.post('/add_new_user', async (req, res, next) => {
       userId: newUserId,
       groupId: groupId,
     })
-      .then(
-        res.send(
-          `New User ${newUser.firstName} ${
-            newUser.surName
-          } created with email ${email}.  The Users Id is ${
-            group.userId
-          } and their Admin access is ${group.userIsAdmin}`
-        )
-      )
+      .then(newUserGroup => res.send(`User Created Successfully`))
       .catch(next);
   }
+  res.send('You are not an Admin');
 });
 module.exports = router;
