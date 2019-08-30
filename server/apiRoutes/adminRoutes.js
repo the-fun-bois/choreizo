@@ -134,7 +134,7 @@ router.post('/add_chore', async (req, res, next) => {
 
 /*
  * @ROUTE: POST to /api/admin/extend_chore_time
- * @DESC: Allows for an admin to extend a chores time
+ * @DESC: Allows for an admin to extend a chores time by feeding new due date
  * @ACCESS: admin only
  */
 router.post('/extend_chore_time', async (req, res, next) => {
@@ -175,7 +175,17 @@ router.post('/add_new_user', async (req, res, next) => {
       userStatus: 'active',
       userId: newUserId,
       groupId: groupId,
-    }).catch(next);
+    })
+      .then(
+        res.send(
+          `New User ${newUser.firstName} ${
+            newUser.surName
+          } created with email ${email}.  The Users Id is ${
+            group.userId
+          } and their Admin access is ${group.userIsAdmin}`
+        )
+      )
+      .catch(next);
   }
 });
 module.exports = router;
