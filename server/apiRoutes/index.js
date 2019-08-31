@@ -1,14 +1,14 @@
 const express = require('express');
 
 const apiRoutes = express.Router();
-//import api routes here
+// import api routes here
 
 const tradeChoreRoutes = require('./tradeChoreRoutes');
 const swapChoreRoutes = require('./swapChoreRoutes');
 const transferChoreRoutes = require('./transferChoreRoutes');
 const adminRoutes = require('./adminRoutes');
 const choresRoutes = require('./choresRoutes');
-
+// adding a comment to repush
 // set api routes here
 
 apiRoutes.use('*', (req, res, next) => {
