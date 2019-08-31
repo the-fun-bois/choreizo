@@ -2,27 +2,13 @@ const Sequelize = require('sequelize');
 const db = require('./../db');
 
 const User = db.define('user', {
-  /* bring back when authentication is wired up */
-  // fbId: {
-  //   type: Sequelize.STRING,
-  //   allowNull: false,
-  //   validate: {
-  //     notEmpty: true,
-  //   },
-  // },
   firstName: {
     type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
+    allowNull: true,
   },
   surName: {
     type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
+    allowNull: true,
   },
   email: {
     type: Sequelize.STRING,
