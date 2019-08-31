@@ -32,6 +32,9 @@ AssignedChore.beforeValidate((assignedChoreInstance) => {
 AssignedChore.beforeValidate(assignedChoreInstance => {
   // creates expiresOn date automatically when assigned chore is created
   // skips this if updating expiresOn
+  if (!assignedChoreInstance.choreId) {
+    return;
+  }
   if (!assignedChoreInstance.expiresOn) {
     const { choreId } = assignedChoreInstance;
     return Chore.findByPk(choreId)
@@ -43,6 +46,7 @@ AssignedChore.beforeValidate(assignedChoreInstance => {
         assignedChoreInstance.expiresOn = expiresOn;
       })
       .catch(e => {
+        console.log(e);
         throw new Error('Error creating expiresOn date');
       });
   }

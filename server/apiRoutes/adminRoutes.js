@@ -1,4 +1,6 @@
 const router = require('express').Router();
+
+const { updateChoreStatus } = require('./utils/adminUtils');
 const {
   Group,
   UserGroup,
@@ -186,5 +188,8 @@ router.post('/add_new_user', async (req, res, next) => {
  * @DESC: Route that will randomly assign all chores to the admins group
  * @ACCESS: admin only
  */
-router.post('/assign_chores', (req, res, next) => {});
+router.post('/assign_chores', async (req, res, next) => {
+  await updateChoreStatus();
+  res.send('success');
+});
 module.exports = router;
