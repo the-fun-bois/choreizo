@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const sequelize = require('sequelize');
 const {
   Group,
   UserGroup,
@@ -104,7 +103,7 @@ router.post('/create_group', (req, res, next) => {
         `User ${userId} created for group '${name}' and assigned as Admin`
       )
     )
-    .catch(e => console.error(e));
+    .catch(next);
 });
 
 /*
@@ -181,4 +180,11 @@ router.post('/add_new_user', async (req, res, next) => {
   }
   res.send('You are not an Admin');
 });
+
+/*
+ * @ROUTE: POST to /api/admin/assign_chores
+ * @DESC: Route that will randomly assign all chores to the admins group
+ * @ACCESS: admin only
+ */
+router.post('/assign_chores', (req, res, next) => {});
 module.exports = router;
