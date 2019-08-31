@@ -1,5 +1,4 @@
 const router = require('express').Router();
-
 const { updateChoreStatus } = require('./utils/adminUtils');
 const {
   Group,
@@ -8,6 +7,8 @@ const {
   AssignedChore,
   User,
 } = require('../database/index');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 const findGroupInfo = userId => {
   return UserGroup.findAll({
@@ -17,6 +18,14 @@ const findGroupInfo = userId => {
     .catch(e => console.error(e));
 };
 
+function shuffleArray(array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+}
 //Taken from Seed
 const createArrayOfSentences = numberOfSentences => {
   const sentenceArr = [];
@@ -33,6 +42,7 @@ const createArrayOfSentences = numberOfSentences => {
  */
 router.post('/all_chores', async (req, res, next) => {
   //replicate the chores route and give me only the assigned from groups where is admin
+  await updateChoreStatus();
   const userId = req.body.userId;
   let isAdmin = false;
   const adminStatusByGroup = await findGroupInfo(userId);
@@ -56,6 +66,7 @@ router.post('/all_chores', async (req, res, next) => {
  * @ACCESS: private
  */
 router.post('/all_assigned_chores', async (req, res, next) => {
+  await updateChoreStatus();
   let chores = {};
   const groups = [];
   const userId = req.body.userId;
@@ -89,7 +100,8 @@ router.post('/all_assigned_chores', async (req, res, next) => {
  * @DESC: Allows for an admin to create a new group with passed in info
  * @ACCESS: private
  */
-router.post('/create_group', (req, res, next) => {
+router.post('/create_group', async (req, res, next) => {
+  await updateChoreStatus();
   const { name, description, userId } = req.body;
   Group.create({ name, description })
     .then(group =>
@@ -114,6 +126,7 @@ router.post('/create_group', (req, res, next) => {
  * @ACCESS: admin only
  */
 router.post('/add_chore', async (req, res, next) => {
+  await updateChoreStatus();
   const { userId, name, difficulty, timeLimit, details } = req.body;
   const userInfo = await UserGroup.findOne({ where: { userId } });
   const detailsArray = Array(details);
@@ -139,6 +152,7 @@ router.post('/add_chore', async (req, res, next) => {
  * @ACCESS: admin only
  */
 router.post('/extend_chore_time', async (req, res, next) => {
+  await updateChoreStatus();
   const { userIdToModify, choreId, newDueDate } = req.body;
   const adjusted = new Date(newDueDate);
   console.log(adjusted);
@@ -156,6 +170,7 @@ router.post('/extend_chore_time', async (req, res, next) => {
  * @ACCESS: admin only
  */
 router.post('/add_new_user', async (req, res, next) => {
+  await updateChoreStatus();
   const { userId, firstName, surName, email, groupId, adminRights } = req.body;
   let newUserId = 0;
   const isAdmin = await UserGroup.findOne({ where: { userId, groupId } })
@@ -189,7 +204,60 @@ router.post('/add_new_user', async (req, res, next) => {
  * @ACCESS: admin only
  */
 router.post('/assign_chores', async (req, res, next) => {
+  const { userId } = req.body;
   await updateChoreStatus();
-  res.send('success');
+  const allChores = await Chore.findAll({});
+  const { userIsAdmin, groupId } = await UserGroup.findOne({
+    where: { userId },
+  });
+  let groupUsers = await UserGroup.findAll({ where: { groupId } });
+
+  //Slim out user Ids for the group Admin is in
+  let users = [];
+  for (let i = 0; i < groupUsers.length; i++) {
+    users.push(groupUsers[i].userId);
+  }
+
+  //Pull out all chores that are pending
+  const pendingChores = await AssignedChore.findAll({
+    where: { status: 'pending', userId: { [Op.in]: users } },
+  });
+  const pendingArr = [];
+  for (let i = 0; i < pendingChores.length; i++) {
+    pendingArr.push(pendingChores[i].id);
+  }
+  //console.log(pendingArr); need to exclude these
+
+  //slim out to only chores that need assigned
+  const choresToAssign = [];
+  for (let i = 0; i < allChores.length; i++) {
+    if (!pendingArr.includes(allChores[i].id)) {
+      choresToAssign.push(allChores[i].id);
+    }
+  }
+  //users and chores to assign
+  //stir it up ... little darling ... stir it up
+  shuffleArray(users);
+  shuffleArray(choresToAssign);
+
+  if (userIsAdmin) {
+    let userIndex = 0;
+    for (let i = 0; i < choresToAssign.length; i++) {
+      if (userIndex >= users.length) {
+        userIndex = 0;
+      }
+      const userId = users[userIndex];
+      await AssignedChore.create({
+        status: 'pending',
+        userId,
+        choreId: choresToAssign[i],
+      });
+      userIndex += 1;
+    }
+
+    res.send('Success!');
+  } else {
+    res.send('You are not an admin and cannot assign chores');
+  }
 });
 module.exports = router;
