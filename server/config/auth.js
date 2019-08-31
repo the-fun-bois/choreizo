@@ -5,11 +5,10 @@ if (process.env.NODE_ENV === 'development') {
 };
 
 module.exports = {
-
   googleAuth: {
-    'clientID': process.env.CLIENT_ID,
-    'clientSecret': process.env.CLIENT_SECRET,
-    'callbackURL': process.env.CALLBACK_URL,
+    'clientID': process.env.GOOGLE_CLIENT_ID,
+    'clientSecret': process.env.GOOGLE_CLIENT_SECRET,
+    'callbackURL': process.env.GOOGLE_CALLBACK_URL,
   },
   session: {
     key: 'capstone1',
