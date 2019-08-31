@@ -8,7 +8,7 @@ const swapChoreRoutes = require('./swapChoreRoutes');
 const transferChoreRoutes = require('./transferChoreRoutes');
 const adminRoutes = require('./adminRoutes');
 const choresRoutes = require('./choresRoutes');
-// adding a comment to repush
+
 // set api routes here
 
 apiRoutes.use('*', (req, res, next) => {
