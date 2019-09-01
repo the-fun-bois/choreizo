@@ -6,6 +6,7 @@ import store from './src/redux';
 
 import LoginScreen from './src/screens/LoginScreen';
 import HomeScreen from './src/screens/HomeScreen';
+import ThemeScreen from './src/screens/ThemesScreen';
 
 const AppStack = createStackNavigator(
   { Home: HomeScreen },
@@ -15,6 +16,7 @@ const AppStack = createStackNavigator(
 const RootSwitch = createSwitchNavigator(
   {
     Login: LoginScreen,
+    Theme: ThemeScreen,
     App: AppStack,
   },
   {

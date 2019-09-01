@@ -2,14 +2,21 @@ import React from 'react';
 import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
 import { Button } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
+import theme from './../styles/theme.style';
 
 const LoginScreen = ({ navigation }) => {
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.loginText}>Login Screen</Text>
       <Button
-        style={styles.buttonContainer}
-        onPress={() => console.log(navigation.navigate('App'))}
+        style={styles.themeButtonContainer}
+        onPress={() => navigation.navigate('Theme')}
+      >
+        <Text style={styles.buttonText}>Theme Guide</Text>
+      </Button>
+      <Button
+        style={styles.fbButtonContainer}
+        onPress={() => navigation.navigate('App')}
       >
         <AntDesign name="facebook-square" style={styles.iconStyle} />
         <Text style={styles.buttonText}>Login With Facebook</Text>
@@ -21,8 +28,17 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   mainContainer: {
     paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    backgroundColor: theme.PRIMARY_COLOR,
+    flex: 1,
   },
-  buttonContainer: {
+  themeButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: theme.SECONDARY_COLOR,
+  },
+  fbButtonContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
   },
@@ -33,13 +49,14 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: theme.FONT_SIZE_MEDIUM,
     alignSelf: 'center',
   },
   loginText: {
-    fontSize: 18,
+    fontSize: theme.FONT_SIZE_HEADING,
+    color: 'white',
     fontWeight: 'bold',
-    flexGrow: 1,
+    // flexGrow: 1,
     textAlign: 'center',
   },
 });
