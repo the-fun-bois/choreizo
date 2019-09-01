@@ -1,4 +1,5 @@
 import React from 'react';
+import { REACT_ENV } from 'react-native-dotenv';
 import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
 import { Button } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
@@ -8,12 +9,14 @@ const LoginScreen = ({ navigation }) => {
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.loginText}>Login Screen</Text>
-      <Button
-        style={styles.themeButtonContainer}
-        onPress={() => navigation.navigate('Theme')}
-      >
-        <Text style={styles.buttonText}>Theme Guide</Text>
-      </Button>
+      {REACT_ENV === 'development' ? (
+        <Button
+          style={styles.themeButtonContainer}
+          onPress={() => navigation.navigate('Theme')}
+        >
+          <Text style={styles.buttonText}>Theme Guide</Text>
+        </Button>
+      ) : null}
       <Button
         style={styles.fbButtonContainer}
         onPress={() => navigation.navigate('App')}
@@ -34,9 +37,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   themeButtonContainer: {
+    width: 200,
     flexDirection: 'row',
     justifyContent: 'center',
     backgroundColor: theme.SECONDARY_COLOR,
+    alignSelf: 'center',
   },
   fbButtonContainer: {
     flexDirection: 'row',
