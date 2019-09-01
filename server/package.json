@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node ./index.js",
     "test": " TEST_SESSION=true ./node_modules/.bin/jest --config ./jest.config.js --runInBand",
     "test-watch": " TEST_SESSION=true ./node_modules/.bin/jest --config ./jest.config.js --watch",
     "dev:start-server": "./node_modules/.bin/nodemon ./index.js",
