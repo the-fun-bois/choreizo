@@ -6,9 +6,9 @@ if (process.env.NODE_ENV === 'development') {
 
 module.exports = {
   googleAuth: {
-    'clientID': process.env.GOOGLE_CLIENT_ID,
-    'clientSecret': process.env.GOOGLE_CLIENT_SECRET,
-    'callbackURL': process.env.GOOGLE_CALLBACK_URL,
+    'clientID': process.env.GOOGLE_CLIENT_ID  || "Test Session",
+    'clientSecret': process.env.GOOGLE_CLIENT_SECRET  || "Test Session",
+    'callbackURL': process.env.GOOGLE_CALLBACK_URL  || "/auth/google/redirect",
   },
   session: {
     key: 'capstone1',

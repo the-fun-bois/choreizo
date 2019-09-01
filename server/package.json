@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/jest --config ./jest.config.js --runInBand",
-    "test-watch": "./node_modules/.bin/jest --config ./jest.config.js --watch",
+    "test": " TEST_SESSION=true ./node_modules/.bin/jest --config ./jest.config.js --runInBand",
+    "test-watch": " TEST_SESSION=true ./node_modules/.bin/jest --config ./jest.config.js --watch",
     "dev:start-server": "./node_modules/.bin/nodemon ./index.js",
     "dev": "npm run dev:start-server",
     "seed": "node ./database/seed/index.js",
