@@ -3,7 +3,7 @@ node_js:
   - "10.13"
 
 env:
-  - TEST_SERVER=server POSTGRES_CI=postgres://postgres@127.0.0.1:5432/chores
+  - TEST_SERVER=server POSTGRES_CI=postgres://postgres@127.0.0.1:5432/chores TEST_SESSION=true
 
 before_install:
   - npm i -g npm@6.4.1
