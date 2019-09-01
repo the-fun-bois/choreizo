@@ -11,6 +11,6 @@ module.exports = {
     'callbackURL': process.env.GOOGLE_CALLBACK_URL  || "/auth/google/redirect",
   },
   session: {
-    key: 'capstone1',
+    key: process.env.SESSION_KEY || 'capstone1',
   },
 };
