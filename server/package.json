@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/jest --config ./jest.config.js --runInBand",
-    "test-watch": "./node_modules/.bin/jest --config ./jest.config.js --watch",
+    "test": " TEST_SESSION=true ./node_modules/.bin/jest --config ./jest.config.js --runInBand",
+    "test-watch": " TEST_SESSION=true ./node_modules/.bin/jest --config ./jest.config.js --watch",
     "dev:start-server": "./node_modules/.bin/nodemon ./index.js",
     "dev": "npm run dev:start-server",
     "seed": "node ./database/seed/index.js",
@@ -17,10 +17,13 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^2.4.2",
+    "cookie-session": "^1.3.3",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "moment": "^2.24.0",
     "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-google-oauth20": "^2.0.0",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.16.0"

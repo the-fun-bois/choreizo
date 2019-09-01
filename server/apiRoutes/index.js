@@ -8,6 +8,11 @@ const swapChoreRoutes = require('./swapChoreRoutes');
 const transferChoreRoutes = require('./transferChoreRoutes');
 const choresRoutes = require('./ChoresRoutes');
 // set api routes here
+
+apiRoutes.use('*', (req, res, next) => {
+  if (req.isAuthenticated() || process.env.TEST_SESSION === 'true') next();
+  else res.sendStatus(400);
+});
 apiRoutes.use('/trade_chore', tradeChoreRoutes);
 apiRoutes.use('/swap_chore', swapChoreRoutes);
 apiRoutes.use('/transfer_chore', transferChoreRoutes);
