@@ -113,9 +113,9 @@ router.post('/create_group', async (req, res, next) => {
       })
     )
     .then(assignedInfo =>
-      res.send(
-        `User ${userId} created for group '${name}' and assigned as Admin`
-      )
+      res.status(200).send({
+        message: `User ${userId} created for group '${name}' and assigned as Admin`,
+      })
     )
     .catch(next);
 });
@@ -127,9 +127,15 @@ router.post('/create_group', async (req, res, next) => {
  */
 router.post('/add_chore', async (req, res, next) => {
   await updateChoreStatus();
+  // details must be an array
   const { userId, name, difficulty, timeLimit, details } = req.body;
   const userInfo = await UserGroup.findOne({ where: { userId } });
-  const detailsArray = Array(details);
+  let detailsArray;
+  if (!Array.isArray(details)) {
+    detailsArray = Array(details);
+  } else {
+    detailsArray = details;
+  }
   if (userInfo.userIsAdmin) {
     Chore.create({
       name,
@@ -139,8 +145,10 @@ router.post('/add_chore', async (req, res, next) => {
       details: detailsArray,
       groupId: userInfo.groupId,
     })
-      .then(newChore => res.send(newChore))
-      .catch(e => console.error(e));
+      .then(newChore =>
+        res.status(200).send({ message: `${newChore} created successfully` })
+      )
+      .catch(next);
   } else {
     res.status(404).send('You are not an admin');
   }
