@@ -214,20 +214,21 @@ router.post('/add_new_user', async (req, res, next) => {
  */
 router.post('/assign_chores', async (req, res, next) => {
   const { userId } = req.body;
+  const intialGroupId = req.body.groupId;
   await updateChoreStatus();
   const allChores = await Chore.findAll({});
   const { userIsAdmin, groupId } = await UserGroup.findOne({
-    where: { userId },
+    where: { userId, groupId: intialGroupId },
   });
   let groupUsers = await UserGroup.findAll({ where: { groupId } });
 
-  //Slim out user Ids for the group Admin is in
+  // Slim out user Ids for the group Admin is in
   let users = [];
   for (let i = 0; i < groupUsers.length; i++) {
     users.push(groupUsers[i].userId);
   }
 
-  //Pull out all chores that are pending
+  // Pull out all chores that are pending
   const pendingChores = await AssignedChore.findAll({
     where: { status: 'pending', userId: { [Op.in]: users } },
   });
@@ -235,7 +236,6 @@ router.post('/assign_chores', async (req, res, next) => {
   for (let i = 0; i < pendingChores.length; i++) {
     pendingArr.push(pendingChores[i].id);
   }
-  //console.log(pendingArr); need to exclude these
 
   //slim out to only chores that need assigned
   const choresToAssign = [];
@@ -264,9 +264,11 @@ router.post('/assign_chores', async (req, res, next) => {
       userIndex += 1;
     }
 
-    res.send('Success!');
+    res.status(200).send({
+      message: 'Successfully shuffled chores for Admin group',
+    });
   } else {
-    res.send('You are not an admin and cannot assign chores');
+    res.status(404).send('You are not an admin and cannot assign chores');
   }
 });
 module.exports = router;
