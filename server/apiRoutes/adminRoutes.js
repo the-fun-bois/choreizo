@@ -161,14 +161,14 @@ router.post('/add_chore', async (req, res, next) => {
  */
 router.post('/extend_chore_time', async (req, res, next) => {
   await updateChoreStatus();
-  const { userIdToModify, choreId, newDueDate } = req.body;
+  const { newDueDate, idToModify } = req.body;
   const adjusted = new Date(newDueDate);
-  console.log(adjusted);
-  AssignedChore.update(
-    { expiresOn: adjusted },
-    { where: { userId: userIdToModify, choreId } }
-  )
-    .then(newChore => res.send(newChore))
+  AssignedChore.update({ expiresOn: adjusted }, { where: { id: idToModify } })
+    .then(newChore =>
+      res
+        .status(200)
+        .send({ message: `Sucessfully updated ${newChore[0]} chore` })
+    )
     .catch(next);
 });
 
