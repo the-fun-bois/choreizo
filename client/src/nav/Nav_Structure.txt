@@ -1,0 +1,7 @@
+App(switch navigator)
+ - Login
+ - Themes (dev mode only)
+ - AppStack (bottom tab navigator)
+  - Home (stack navigator)
+  - Account (stack navigator)
+  - Market (stack navigator)

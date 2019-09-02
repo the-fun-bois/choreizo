@@ -1,24 +1,22 @@
 import React, { Component } from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
 import { Provider } from 'react-redux';
+import * as Font from 'expo-font';
 import store from './src/redux';
 
 import LoginScreen from './src/screens/LoginScreen';
-import HomeScreen from './src/screens/HomeScreen';
+import ThemeScreen from './src/screens/ThemesScreen';
 
-const AppStack = createStackNavigator(
-  { Home: HomeScreen },
-  { initialRouteName: 'Home', defaultNavigationOptions: { header: null } },
-);
+import BottomTabNav from './src/nav/Bottom/BottomTabNav';
 
 const RootSwitch = createSwitchNavigator(
   {
     Login: LoginScreen,
-    App: AppStack,
+    Theme: ThemeScreen,
+    App: BottomTabNav,
   },
   {
-    initialRouteName: 'Login',
+    initialRouteName: 'App',
     defaultNavigationOptions: {
       header: null,
     },
@@ -28,7 +26,31 @@ const RootSwitch = createSwitchNavigator(
 const Navigation = createAppContainer(RootSwitch);
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = { isLoading: true };
+  }
+  // const [isLoading, setIsLoading] = useState(true);
+
+  // useEffect(() => {
+  //   Font.loadAsync({
+  //     'pacifico-regular': require('./../assets/Pacifico-Regular.ttf'),
+  //   }).then(() => {
+  //     setIsLoading(false);
+  //   });
+  // }, []);
+  componentDidMount() {
+    Font.loadAsync({
+      'pacifico-regular': require('./src/assets/Pacifico-Regular.ttf'),
+    }).then(() => {
+      this.setState({ ...this.state, isLoading: false });
+    });
+  }
+
   render() {
+    if (this.state.isLoading) {
+      return null;
+    }
     return (
       <Provider store={store}>
         <Navigation />
