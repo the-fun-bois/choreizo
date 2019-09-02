@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
-import { connect } from 'react-redux';
 
-const HomeScreen = props => {
-  const { userInfo } = props;
+import theme from './../styles/theme.style';
+
+const MarketScreen = () => {
   return (
     <View style={styles.mainContainer}>
-      <Text>Home Screen</Text>
-      <Text>Welcome {userInfo.name}</Text>
+      <View>
+        <Text>Market Screen</Text>
+      </View>
     </View>
   );
 };
@@ -19,5 +20,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapState = ({ userInfo }) => ({ userInfo });
-export default connect(mapState)(HomeScreen);
+export default MarketScreen;
