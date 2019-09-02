@@ -5,22 +5,19 @@ import {
   StyleSheet,
   Platform,
   StatusBar,
-  Button,
+  SafeAreaView,
 } from 'react-native';
 import { connect } from 'react-redux';
 
 const HomeScreen = props => {
   const { userInfo } = props;
   return (
-    <View style={styles.mainContainer}>
-      <Text>Home Screen</Text>
-      <Text>Welcome {userInfo.name}</Text>
-      {userInfo.name ? (
-        <Button title="chore"></Button>
-      ) : (
-        <Text>Placeholder</Text>
-      )}
-    </View>
+    <SafeAreaView>
+      <View style={styles.mainContainer}>
+        <Text>Home Screen</Text>
+        <Text>Welcome {userInfo.name}</Text>
+      </View>
+    </SafeAreaView>
   );
 };
 
