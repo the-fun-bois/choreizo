@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: Platform === 'ios' ? 0 : StatusBar.currentHeight,
+    paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
     backgroundColor: theme.PRIMARY_COLOR,
   },
   headerText: {

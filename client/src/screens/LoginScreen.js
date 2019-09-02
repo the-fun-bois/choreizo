@@ -1,30 +1,39 @@
 import React from 'react';
 import { REACT_ENV } from 'react-native-dotenv';
-import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Platform,
+  StatusBar,
+  SafeAreaView,
+} from 'react-native';
 import { Button } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import theme from './../styles/theme.style';
 
 const LoginScreen = ({ navigation }) => {
   return (
-    <View style={styles.mainContainer}>
-      <Text style={styles.loginText}>Login Screen</Text>
-      {REACT_ENV === 'development' ? (
+    <SafeAreaView>
+      <View style={styles.mainContainer}>
+        <Text style={styles.loginText}>Login Screen</Text>
+        {REACT_ENV === 'development' ? (
+          <Button
+            style={styles.themeButtonContainer}
+            onPress={() => navigation.navigate('Theme')}
+          >
+            <Text style={styles.buttonText}>Theme Guide</Text>
+          </Button>
+        ) : null}
         <Button
-          style={styles.themeButtonContainer}
-          onPress={() => navigation.navigate('Theme')}
+          style={styles.fbButtonContainer}
+          onPress={() => navigation.navigate('App')}
         >
-          <Text style={styles.buttonText}>Theme Guide</Text>
+          <AntDesign name="facebook-square" style={styles.iconStyle} />
+          <Text style={styles.buttonText}>Login With Facebook</Text>
         </Button>
-      ) : null}
-      <Button
-        style={styles.fbButtonContainer}
-        onPress={() => navigation.navigate('App')}
-      >
-        <AntDesign name="facebook-square" style={styles.iconStyle} />
-        <Text style={styles.buttonText}>Login With Facebook</Text>
-      </Button>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 };
 

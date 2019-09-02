@@ -1,15 +1,24 @@
 import React from 'react';
-import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Platform,
+  StatusBar,
+  SafeAreaView,
+} from 'react-native';
 
 import theme from '../styles/theme.style';
 
 const AccountScreen = () => {
   return (
-    <View style={styles.mainContainer}>
-      <View>
-        <Text>Account Screen</Text>
+    <SafeAreaView>
+      <View style={styles.mainContainer}>
+        <View>
+          <Text>Account Screen</Text>
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

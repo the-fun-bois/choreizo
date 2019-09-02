@@ -3,6 +3,7 @@ import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import * as Font from 'expo-font';
 import store from './src/redux';
+import { INITIAL_SCREEN } from 'react-native-dotenv';
 
 import LoginScreen from './src/screens/LoginScreen';
 import ThemeScreen from './src/screens/ThemesScreen';
@@ -16,7 +17,7 @@ const RootSwitch = createSwitchNavigator(
     App: BottomTabNav,
   },
   {
-    initialRouteName: 'App',
+    initialRouteName: INITIAL_SCREEN,
     defaultNavigationOptions: {
       header: null,
     },
@@ -30,15 +31,7 @@ class App extends Component {
     super();
     this.state = { isLoading: true };
   }
-  // const [isLoading, setIsLoading] = useState(true);
-
-  // useEffect(() => {
-  //   Font.loadAsync({
-  //     'pacifico-regular': require('./../assets/Pacifico-Regular.ttf'),
-  //   }).then(() => {
-  //     setIsLoading(false);
-  //   });
-  // }, []);
+  // loading custom fonts here
   componentDidMount() {
     Font.loadAsync({
       'pacifico-regular': require('./src/assets/Pacifico-Regular.ttf'),
