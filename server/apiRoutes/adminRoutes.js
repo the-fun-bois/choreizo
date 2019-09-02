@@ -220,36 +220,41 @@ router.post('/assign_chores', async (req, res, next) => {
   const { userIsAdmin, groupId } = await UserGroup.findOne({
     where: { userId, groupId: intialGroupId },
   });
-  let groupUsers = await UserGroup.findAll({ where: { groupId } });
 
-  // Slim out user Ids for the group Admin is in
-  let users = [];
-  for (let i = 0; i < groupUsers.length; i++) {
-    users.push(groupUsers[i].userId);
-  }
+  if (!userIsAdmin) {
+    res
+      .status(404)
+      .send({ message: 'You are not an admin and cannot assign chores' });
+  } else {
+    let groupUsers = await UserGroup.findAll({ where: { groupId } });
 
-  // Pull out all chores that are pending
-  const pendingChores = await AssignedChore.findAll({
-    where: { status: 'pending', userId: { [Op.in]: users } },
-  });
-  const pendingArr = [];
-  for (let i = 0; i < pendingChores.length; i++) {
-    pendingArr.push(pendingChores[i].id);
-  }
-
-  //slim out to only chores that need assigned
-  const choresToAssign = [];
-  for (let i = 0; i < allChores.length; i++) {
-    if (!pendingArr.includes(allChores[i].id)) {
-      choresToAssign.push(allChores[i].id);
+    // Slim out user Ids for the group Admin is in
+    let users = [];
+    for (let i = 0; i < groupUsers.length; i++) {
+      users.push(groupUsers[i].userId);
     }
-  }
-  //users and chores to assign
-  //stir it up ... little darling ... stir it up
-  shuffleArray(users);
-  shuffleArray(choresToAssign);
 
-  if (userIsAdmin) {
+    // Pull out all chores that are pending
+    const pendingChores = await AssignedChore.findAll({
+      where: { status: 'pending', userId: { [Op.in]: users } },
+    });
+    const pendingArr = [];
+    for (let i = 0; i < pendingChores.length; i++) {
+      pendingArr.push(pendingChores[i].id);
+    }
+
+    //slim out to only chores that need assigned
+    const choresToAssign = [];
+    for (let i = 0; i < allChores.length; i++) {
+      if (!pendingArr.includes(allChores[i].id)) {
+        choresToAssign.push(allChores[i].id);
+      }
+    }
+    //users and chores to assign
+    //stir it up ... little darling ... stir it up
+    shuffleArray(users);
+    shuffleArray(choresToAssign);
+
     let userIndex = 0;
     for (let i = 0; i < choresToAssign.length; i++) {
       if (userIndex >= users.length) {
@@ -267,8 +272,6 @@ router.post('/assign_chores', async (req, res, next) => {
     res.status(200).send({
       message: 'Successfully shuffled chores for Admin group',
     });
-  } else {
-    res.status(404).send('You are not an admin and cannot assign chores');
   }
 });
 module.exports = router;
