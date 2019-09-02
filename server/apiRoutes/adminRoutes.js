@@ -1,12 +1,6 @@
 const router = require('express').Router();
 const { updateChoreStatus } = require('./utils/adminUtils');
-const {
-  Group,
-  UserGroup,
-  Chore,
-  AssignedChore,
-  User,
-} = require('../database/index');
+const { Group, UserGroup, Chore, AssignedChore } = require('../database/index');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
@@ -43,10 +37,9 @@ const createArrayOfSentences = numberOfSentences => {
 router.post('/all_chores', async (req, res, next) => {
   //replicate the chores route and give me only the assigned from groups where is admin
   await updateChoreStatus();
-  const userId = req.body.userId;
+  const { userId } = req.body;
   let isAdmin = false;
   const adminStatusByGroup = await findGroupInfo(userId);
-  //res.send(adminStatusByGroup);
   for (let i = 0; i < adminStatusByGroup.length; i++) {
     if (adminStatusByGroup[i].userIsAdmin) {
       isAdmin = true;
@@ -54,9 +47,11 @@ router.post('/all_chores', async (req, res, next) => {
   }
   if (isAdmin) {
     const chores = await Chore.findAll({ include: [{ model: AssignedChore }] });
-    res.send(chores);
+    res.status(200).send(chores);
   } else {
-    res.send('You are not authorized, only admins can see chores');
+    res
+      .status(404)
+      .send({ message: 'You are not authorized, only admins can see chores' });
   }
 });
 
@@ -72,12 +67,12 @@ router.post('/all_assigned_chores', async (req, res, next) => {
   const userId = req.body.userId;
   const allGroups = await findGroupInfo(userId);
 
-  //slim out groups to only those belonged to
+  // slim out groups to only those belonged to
   for (let i = 0; i < allGroups.length; i++) {
     groups.push(allGroups[i].groupId);
   }
 
-  //get all chores that are assigned in the group
+  // get all chores that are assigned in the group
   for (let i = 0; i < groups.length; i++) {
     const choreList = await Chore.findAll({
       where: { groupId: groups[i] },
@@ -85,13 +80,14 @@ router.post('/all_assigned_chores', async (req, res, next) => {
     });
     chores[groups[i]] = choreList;
   }
-  //At this point we have chores and users info for those chores, or no chores are assigned
+  // At this point we have chores and users info for those chores, or no chores are assigned
   if (chores) {
-    res.send(chores);
+    res.status(200).send(chores);
   } else {
-    res.send(
-      'You do not have any assigned chores for your group, get to work!'
-    );
+    res.status(400).send({
+      message:
+        'You do not have any assigned chores for your group, get to work!',
+    });
   }
 });
 
