@@ -146,7 +146,7 @@ router.post('/add_chore', async (req, res, next) => {
       groupId: userInfo.groupId,
     })
       .then(newChore =>
-        res.status(200).send({ message: `${newChore} created successfully` })
+        res.status(201).send({ message: `${newChore} created successfully` })
       )
       .catch(next);
   } else {
@@ -166,7 +166,7 @@ router.post('/extend_chore_time', async (req, res, next) => {
   AssignedChore.update({ expiresOn: adjusted }, { where: { id: idToModify } })
     .then(newChore =>
       res
-        .status(200)
+        .status(201)
         .send({ message: `Sucessfully updated ${newChore[0]} chore` })
     )
     .catch(next);
@@ -174,13 +174,12 @@ router.post('/extend_chore_time', async (req, res, next) => {
 
 /*
  * @ROUTE: POST to /api/admin/add_new_user
- * @DESC: Allows for an admin to extend a chores time
+ * @DESC: Allows for an admin to create a new user
  * @ACCESS: admin only
  */
 router.post('/add_new_user', async (req, res, next) => {
   await updateChoreStatus();
-  const { userId, firstName, surName, email, groupId, adminRights } = req.body;
-  let newUserId = 0;
+  const { userId, groupId, adminRights, userIdToAdd } = req.body;
   const isAdmin = await UserGroup.findOne({ where: { userId, groupId } })
     .then(user => {
       if (user.userIsAdmin === true && user.userStatus === 'active') {
@@ -189,21 +188,23 @@ router.post('/add_new_user', async (req, res, next) => {
       return false;
     })
     .catch(next);
+
   if (isAdmin) {
-    const newUser = await User.create({ firstName, surName, email }).catch(
-      next
-    );
-    newUserId = newUser.id;
-    const group = await UserGroup.create({
+    await UserGroup.create({
       userIsAdmin: adminRights,
       userStatus: 'active',
-      userId: newUserId,
-      groupId: groupId,
+      userId: userIdToAdd,
+      groupId,
     })
-      .then(newUserGroup => res.send(`User Created Successfully`))
+      .then(newUserGroup =>
+        res.status(201).send({
+          message: `User ${userIdToAdd} successfully added to group ${groupId}`,
+        })
+      )
       .catch(next);
+  } else {
+    res.status(404).send({ message: 'You are not an Admin' });
   }
-  res.send('You are not an Admin');
 });
 
 /*
