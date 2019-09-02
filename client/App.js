@@ -9,6 +9,8 @@ import ThemeScreen from './src/screens/ThemesScreen';
 
 import BottomTabNav from './src/nav/Bottom/BottomTabNav';
 
+import { setNavigator } from './src/nav/navJumpAsync';
+
 const RootSwitch = createSwitchNavigator(
   {
     Login: LoginScreen,
@@ -16,11 +18,11 @@ const RootSwitch = createSwitchNavigator(
     App: BottomTabNav,
   },
   {
-    initialRouteName: 'App',
+    initialRouteName: 'Login',
     defaultNavigationOptions: {
       header: null,
     },
-  },
+  }
 );
 
 const Navigation = createAppContainer(RootSwitch);
@@ -53,7 +55,7 @@ class App extends Component {
     }
     return (
       <Provider store={store}>
-        <Navigation />
+        <Navigation ref={navigator => setNavigator(navigator)} />
       </Provider>
     );
   }

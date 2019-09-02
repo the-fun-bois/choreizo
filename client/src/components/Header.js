@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as Font from 'expo-font';
 import { Platform, StatusBar } from 'react-native';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import theme from './../styles/theme.style';
 
@@ -19,15 +19,17 @@ const Header = ({ title }) => {
   //   return null;
   // }
   return (
-    <View style={styles.headerContainer}>
-      <MaterialCommunityIcons
-        name="broom"
-        size={theme.ICON_SIZE_MEDIUM}
-        color="white"
-        style={styles.iconStyle}
-      />
-      <Text style={styles.headerText}>Choreizo</Text>
-    </View>
+    <SafeAreaView>
+      <View style={styles.headerContainer}>
+        <MaterialCommunityIcons
+          name="broom"
+          size={theme.ICON_SIZE_MEDIUM}
+          color="white"
+          style={styles.iconStyle}
+        />
+        <Text style={styles.headerText}>Choreizo</Text>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -35,7 +37,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: Platform === 'ios' ? 0 : StatusBar.currentHeight,
+    paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
     backgroundColor: theme.PRIMARY_COLOR,
   },
   headerText: {

@@ -5,7 +5,10 @@ import { Button } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import theme from './../styles/theme.style';
 
-const LoginScreen = ({ navigation }) => {
+import { connect } from 'react-redux';
+import { fbLogin } from '../redux/creators';
+
+const LoginScreen = ({ navigation, fbLoginDisp }) => {
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.loginText}>Login Screen</Text>
@@ -17,10 +20,7 @@ const LoginScreen = ({ navigation }) => {
           <Text style={styles.buttonText}>Theme Guide</Text>
         </Button>
       ) : null}
-      <Button
-        style={styles.fbButtonContainer}
-        onPress={() => navigation.navigate('App')}
-      >
+      <Button style={styles.fbButtonContainer} onPress={() => fbLoginDisp()}>
         <AntDesign name="facebook-square" style={styles.iconStyle} />
         <Text style={styles.buttonText}>Login With Facebook</Text>
       </Button>
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     backgroundColor: theme.PRIMARY_COLOR,
     flex: 1,
   },
@@ -66,4 +66,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+const mapState = ({ userInfo }) => ({ userInfo });
+const mapDispatchToState = dispatch => {
+  return {
+    fbLoginDisp: () => dispatch(fbLogin()),
+  };
+};
+
+export default connect(
+  mapState,
+  mapDispatchToState
+)(LoginScreen);
