@@ -7,8 +7,8 @@ router.get('/google', passport.authenticate('google', {
   scope: ['profile', 'email']
 }));
 
-router.get('/google/redirect', passport.authenticate('google'), (_, res) => {
-  res.redirect('/');
+router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
+  res.redirect(`ChoresApp://login?user=${JSON.stringify(req.user)}`);
 });
 
 router.get('/user', (req, res) => {

@@ -12,6 +12,7 @@ import ThemeScreen from './src/screens/ThemesScreen';
 import MainNav from './src/nav/Main/MainNav';
 
 import { setNavigator } from './src/nav/navJumpAsync';
+import { Linking } from 'expo';
 
 const RootSwitch = createSwitchNavigator(
   {
@@ -20,7 +21,7 @@ const RootSwitch = createSwitchNavigator(
     Main: MainNav,
   },
   {
-    initialRouteName: INITIAL_SCREEN,
+    initialRouteName: 'Login',
     defaultNavigationOptions: {
       header: null,
     },
@@ -41,7 +42,15 @@ class App extends Component {
     }).then(() => {
       this.setState({ ...this.state, isLoading: false });
     });
-  }
+    Linking.addEventListener('url', this.handleOpenUrl);
+  };
+
+  handleOpenURL = ({ url }) => {
+    const [, authenticatedUser] = url.match(/user=([^#]+)/);
+
+  };
+
+  
 
   render() {
     if (this.state.isLoading) {
