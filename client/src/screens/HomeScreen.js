@@ -1,5 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Platform,
+  StatusBar,
+  Button,
+} from 'react-native';
 import { connect } from 'react-redux';
 
 const HomeScreen = props => {
@@ -8,6 +15,11 @@ const HomeScreen = props => {
     <View style={styles.mainContainer}>
       <Text>Home Screen</Text>
       <Text>Welcome {userInfo.name}</Text>
+      {userInfo.name ? (
+        <Button title="chore"></Button>
+      ) : (
+        <Text>Placeholder</Text>
+      )}
     </View>
   );
 };
