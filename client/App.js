@@ -8,13 +8,14 @@ import { INITIAL_SCREEN } from 'react-native-dotenv';
 import LoginScreen from './src/screens/LoginScreen';
 import ThemeScreen from './src/screens/ThemesScreen';
 
-import BottomTabNav from './src/nav/Bottom/BottomTabNav';
+// Drawer nav and Bottom tab nav
+import MainNav from './src/nav/Main/MainNav';
 
 const RootSwitch = createSwitchNavigator(
   {
     Login: LoginScreen,
     Theme: ThemeScreen,
-    App: BottomTabNav,
+    Main: MainNav,
   },
   {
     initialRouteName: INITIAL_SCREEN,
