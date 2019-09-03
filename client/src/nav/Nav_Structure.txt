@@ -1,7 +1,14 @@
-App(switch navigator)
- - Login
- - Themes (dev mode only)
- - AppStack (bottom tab navigator)
-  - Home (stack navigator)
-  - Account (stack navigator)
-  - Market (stack navigator)
+chore app navigation tree:
+
+RootSwitch(switch navigator)
+ - Login (component)
+ - Themes (component dev mode only)
+ - Main (drawer nav)
+  - Tabs (bottom tab navigator)
+    - Home (stack navigator)
+      - Home Components
+    - Accounts (stack navigator)
+      - Account Components
+    - Market (stack navigator)
+      - Market Components
+  - Drawer Components
