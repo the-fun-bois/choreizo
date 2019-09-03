@@ -1,3 +1,4 @@
+const passport = require('passport');
 const express = require('express');
 
 const apiRoutes = express.Router();
@@ -8,12 +9,16 @@ const swapChoreRoutes = require('./swapChoreRoutes');
 const transferChoreRoutes = require('./transferChoreRoutes');
 const adminRoutes = require('./adminRoutes');
 const choresRoutes = require('./choresRoutes');
+const authenticationRoutes = require('./authRoutes');
 
 // set api routes here
 
+apiRoutes.use('/auth', authenticationRoutes);
 apiRoutes.use('*', (req, res, next) => {
-  if (req.isAuthenticated() || process.env.TEST_SESSION === 'true') next();
-  else res.sendStatus(400);
+  if (process.env.TEST_SESSION === 'true') next();
+  else {
+    passport.authenticate('jwt', {session: false})(req, res, next);
+  };
 });
 apiRoutes.use('/trade_chore', tradeChoreRoutes);
 apiRoutes.use('/swap_chore', swapChoreRoutes);

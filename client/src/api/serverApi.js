@@ -6,7 +6,6 @@ console.log('server url', SERVER_URL);
 
 const serverApi = axios.create({
   baseURL: SERVER_URL + '/api',
-  headers: { Authorization: 'clients_auth_token' },
 });
 
 export default serverApi;

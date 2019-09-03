@@ -14,8 +14,6 @@ db.sync({ force: DB_FORCE === 'true' }).then(() => {
   app.listen(PORT, () => {
     console.log(`
       Listening on PORT : ${PORT}
-
-      http://localhost:3000
     `);
   });
 });

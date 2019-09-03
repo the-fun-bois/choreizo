@@ -1,14 +1,16 @@
 import React from 'react';
-import { REACT_ENV } from 'react-native-dotenv';
+import { REACT_ENV, SERVER_URL } from 'react-native-dotenv';
 import { View, Text, StyleSheet, Platform, StatusBar, Linking } from 'react-native';
 import { Button } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import theme from './../styles/theme.style';
 
 import { connect } from 'react-redux';
-import { fbLogin } from '../redux/creators';
+import { fbLogin, retrieveToken, getBearerToken } from '../redux/creators';
 
-const LoginScreen = ({ navigation, fbLoginDisp }) => {
+const LoginScreen = ({ navigation, fbLoginDisp, getToken, handleAuthRedirect}) => {
+  getToken();
+  Linking.addEventListener('url', handleAuthRedirect);
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.loginText}>Login Screen</Text>
@@ -26,12 +28,14 @@ const LoginScreen = ({ navigation, fbLoginDisp }) => {
         <AntDesign name="facebook-square" style={styles.iconStyle} />
         <Text style={styles.buttonText}>Login With Facebook</Text>
       </Button>
-
       <Button style={styles.googleButtonContainer} onPress={() => {
-        Linking.openURL('http://localhost:3000/auth/google');
+        Linking.getInitialURL().then(url => {
+          const [protocol, domain] = url.split('://');
+          Linking.openURL(`${SERVER_URL}/api/auth/google?protocol=${protocol}&domain=${domain}`);
+        });
       }}>
         <AntDesign name="google" style={styles.iconStyle}/>
-        <Text style={styles.buttonText}>I am google login</Text>
+        <Text style={styles.buttonText}>Login With Google</Text>
       </Button>
     </View>
   );
@@ -84,6 +88,11 @@ const mapState = ({ userInfo }) => ({ userInfo });
 const mapDispatchToState = dispatch => {
   return {
     fbLoginDisp: () => dispatch(fbLogin()),
+    getToken: () => dispatch(retrieveToken()),
+    handleAuthRedirect: ({ url }) => {
+      const bearerToken = url.split('?')[1];
+      if (bearerToken) dispatch(getBearerToken(bearerToken));
+    },
   };
 };
 

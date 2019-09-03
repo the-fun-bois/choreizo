@@ -1,17 +1,19 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJWT = require('passport-jwt').ExtractJwt;
 const auth = require('./auth');
 const { User } = require('../database/index');
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
+// passport.serializeUser((user, done) => {
+//   done(null, user.id);
+// });
 
-passport.deserializeUser((id, done) => {
-  User.findByPk(id).then(user => {
-    done(null, user);
-  });
-});
+// passport.deserializeUser((id, done) => {
+//   User.findByPk(id).then(user => {
+//     done(null, user);
+//   });
+// });
 
 passport.use(
   new GoogleStrategy({
@@ -34,6 +36,22 @@ passport.use(
               done(null, newUser);
             });
         }
+      });
+  })
+);
+
+passport.use(
+  new JwtStrategy({
+    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+    secretOrKey: auth.secret,
+  }, (jwtPayload, done) => {
+    console.log('payload', jwtPayload);
+    User.findByPk(jwtPayload.id)
+      .then(user => {
+        return done(null, user)
+      })
+      .catch(err => {
+        return done(err)
       });
   })
 );
