@@ -1,7 +1,5 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJWT = require('passport-jwt').ExtractJwt;
 const auth = require('./auth');
 const { User } = require('../database/index');
 
@@ -26,21 +24,6 @@ passport.use(
               done(null, newUser);
             });
         }
-      });
-  })
-);
-
-passport.use(
-  new JwtStrategy({
-    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey: auth.secret,
-  }, (jwtPayload, done) => {
-    User.findByPk(jwtPayload.id)
-      .then(user => {
-        return done(null, user)
-      })
-      .catch(err => {
-        return done(err)
       });
   })
 );

@@ -60,10 +60,7 @@ export const retrieveToken = () => async dispatch => {
   try {
     const token = await SecureStore.getItemAsync('Bearer');
     if(token) {
-      dispatch(setBearerToken(token));
-      serverApi.interceptors.request.use(() => {
-        serverApi.headers["Authorization"] = `Bearer ${token}`
-      });
+      dispatch(setBearerToken(token.slice(0, -1)));
       navigate('Home');
     };
   } catch (e) {
