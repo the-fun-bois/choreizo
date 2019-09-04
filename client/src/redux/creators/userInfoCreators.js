@@ -78,8 +78,10 @@ export const retrieveToken = () => async dispatch => {
 export const getUserInfo = () => async dispatch => {
   try {
     const userProfile = await serverApi.get('/user/profile')
+    if (!userProfile.data.email) throw new Error('Auth error');
     dispatch(getUserProfile(userProfile.data)); 
   } catch (e) {
     console.log(e)
+    navigate('Login');
   };
 };
