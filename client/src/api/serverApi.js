@@ -11,11 +11,9 @@ const serverApi = axios.create({
 
 serverApi.interceptors.request.use(async request => {
   const token = await SecureStore.getItemAsync('Bearer');
-  // console.log('token from secure store', token)
   if (token) {
     request.headers.authorization = `jwt ${token.slice(0, -1)}`;
   };
-  console.log('request header: ', request.headers);
   return request;
 });
 

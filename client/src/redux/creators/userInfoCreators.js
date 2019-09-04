@@ -9,6 +9,8 @@ export const GET_FBUSER_INFO = 'GOT_USER_INFO';
 
 export const SET_BEARER_TOKEN = 'SET_BEARER_TOKEN';
 
+export const GET_USER_PROFILE = 'USER_PROFILE';
+
 export const setBearerToken = (token) => ({
   type: SET_BEARER_TOKEN,
   token,
@@ -19,6 +21,11 @@ export const getFbUserInfo = (name, pictureUrl) => ({
   type: GET_FBUSER_INFO,
   name,
   pictureUrl,
+});
+
+export const getUserProfile = (user) => ({
+  type: GET_USER_PROFILE,
+  user,
 });
 
 // fbLoginThunk
@@ -71,7 +78,7 @@ export const retrieveToken = () => async dispatch => {
 export const getUserInfo = () => async dispatch => {
   try {
     const userProfile = await serverApi.get('/user/profile')
-    console.log(userProfile.data);
+    dispatch(getUserProfile(userProfile.data)); 
   } catch (e) {
     console.log(e)
   };

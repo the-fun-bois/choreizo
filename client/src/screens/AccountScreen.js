@@ -7,12 +7,12 @@ import {
   Platform,
   StatusBar,
   SafeAreaView,
-  TouchableOpacity,
 } from 'react-native';
 import { getUserInfo } from '../redux/creators';
 import theme from '../styles/theme.style';
 
-const AccountScreen = ({ getUser }) => {
+const AccountScreen = ({ getUser, userInfo }) => {
+  if (!userInfo.email) getUser();
   return (
     <SafeAreaView>
       <View style={styles.mainContainer}>
@@ -21,9 +21,6 @@ const AccountScreen = ({ getUser }) => {
         </View>
       </View>
       <View style={styles.infoContainer}>
-        <TouchableOpacity onPress={() => getUser()}>
-          <Text> I am button </Text>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -47,9 +44,7 @@ const styles = StyleSheet.create({
 const mapState = ({ userInfo }) => ({ userInfo });
 const mapDispatchToState = dispatch => {
   return {
-    getUser: () => {
-      dispatch(getUserInfo());
-    }
+    getUser: () => dispatch(getUserInfo()),
   }
 }
 export default connect(mapState, mapDispatchToState)(AccountScreen);
