@@ -5,16 +5,6 @@ const ExtractJWT = require('passport-jwt').ExtractJwt;
 const auth = require('./auth');
 const { User } = require('../database/index');
 
-// passport.serializeUser((user, done) => {
-//   done(null, user.id);
-// });
-
-// passport.deserializeUser((id, done) => {
-//   User.findByPk(id).then(user => {
-//     done(null, user);
-//   });
-// });
-
 passport.use(
   new GoogleStrategy({
     clientID: auth.googleAuth.clientID,
@@ -45,7 +35,6 @@ passport.use(
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
     secretOrKey: auth.secret,
   }, (jwtPayload, done) => {
-    console.log('payload', jwtPayload);
     User.findByPk(jwtPayload.id)
       .then(user => {
         return done(null, user)

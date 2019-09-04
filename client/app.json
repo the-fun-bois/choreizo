@@ -9,7 +9,6 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "choresapp",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -22,8 +21,5 @@
     "ios": {
       "supportsTablet": true
     },
-    "android": {
-      "package": "com.fsacapstone.choresapp"
-    }
   }
 }
