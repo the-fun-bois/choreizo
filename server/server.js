@@ -1,7 +1,6 @@
 require('./config/passportConf');
 const express = require('express');
 const morgan = require('morgan');
-const cookieSession = require('cookie-session');
 const passport = require('passport');
 const path = require('path');
 const chalk = require('chalk');
@@ -16,14 +15,7 @@ app.use(morgan(morganMode));
 
 app.use(express.json());
 
-app.use(cookieSession({
-  maxAge: 24 * 60 * 60 * 1000,
-  keys: [auth.session.cookieKey]
-}));
-
 app.use(passport.initialize());
-
-app.use(passport.session());
 
 if (process.env.NODE_ENV === 'development') {
   app.use(express.urlencoded({ extended: false }));

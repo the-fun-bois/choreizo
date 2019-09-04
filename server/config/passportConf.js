@@ -3,16 +3,6 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const auth = require('./auth');
 const { User } = require('../database/index');
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser((id, done) => {
-  User.findByPk(id).then(user => {
-    done(null, user);
-  });
-});
-
 passport.use(
   new GoogleStrategy({
     clientID: auth.googleAuth.clientID,
