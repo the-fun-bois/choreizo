@@ -1,9 +1,18 @@
 import axios from 'axios';
 import * as Facebook from 'expo-facebook';
 import { navigate } from '../../nav/navJumpAsync';
+import serverApi from '../../api/serverApi';
+import * as SecureStore from 'expo-secure-store';
 
 // action constants
 export const GET_FBUSER_INFO = 'GOT_USER_INFO';
+
+export const SET_BEARER_TOKEN = 'SET_BEARER_TOKEN';
+
+export const setBearerToken = (token) => ({
+  type: SET_BEARER_TOKEN,
+  token,
+});
 
 // action creators
 export const getFbUserInfo = (name, pictureUrl) => ({
@@ -36,4 +45,25 @@ export const fbLogin = () => dispatch => {
     .catch(err => {
       Alert.alert(`Facebook Login Error: ${err}`);
     });
+};
+
+export const getBearerToken = (token) => async dispatch => {
+  try {
+    await SecureStore.setItemAsync('Bearer', token);
+    dispatch(setBearerToken(token));
+  } catch (e) {
+    console.log(e)
+  };
+};
+
+export const retrieveToken = () => async dispatch => {
+  try {
+    const token = await SecureStore.getItemAsync('Bearer');
+    if(token) {
+      dispatch(setBearerToken(token.slice(0, -1)));
+      navigate('Home');
+    };
+  } catch (e) {
+    console.log(e);
+  };
 };
