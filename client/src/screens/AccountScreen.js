@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
   View,
   Text,
@@ -6,17 +7,23 @@ import {
   Platform,
   StatusBar,
   SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
-
+import { getUserInfo } from '../redux/creators';
 import theme from '../styles/theme.style';
 
-const AccountScreen = () => {
+const AccountScreen = ({ getUser }) => {
   return (
     <SafeAreaView>
       <View style={styles.mainContainer}>
-        <View>
+        <View style={styles.infoContainer}>
           <Text>Account Screen</Text>
         </View>
+      </View>
+      <View style={styles.infoContainer}>
+        <TouchableOpacity onPress={() => getUser()}>
+          <Text> I am button </Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -24,8 +31,25 @@ const AccountScreen = () => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: '50%',
+    backgroundColor: theme.PRIMARY_COLOR,
   },
+  infoContainer: {
+    fontSize: theme.FONT_SIZE_HEADING,
+    height: '50%',
+
+  }
 });
 
-export default AccountScreen;
+const mapState = ({ userInfo }) => ({ userInfo });
+const mapDispatchToState = dispatch => {
+  return {
+    getUser: () => {
+      dispatch(getUserInfo());
+    }
+  }
+}
+export default connect(mapState, mapDispatchToState)(AccountScreen);

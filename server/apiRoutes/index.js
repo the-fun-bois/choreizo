@@ -9,12 +9,14 @@ const transferChoreRoutes = require('./transferChoreRoutes');
 const adminRoutes = require('./adminRoutes');
 const choresRoutes = require('./choresRoutes');
 const authenticationRoutes = require('./authRoutes');
+const userRoutes = require('./userRoutes');
 
 // set api routes here
 
 apiRoutes.use('/auth', authenticationRoutes);
 apiRoutes.use('*', require('../config/verify'));
 
+apiRoutes.use('/user', userRoutes);
 apiRoutes.use('/trade_chore', tradeChoreRoutes);
 apiRoutes.use('/swap_chore', swapChoreRoutes);
 apiRoutes.use('/transfer_chore', transferChoreRoutes);

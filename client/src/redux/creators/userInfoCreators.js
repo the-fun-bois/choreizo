@@ -67,3 +67,12 @@ export const retrieveToken = () => async dispatch => {
     console.log(e);
   };
 };
+
+export const getUserInfo = () => async dispatch => {
+  try {
+    const userProfile = await serverApi.get('/user/profile')
+    console.log(userProfile.data);
+  } catch (e) {
+    console.log(e)
+  };
+};
