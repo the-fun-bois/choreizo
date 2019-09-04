@@ -10,5 +10,5 @@ module.exports = {
     'clientSecret': process.env.GOOGLE_CLIENT_SECRET  || "Test Session",
     'callbackURL': process.env.GOOGLE_CALLBACK_URL  || "/auth/google/redirect",
   },
-  secret: process.env.secret || 'capstone1',
+  secret: process.env.SECRET_KEY || 'capstone1',
 };
