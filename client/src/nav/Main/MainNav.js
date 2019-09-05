@@ -4,7 +4,6 @@ import GroupInfoScreen from './../../screens/GroupInfoScreen';
 import ChoreHistoryScreen from './../../screens/ChoreHistoryScreen';
 import SettingsScreen from './../../screens/SettingsScreen';
 
-console.log('main stack');
 const MainStack = createStackNavigator({
   Drawer: { screen: HamburgerNav, navigationOptions: { header: null } },
   // *** add hamburger nav links here:

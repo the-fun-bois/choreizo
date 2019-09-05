@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
 import { Button } from 'native-base';
 import { connect } from 'react-redux';
+import { getUserInfo } from './../redux/creators';
 
 const HomeScreen = props => {
-  const { userInfo, navigation } = props;
+  const { userInfo, navigation, getUser } = props;
+
+  // updateUserState()
+  // get group id
+  // get other users' info
+  // get own info
+  // get own pending assigned chores
+  // get market chores
+  // get all chores / assigned chores if user is admin
+
+  useEffect(() => {
+    getUser();
+  }, [userInfo.email]);
   return (
     <View style={styles.mainContainer}>
       <View>
@@ -28,4 +41,12 @@ const styles = StyleSheet.create({
 });
 
 const mapState = ({ userInfo }) => ({ userInfo });
-export default connect(mapState)(HomeScreen);
+const mapDispatch = dispatch => {
+  return {
+    getUser: () => dispatch(getUserInfo()),
+  };
+};
+export default connect(
+  mapState,
+  mapDispatch,
+)(HomeScreen);

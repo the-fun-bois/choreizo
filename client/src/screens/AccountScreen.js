@@ -29,13 +29,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapState = ({ userInfo }) => ({ userInfo });
-const mapDispatchToState = dispatch => {
-  return {
-    getUser: () => dispatch(getUserInfo()),
-  };
-};
-export default connect(
-  mapState,
-  mapDispatchToState,
-)(AccountScreen);
+// const mapState = ({ userInfo }) => ({ userInfo });
+// const mapDispatchToState = dispatch => {
+//   return {
+//     getUser: () => dispatch(getUserInfo()),
+//   };
+// };
+// export default connect(
+//   mapState,
+//   mapDispatchToState,
+// )(AccountScreen);
+
+export default AccountScreen;
