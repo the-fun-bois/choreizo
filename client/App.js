@@ -4,7 +4,7 @@ import {
   createSwitchNavigator,
   SafeAreaView,
 } from 'react-navigation';
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 import * as Font from 'expo-font';
 import store from './src/redux';
@@ -27,11 +27,11 @@ const RootSwitch = createSwitchNavigator(
     // Home: HomeScreen,
   },
   {
-    initialRouteName: INITIAL_SCREEN,
+    initialRouteName: INITIAL_SCREEN || 'Login',
     defaultNavigationOptions: {
       header: null,
     },
-  }
+  },
 );
 
 const Navigation = createAppContainer(RootSwitch);

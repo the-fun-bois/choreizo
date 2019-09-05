@@ -7,13 +7,10 @@ const initialState = {
   name: '',
   pictureUrl: '',
   isSignedIn: false,
-<<<<<<< HEAD
   firstName: '',
   surName: '',
   email: '',
   token: '',
-=======
->>>>>>> d8a63f19a0245c80aaf303199c45fd1eafe78c54
   chores: {},
 };
 
@@ -27,7 +24,6 @@ export default userInfoReducer = (state = initialState, action) => {
         isSignedIn: true,
       };
     }
-<<<<<<< HEAD
     case SET_BEARER_TOKEN:
       return {
         ...state,
@@ -41,8 +37,6 @@ export default userInfoReducer = (state = initialState, action) => {
         firstName: action.user.firstName,
         surName: action.user.surName,
       };
-=======
->>>>>>> d8a63f19a0245c80aaf303199c45fd1eafe78c54
     case GET_USER_CHORES: {
       return {
         ...state,

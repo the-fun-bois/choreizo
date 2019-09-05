@@ -59,7 +59,7 @@ export const fbLogin = () => dispatch => {
         // Get the user's name using Facebook's Graph API
         axios
           .get(
-            `https://graph.facebook.com/me?fields=name,email,hometown,picture&access_token=${token}`
+            `https://graph.facebook.com/me?fields=name,email,hometown,picture&access_token=${token}`,
           )
           .then(result => result.data)
           .then(data => {
@@ -105,3 +105,5 @@ export const getUserInfo = () => async dispatch => {
     navigate('Login');
   }
 };
+
+export const logout = () => async dispatch => {};
