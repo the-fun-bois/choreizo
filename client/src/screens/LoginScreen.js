@@ -1,6 +1,13 @@
 import React from 'react';
-import { REACT_ENV } from 'react-native-dotenv';
-import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
+import { REACT_ENV, SERVER_URL } from 'react-native-dotenv';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Platform,
+  StatusBar,
+  Linking,
+} from 'react-native';
 import { Button } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import theme from './../styles/theme.style';
@@ -33,7 +40,7 @@ const LoginScreen = ({
           Linking.getInitialURL().then(url => {
             const [protocol, domain] = url.split('://');
             Linking.openURL(
-              `${SERVER_URL}/api/auth/google?protocol=${protocol}&domain=${domain}`
+              `${SERVER_URL}/api/auth/google?protocol=${protocol}&domain=${domain}`,
             );
           });
         }}
@@ -106,5 +113,5 @@ const mapDispatchToState = dispatch => {
 
 export default connect(
   mapState,
-  mapDispatchToState
+  mapDispatchToState,
 )(LoginScreen);

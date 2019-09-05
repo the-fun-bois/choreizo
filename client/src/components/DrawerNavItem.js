@@ -31,7 +31,7 @@ const DrawerNavItem = ({
       style={styles.navItemContainer}
       onPress={() => {
         if (custonOnPress) {
-          custonOnPress();
+          custonOnPress(navigation);
         } else {
           console.log('clicked');
           navigation.navigate(navLink);

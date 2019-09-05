@@ -1,20 +1,33 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import theme from './../styles/theme.style';
 import DrawerNavItem from './DrawerNavItem';
-const Logout = () => {
+import { logoutCreator } from './../redux/creators';
+import { connect } from 'react-redux';
+import * as SecureStore from 'expo-secure-store';
+import { navigate } from './../nav/navJumpAsync';
+const Logout = ({ logout }) => {
   return (
     <DrawerNavItem
       iconPack="MaterialCommunityIcons"
       iconName="logout"
       title="Log Out"
       iconSize={theme.ICON_SIZE_MEDIUM}
-      custonOnPress={() => {
-        console.log('custom on press logout');
+      custonOnPress={navigation => {
+        logout(navigation);
       }}
     />
   );
 };
 
-export default Logout;
+const mapDispatch = dispatch => ({
+  logout: async () => {
+    await SecureStore.deleteItemAsync('Bearer');
+    dispatch(logoutCreator());
+    navigate('Login');
+  },
+});
+
+export default connect(
+  null,
+  mapDispatch,
+)(Logout);

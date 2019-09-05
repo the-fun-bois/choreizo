@@ -17,9 +17,9 @@ import { EvilIcons } from '@expo/vector-icons';
 const DrawerComponent = props => {
   return (
     <ScrollView style={{ flex: 1 }}>
-      <SafeAreaView
+      <View
         forceInset={{ top: 'always', horizontal: 'never' }}
-        style={[styles.safeView]}
+        style={styles.mainContainer}
       >
         {/* user name header */}
         <View style={styles.headingContainer}>
@@ -62,7 +62,7 @@ const DrawerComponent = props => {
         <View style={styles.logoutContainer}>
           <Logout />
         </View>
-      </SafeAreaView>
+      </View>
     </ScrollView>
   );
 };
@@ -70,13 +70,12 @@ const windowHeight = Dimensions.get('window').height;
 const menuPaddingLeft = 10;
 const menuGroupVerticalMargin = 2.5;
 const styles = StyleSheet.create({
-  safeView: {
-    height: windowHeight,
-    paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
+  mainContainer: {
+    height: windowHeight - StatusBar.currentHeight,
+    // paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
     backgroundColor: theme.SECONDARY_COLOR,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    paddingBottom: 10,
   },
   headingContainer: {
     marginTop: 0,

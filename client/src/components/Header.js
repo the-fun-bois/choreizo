@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
     backgroundColor: theme.PRIMARY_COLOR,
   },
   headerText: {

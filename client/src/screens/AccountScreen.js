@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
 import theme from '../styles/theme.style';
+import { connect } from 'react-redux';
+import { getUserInfo } from './../redux/creators';
 
 const AccountScreen = ({ getUser, userInfo }) => {
   if (!userInfo.email) getUser();
@@ -35,5 +37,5 @@ const mapDispatchToState = dispatch => {
 };
 export default connect(
   mapState,
-  mapDispatchToState
+  mapDispatchToState,
 )(AccountScreen);
