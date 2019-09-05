@@ -105,5 +105,3 @@ export const getUserInfo = () => async dispatch => {
     navigate('Login');
   }
 };
-
-export const logout = () => async dispatch => {};

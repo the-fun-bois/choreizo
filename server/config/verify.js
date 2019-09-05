@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
     try {
       const token = req.headers.authorization.split(' ');
       const decoded = jwt.verify(token[1], auth.secret);
-      req.body.user = decoded;
+      req.body.userId = decoded.id;
     } catch (err) {
       res.sendStatus(401);
     };
