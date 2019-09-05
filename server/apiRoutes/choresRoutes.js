@@ -1,7 +1,8 @@
 const router = require('express').Router();
 const { AssignedChore, Chore, UserGroup } = require('../database/index');
-const { choreIncludeParamsAccepted } = require('./utils/choreUtils');
-
+const { createChoreIncludeParamsForMarket } = require('./utils/choreUtils');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 //assumes only UserId is coming in for each route
 
 /*
@@ -36,6 +37,35 @@ router.post('/personal_chore_history', (req, res, next) => {
     where: { userId, status: 'completed' },
   })
     .then(response => res.send(response))
+    .catch(next);
+});
+
+router.post('/market_chores', (req, res, next) => {
+  const { userId, groupId } = req.body;
+  const includeParams = [{ model: Chore, where: { groupId } }].concat(
+    createChoreIncludeParamsForMarket(userId),
+  );
+  AssignedChore.findAll({
+    where: { status: 'pending' },
+    include: includeParams,
+  })
+    .then(allAssignedChores => {
+      const marketChores = allAssignedChores.filter(chore => {
+        const {
+          tradeChore,
+          transferChore,
+          swapAssignedChore1,
+          swapAssignedChore2,
+        } = chore;
+        return (
+          tradeChore ||
+          transferChore ||
+          swapAssignedChore1 ||
+          swapAssignedChore2
+        );
+      });
+      res.status(200).send(marketChores);
+    })
     .catch(next);
 });
 
