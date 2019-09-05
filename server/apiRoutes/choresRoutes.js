@@ -18,6 +18,7 @@ router.post('/all_personal_chores', async (req, res, next) => {
   for (let i = 0; i < group.length; i++) {
     const test = await AssignedChore.findAll({
       where: { userId, status: 'pending' },
+      include: [{ model: Chore }],
     });
     chores[group[i].groupId] = test;
   }

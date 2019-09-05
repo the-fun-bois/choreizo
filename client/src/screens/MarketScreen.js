@@ -1,24 +1,15 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Platform,
-  StatusBar,
-  SafeAreaView,
-} from 'react-native';
+import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
 
 import theme from './../styles/theme.style';
 
 const MarketScreen = () => {
   return (
-    <SafeAreaView>
-      <View style={styles.mainContainer}>
-        <View>
-          <Text>Market Screen</Text>
-        </View>
+    <View style={styles.mainContainer}>
+      <View>
+        <Text>Market Screen</Text>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
