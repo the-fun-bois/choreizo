@@ -1,23 +1,22 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Platform,
-  StatusBar,
-  SafeAreaView,
-} from 'react-native';
+import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
+import { Button } from 'native-base';
 import { connect } from 'react-redux';
 
 const HomeScreen = props => {
-  const { userInfo } = props;
+  const { userInfo, navigation } = props;
   return (
-    <SafeAreaView>
-      <View style={styles.mainContainer}>
+    <View style={styles.mainContainer}>
+      <View>
         <Text>Home Screen</Text>
-        <Text>Welcome {userInfo.name}</Text>
+        {/* <Text>Welcome {userInfo.name}</Text> */}
       </View>
-    </SafeAreaView>
+      <View>
+        <Button onPress={() => navigation.navigate('Chores')}>
+          <Text>Chores</Text>
+        </Button>
+      </View>
+    </View>
   );
 };
 

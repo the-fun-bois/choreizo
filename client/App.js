@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import {
+  createAppContainer,
+  createSwitchNavigator,
+  SafeAreaView,
+} from 'react-navigation';
+import { StyleSheet, Platform } from 'react-native';
 import { Provider } from 'react-redux';
 import * as Font from 'expo-font';
 import store from './src/redux';
@@ -18,13 +23,15 @@ const RootSwitch = createSwitchNavigator(
     Login: LoginScreen,
     Theme: ThemeScreen,
     Main: MainNav,
+    // Testing bc it's not navigating away
+    // Home: HomeScreen,
   },
   {
-    initialRouteName: INITIAL_SCREEN,
+    initialRouteName: 'Main',
     defaultNavigationOptions: {
       header: null,
     },
-  },
+  }
 );
 
 const Navigation = createAppContainer(RootSwitch);
@@ -49,10 +56,19 @@ class App extends Component {
     }
     return (
       <Provider store={store}>
-        <Navigation ref={navigator => setNavigator(navigator)} />
+        <SafeAreaView style={styles.mainContainer}>
+          <Navigation ref={navigator => setNavigator(navigator)} />
+        </SafeAreaView>
       </Provider>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
+    flex: 1,
+  },
+});
 
 export default App;
