@@ -77,6 +77,9 @@ export const fbLogin = () => dispatch => {
 export const getBearerToken = token => async dispatch => {
   try {
     await SecureStore.setItemAsync('Bearer', token);
+    /*
+    Save the token to secure storage with the key 'Bearer' 
+    */
     dispatch(setBearerToken(token));
   } catch (e) {
     console.log(e);
