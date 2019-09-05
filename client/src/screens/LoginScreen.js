@@ -21,6 +21,10 @@ const LoginScreen = ({
   getToken,
   handleAuthRedirect,
 }) => {
+  /*
+    Grab token from secure store, create an event listener
+    for redirects back to the app.
+  */
   getToken();
   Linking.addEventListener('url', handleAuthRedirect);
   return (
@@ -37,6 +41,9 @@ const LoginScreen = ({
       <Button
         style={styles.googleButtonContainer}
         onPress={() => {
+          /*
+          Send appUrl as query string to the server.
+          */
           Linking.getInitialURL().then(url => {
             const [protocol, domain] = url.split('://');
             Linking.openURL(
@@ -105,6 +112,9 @@ const mapDispatchToState = dispatch => {
     fbLoginDisp: () => dispatch(fbLogin()),
     getToken: () => dispatch(retrieveToken()),
     handleAuthRedirect: ({ url }) => {
+      /*
+      Dispatch getBearerToken after successful authentication
+      */
       const bearerToken = url.split('?')[1];
       if (bearerToken) dispatch(getBearerToken(bearerToken));
     },
