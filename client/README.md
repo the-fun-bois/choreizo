@@ -18,3 +18,8 @@ const {IconMaker} = require(@expo/vector-icons)
 
 create a vector component
 <IconMaker name="name-of-icon" size={32} color="green" />
+
+to run react native debugger for expo:
+open "rndebugger://set-debugger-loc?host=localhost&port=19001"
+
+then enable remote js debugging in the app
