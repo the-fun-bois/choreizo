@@ -1,7 +1,7 @@
 import { SET_BEARER_TOKEN, GET_USER_PROFILE } from '../creators';
 
 // this is just a place holder
-const { GET_FBUSER_INFO } = require('./../creators');
+const { GET_FBUSER_INFO, GET_USER_CHORES } = require('./../creators');
 
 const initialState = {
   name: '',
@@ -11,6 +11,7 @@ const initialState = {
   surName: '',
   email: '',
   token: '',
+  chores: {},
 };
 
 export default userInfoReducer = (state = initialState, action) => {
@@ -27,7 +28,7 @@ export default userInfoReducer = (state = initialState, action) => {
       return {
         ...state,
         token: action.token,
-      }
+      };
     case GET_USER_PROFILE:
       return {
         ...state,
@@ -35,7 +36,13 @@ export default userInfoReducer = (state = initialState, action) => {
         email: action.user.email,
         firstName: action.user.firstName,
         surName: action.user.surName,
-      }
+      };
+    case GET_USER_CHORES: {
+      return {
+        ...state,
+        chores: action.chores,
+      };
+    }
     default:
       return state;
   }

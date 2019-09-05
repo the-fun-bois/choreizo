@@ -57,7 +57,7 @@ const BottomTabNav = createBottomTabNavigator(
         backgroundColor: theme.PRIMARY_COLOR,
       },
     },
-  },
+  }
 );
 
 export default BottomTabNav;
