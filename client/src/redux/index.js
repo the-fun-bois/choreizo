@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import { REACT_ENV } from 'react-native-dotenv';
 import rootReducer from './rootReducer';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 const middleWare = [];
 if (REACT_ENV !== 'production') {
@@ -10,5 +11,8 @@ if (REACT_ENV !== 'production') {
 }
 middleWare.push(thunk);
 
-const store = createStore(rootReducer, applyMiddleware(...middleWare));
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(...middleWare)),
+);
 export default store;
