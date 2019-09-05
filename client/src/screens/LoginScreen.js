@@ -1,14 +1,6 @@
 import React from 'react';
-import { REACT_ENV, SERVER_URL } from 'react-native-dotenv';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Platform,
-  StatusBar,
-  Linking,
-} from 'react-native';
-
+import { REACT_ENV } from 'react-native-dotenv';
+import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
 import { Button } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import theme from './../styles/theme.style';
@@ -25,7 +17,7 @@ const LoginScreen = ({
   getToken();
   Linking.addEventListener('url', handleAuthRedirect);
   return (
-    <View style={styles.mainContainer}>
+    <View>
       <Text style={styles.loginText}>Login Screen</Text>
       {REACT_ENV === 'development' ? (
         <Button

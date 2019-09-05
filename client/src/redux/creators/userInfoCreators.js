@@ -40,9 +40,8 @@ export const fetchChores = () => dispatch => {
     .post('/chores/all_personal_chores', {
       userId: 2,
     })
-    .then(result => {
-      console.log('SHOULD BE HI', result.data);
-      dispatch(getUserChores);
+    .then(({ data }) => {
+      dispatch(getUserChores(data));
     })
     .catch(err => {
       console.log('Cannot fetch chores', err.response);

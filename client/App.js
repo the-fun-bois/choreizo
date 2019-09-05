@@ -27,7 +27,7 @@ const RootSwitch = createSwitchNavigator(
     // Home: HomeScreen,
   },
   {
-    initialRouteName: INITIAL_SCREEN,
+    initialRouteName: 'Main',
     defaultNavigationOptions: {
       header: null,
     },

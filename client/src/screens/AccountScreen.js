@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
-import { connect } from 'react-redux';
 import theme from '../styles/theme.style';
 
 const AccountScreen = ({ getUser, userInfo }) => {
