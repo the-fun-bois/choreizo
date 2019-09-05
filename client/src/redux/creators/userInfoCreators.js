@@ -1,8 +1,6 @@
-import axios from 'axios';
 import serverApi from '../../api/serverApi';
 import * as Facebook from 'expo-facebook';
 import { navigate } from '../../nav/navJumpAsync';
-import serverApi from '../../api/serverApi';
 import * as SecureStore from 'expo-secure-store';
 
 // action constants
@@ -43,7 +41,7 @@ export const fetchChores = () => dispatch => {
       userId: 2,
     })
     .then(result => {
-      console.log(result);
+      console.log('SHOULD BE HI', result.data);
       dispatch(getUserChores);
     })
     .catch(err => {
