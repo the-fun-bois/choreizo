@@ -7,6 +7,9 @@ const {
   EthereumWallet,
   UserGroup,
   AssignedChore,
+  SwapChore,
+  TradeChore,
+  TransferChore,
 } = require('./../');
 
 const usersSeed = require('./data/usersSeed');
@@ -55,19 +58,45 @@ const seed = async () => {
       );
       console.log('assigning chores');
       const totalUsers = users.length;
+      const assignedChores = [];
       let currentUser = 0;
       for (let choreIdx = 0; choreIdx < groupChores.length; choreIdx++) {
         // rotate back to first user
         if (currentUser >= totalUsers) {
           currentUser = 0;
         }
-        await AssignedChore.create({
+        const currentAc = await AssignedChore.create({
           choreId: groupChores[choreIdx].id,
           userId: users[currentUser].id,
         });
+        assignedChores.push(currentAc);
+        if (choreIdx === 0) {
+          continue;
+        } else if (choreIdx === 1) {
+          console.log('creating swap');
+          await SwapChore.create({
+            user1Id: users[0].id,
+            user2Id: users[1].id,
+            swapChore1Id: assignedChores[0].id,
+            swapChore2Id: assignedChores[1].id,
+          });
+        } else if (choreIdx === 2) {
+          await TradeChore.create({
+            originalOwnerId: users[currentUser].id,
+            assignedChoreId: assignedChores[choreIdx].id,
+            tradeTerms: '24 pack',
+          });
+        } else if (choreIdx === 3) {
+          await TransferChore.create({
+            originalOwnerId: users[currentUser].id,
+            assignedChoreId: assignedChores[choreIdx].id,
+            price: 0.25,
+          });
+        }
         currentUser += 1;
       }
     }
+
     console.log('**********');
   } catch (e) {
     console.error(e);
