@@ -3,23 +3,14 @@ import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
 import { Button } from 'native-base';
 import { connect } from 'react-redux';
 import { getUserInfo } from './../redux/creators';
+import GetAllInfoFromServer from './../components/GetAllInfoFromServer';
 
 const HomeScreen = props => {
-  const { userInfo, navigation, getUser } = props;
-  // updateUserState()
-  // get group id
-  // get other users' info
-  // get own info
-  // get own pending assigned chores
-  // get market chores
-  // get all chores / assigned chores if user is admin
-
-  useEffect(() => {
-    getUser();
-  }, []);
-
+  const { userInfo, navigation } = props;
   return (
     <View style={styles.mainContainer}>
+      {/* empty component that runs all the redux thunks */}
+      <GetAllInfoFromServer />
       <View>
         <Text>Home Screen</Text>
         {/* <Text>Welcome {userInfo.name}</Text> */}

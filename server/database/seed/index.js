@@ -77,8 +77,8 @@ const seed = async () => {
           await SwapChore.create({
             user1Id: users[0].id,
             user2Id: users[1].id,
-            swapChore1Id: assignedChores[0].id,
-            swapChore2Id: assignedChores[1].id,
+            swapAssignedChore1Id: assignedChores[0].id,
+            swapAssignedChore2Id: assignedChores[1].id,
           });
         } else if (choreIdx === 2) {
           await TradeChore.create({
