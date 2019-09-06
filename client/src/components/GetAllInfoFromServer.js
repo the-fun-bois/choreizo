@@ -7,7 +7,8 @@ import {
   getMarketChoresThunk,
 } from './../redux/creators';
 
-const GetAllInfoFromServer = () => {
+const GetAllInfoFromServer = ({ userInfo }) => {
+
   // get user info
   // then get user chores
   // then get market chores
