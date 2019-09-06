@@ -79,7 +79,7 @@ export const getUserInfo = () => async dispatch => {
     if (!userProfile.data.email) throw new Error('Auth error');
     dispatch(getUserProfile(userProfile.data));
   } catch (e) {
-    console.log(e);
+    console.log('error getting user info \n', e);
     // navigate('Login');
   }
 };
