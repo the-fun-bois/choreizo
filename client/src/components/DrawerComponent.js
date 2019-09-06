@@ -71,7 +71,11 @@ const menuPaddingLeft = 10;
 const menuGroupVerticalMargin = 2.5;
 const styles = StyleSheet.create({
   mainContainer: {
-    height: windowHeight - StatusBar.currentHeight,
+    // should subtract 44 if iphone X lol otherwise 20 is known height for iphone stat bar
+    height:
+      Platform.OS === 'ios'
+        ? windowHeight - 20
+        : windowHeight - StatusBar.currentHeight,
     // paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
     backgroundColor: theme.SECONDARY_COLOR,
     alignItems: 'flex-start',

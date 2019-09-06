@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
       req.body.userId = decoded.id;
     } catch (err) {
       res.sendStatus(401);
-    };
+    }
     next();
-  };
+  }
 };

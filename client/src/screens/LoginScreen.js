@@ -47,7 +47,7 @@ const LoginScreen = ({
           Linking.getInitialURL().then(url => {
             const [protocol, domain] = url.split('://');
             Linking.openURL(
-              `${SERVER_URL}/api/auth/google?protocol=${protocol}&domain=${domain}`,
+              `${SERVER_URL}/api/auth/google?protocol=${protocol}&domain=${domain}`
             );
           });
         }}
@@ -55,7 +55,17 @@ const LoginScreen = ({
         <AntDesign name="google" style={styles.iconStyle} />
         <Text style={styles.buttonText}>Login With Google</Text>
       </Button>
-      <Button style={styles.fbButtonContainer} onPress={() => fbLoginDisp()}>
+      <Button
+        style={styles.fbButtonContainer}
+        onPress={() => {
+          Linking.getInitialURL().then(url => {
+            const [protocol, domain] = url.split('://');
+            Linking.openURL(
+              `${SERVER_URL}/api/auth/facebook?protocol=${protocol}&domain=${domain}`
+            );
+          });
+        }}
+      >
         <AntDesign name="facebook-square" style={styles.iconStyle} />
         <Text style={styles.buttonText}>Login With Facebook</Text>
       </Button>
@@ -123,5 +133,5 @@ const mapDispatchToState = dispatch => {
 
 export default connect(
   mapState,
-  mapDispatchToState,
+  mapDispatchToState
 )(LoginScreen);
