@@ -13,10 +13,10 @@ const HomeScreen = props => {
   // get own pending assigned chores
   // get market chores
   // get all chores / assigned chores if user is admin
-  // useEffect(() => {
-  //   getUser();
-  // }, [userInfo.token]);
-  getUser();
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <View style={styles.mainContainer}>

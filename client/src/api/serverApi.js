@@ -15,11 +15,15 @@ const serverApi = axios.create({
 });
 
 serverApi.interceptors.request.use(async request => {
-  const token = await SecureStore.getItemAsync('Bearer');
-  if (token) {
-    request.headers.authorization = `jwt ${token.slice(0, -1)}`;
+  try {
+    const token = await SecureStore.getItemAsync('Bearer');
+    if (token) {
+      request.headers.authorization = `jwt ${token.slice(0, -1)}`;
+    }
+    return request;
+  } catch (e) {
+    throw new Error('error retrieving token');
   }
-  return request;
 });
 
 export default serverApi;

@@ -1,11 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
 import theme from '../styles/theme.style';
-import { connect } from 'react-redux';
-import { getUserInfo } from './../redux/creators';
 
-const AccountScreen = ({ getUser, userInfo }) => {
-  // if (!userInfo.email) getUser();
+const AccountScreen = () => {
   return (
     <View style={styles.mainContainer}>
       <View>
@@ -29,15 +26,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapState = ({ userInfo }) => ({ userInfo });
-const mapDispatchToState = dispatch => {
-  return {
-    getUser: () => dispatch(getUserInfo()),
-  };
-};
-export default connect(
-  mapState,
-  mapDispatchToState,
-)(AccountScreen);
-
-// export default AccountScreen;
+export default AccountScreen;

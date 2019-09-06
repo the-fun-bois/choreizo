@@ -4,14 +4,16 @@ import { SET_BEARER_TOKEN, GET_USER_PROFILE } from '../creators';
 const { GET_FBUSER_INFO, GET_USER_CHORES } = require('./../creators');
 
 const initialState = {
-  name: '',
+  id: '',
   pictureUrl: '',
   isSignedIn: false,
   firstName: '',
   surName: '',
   email: '',
   token: '',
-  chores: {},
+  groups: [
+    { id: '', name: '', description: '', userGroup: { userIsAdmin: false } },
+  ],
 };
 
 export default userInfoReducer = (state = initialState, action) => {
@@ -30,19 +32,8 @@ export default userInfoReducer = (state = initialState, action) => {
         token: action.token,
       };
     case GET_USER_PROFILE:
-      return {
-        ...state,
-        id: action.user.id,
-        email: action.user.email,
-        firstName: action.user.firstName,
-        surName: action.user.surName,
-      };
-    case GET_USER_CHORES: {
-      return {
-        ...state,
-        chores: action.chores,
-      };
-    }
+      return Object.assign({}, state, action.user);
+
     default:
       return state;
   }
