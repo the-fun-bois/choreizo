@@ -38,6 +38,7 @@ const LoginScreen = ({
           <Text style={styles.buttonText}>Theme Guide</Text>
         </Button>
       ) : null}
+
       <Button
         style={styles.googleButtonContainer}
         onPress={() => {
