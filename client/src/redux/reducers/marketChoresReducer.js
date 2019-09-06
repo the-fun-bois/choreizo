@@ -1,7 +1,5 @@
 import { GOT_MARKET_CHORES } from './../creators';
 
-
-
 const initialState = [
   {
     id: '',
@@ -36,13 +34,52 @@ const initialState = [
         firstName: '',
         surName: '',
         email: '',
+      },
     },
-    swapAssignedChore1: {},
-    swapAssignedChore2: {},
+    swapAssignedChore1: {
+      id: '',
+      status: '',
+      user1Id: '',
+      user2Id: '',
+      swapAssignedChore1Id: '',
+      swapAssignedChore2Id: '',
+      user1: {
+        id: '',
+        firstName: '',
+        surName: '',
+        email: '',
+      },
+      user2: {
+        id: '',
+        firstName: '',
+        surName: '',
+        email: '',
+      },
+    },
+    swapAssignedChore2: {
+      id: '',
+      status: '',
+      user1Id: '',
+      user2Id: '',
+      swapAssignedChore1Id: '',
+      swapAssignedChore2Id: '',
+      user1: {
+        id: '',
+        firstName: '',
+        surName: '',
+        email: '',
+      },
+      user2: {
+        id: '',
+        firstName: '',
+        surName: '',
+        email: '',
+      },
+    },
   },
 ];
 
-const marketChoresReducer = (state, action) => {
+const marketChoresReducer = (state = initialState, action) => {
   switch (action.type) {
     case GOT_MARKET_CHORES:
       return action.marketChores;

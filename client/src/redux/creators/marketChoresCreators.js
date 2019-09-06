@@ -8,9 +8,13 @@ export const gotMarketChores = marketChores => ({
 });
 
 export const getMarketChoresThunk = () => {
-  return dispatch => {
-    serverApi
-      .post('/chores/market_chores')
+  return (dispatch, getState) => {
+    const groupId = getState.userInfo.groups[0].id;
+    if (!groupId) {
+      return;
+    }
+    return serverApi
+      .post('/chores/market_chores', { groupId })
       .then(marketChores => {
         return dispatch(gotMarketChores(marketChores));
       })
