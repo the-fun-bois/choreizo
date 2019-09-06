@@ -8,6 +8,7 @@ import {
 } from './../redux/creators';
 
 const GetAllInfoFromServer = ({ userInfo }) => {
+
   // get user info
   // then get user chores
   // then get market chores
