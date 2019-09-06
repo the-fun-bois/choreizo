@@ -1,5 +1,4 @@
 import { SET_BEARER_TOKEN, GET_USER_PROFILE } from '../creators';
-
 // this is just a place holder
 const { GET_FBUSER_INFO, GET_USER_CHORES } = require('./../creators');
 
@@ -32,6 +31,7 @@ export default userInfoReducer = (state = initialState, action) => {
         token: action.token,
       };
     case GET_USER_PROFILE:
+      // console.log('get user profile user data', action.user);
       return Object.assign({}, state, action.user);
 
     default:
