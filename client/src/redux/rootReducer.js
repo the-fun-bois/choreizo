@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
 import userInfoReducer from './reducers/userInfoReducer';
-
+import userChoresReducer from './reducers/userChoresReducer';
 const appReducer = combineReducers({
   userInfo: userInfoReducer,
+  userChores: userChoresReducer,
 });
 
 const rootReducer = (state, action) => {
