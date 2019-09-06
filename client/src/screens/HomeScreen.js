@@ -6,7 +6,6 @@ import { getUserInfo } from './../redux/creators';
 
 const HomeScreen = props => {
   const { userInfo, navigation, getUser } = props;
-
   // updateUserState()
   // get group id
   // get other users' info
@@ -14,10 +13,11 @@ const HomeScreen = props => {
   // get own pending assigned chores
   // get market chores
   // get all chores / assigned chores if user is admin
+  // useEffect(() => {
+  //   getUser();
+  // }, [userInfo.token]);
+  getUser();
 
-  useEffect(() => {
-    getUser();
-  }, [userInfo.email]);
   return (
     <View style={styles.mainContainer}>
       <View>

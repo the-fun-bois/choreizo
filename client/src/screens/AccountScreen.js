@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getUserInfo } from './../redux/creators';
 
 const AccountScreen = ({ getUser, userInfo }) => {
-  if (!userInfo.email) getUser();
+  // if (!userInfo.email) getUser();
   return (
     <View style={styles.mainContainer}>
       <View>
@@ -29,15 +29,15 @@ const styles = StyleSheet.create({
   },
 });
 
-// const mapState = ({ userInfo }) => ({ userInfo });
-// const mapDispatchToState = dispatch => {
-//   return {
-//     getUser: () => dispatch(getUserInfo()),
-//   };
-// };
-// export default connect(
-//   mapState,
-//   mapDispatchToState,
-// )(AccountScreen);
+const mapState = ({ userInfo }) => ({ userInfo });
+const mapDispatchToState = dispatch => {
+  return {
+    getUser: () => dispatch(getUserInfo()),
+  };
+};
+export default connect(
+  mapState,
+  mapDispatchToState,
+)(AccountScreen);
 
-export default AccountScreen;
+// export default AccountScreen;
