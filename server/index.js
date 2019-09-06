@@ -8,14 +8,13 @@ db.sync({ force: DB_FORCE === 'true' }).then(() => {
   console.log('db synced');
   if (NODE_ENV !== 'production') {
     console.log(
-      chalk.red(`****  db.sync({force: ${DB_FORCE === 'true'}}) is enabled`)
+      chalk.red(`****  db.sync({force: ${DB_FORCE === 'true'}}) is enabled`),
     );
   }
   app.listen(PORT, () => {
     console.log(`
       Listening on PORT : ${PORT}
 
-      http://localhost:3000
     `);
   });
 });

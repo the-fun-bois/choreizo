@@ -3,7 +3,7 @@ const { User } = require('../database');
 
 router.get('/profile', (req, res, next) => {
   User.findByPk(req.body.userId)
-    .then(user => res.json(user))
+    .then(user => res.status(200).send(user))
     .catch(next);
 });
 

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getUserInfo } from './../redux/creators';
 
 const AccountScreen = ({ getUser, userInfo }) => {
-  if (!userInfo.email) getUser();
+  // if (!userInfo.email) getUser();
   return (
     <View style={styles.mainContainer}>
       <View>
@@ -39,3 +39,5 @@ export default connect(
   mapState,
   mapDispatchToState,
 )(AccountScreen);
+
+// export default AccountScreen;

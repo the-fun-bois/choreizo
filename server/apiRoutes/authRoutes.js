@@ -15,18 +15,22 @@ router.get('/google', (req, res) => {
     scope: ['profile', 'email'],
     state: appUrl,
   })(req, res);
-})
+});
 
-router.get('/google/redirect', passport.authenticate('google', {
-  session: false,
-}), (req, res) => {
-  const userData = {
-    id: req.user.dataValues.id,
-    email: req.user.dataValues.email,
-  };
-  /*
+router.get(
+  '/google/redirect',
+  passport.authenticate('google', {
+    session: false,
+  }),
+  (req, res) => {
+    const userData = {
+      userId: req.user.dataValues.id,
+      email: req.user.dataValues.email,
+    };
+    /*
   Create a token and sign it with the app secret 
   */
-  const token = jwt.sign(userData, auth.secret);
-  res.redirect(`${req.query.state}?${token}`);
-});
+    const token = jwt.sign(userData, auth.secret);
+    res.redirect(`${req.query.state}?${token}`);
+  },
+);
