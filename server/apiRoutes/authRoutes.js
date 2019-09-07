@@ -28,7 +28,7 @@ router.get(
       id: req.user.dataValues.id,
       email: req.user.dataValues.email,
     };
-    /*
+  /*
   Create a token and sign it with the app secret 
   */
     const token = jwt.sign(userData, auth.secret);

@@ -8,10 +8,14 @@ import axios from 'axios';
 // action constants
 export const GET_FBUSER_INFO = 'GET_USER_INFO';
 export const GET_USER_CHORES = 'GET_USER_CHORES';
-
+export const SET_BEARER_TOKEN = 'SET_BEARER_TOKEN';
 export const SET_BEARER_TOKEN_STATE = 'SET_BEARER_TOKEN_STATE';
-
 export const GET_USER_PROFILE = 'GET_USER_PROFILE';
+
+export const setBearerToken = token => ({
+  type: SET_BEARER_TOKEN,
+  token,
+});
 
 export const setBearerTokenState = (userId, token) => ({
   type: SET_BEARER_TOKEN_STATE,
@@ -77,12 +81,25 @@ export const secureStoreBearerToken = (userId, token) => async dispatch => {
   }
 };
 
+export const getBearerToken = token => async dispatch => {
+  try {
+    await SecureStore.setItemAsync('Bearer', token);
+    /*
+    Save the token to secure storage with the key 'Bearer' 
+    */
+    dispatch(setBearerToken(token));
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const retrieveToken = () => async dispatch => {
   try {
-    // get token from secureStore
     const token = await SecureStore.getItemAsync('Bearer');
-    // set token to state again
-    // dispatch(setBearerTokenState(token));
+    if (token) {
+      dispatch(setBearerToken(token.slice(0, -1)));
+      navigate('Home');
+    }
   } catch (e) {
     console.log(e);
   }
@@ -91,12 +108,9 @@ export const retrieveToken = () => async dispatch => {
 export const getUserInfo = () => async dispatch => {
   try {
     const userProfile = await serverApi.post('/user/profile');
-    // console.log('user profile data', userProfile.data);
-    if (!userProfile.data.email) throw new Error('Auth error');
-    dispatch(getUserProfile(userProfile.data));
+    if (userProfile.data.email) dispatch(getUserProfile(userProfile.data));
   } catch (e) {
     console.log('error getting user info \n', e);
-    // navigate('Login');
   }
 };
 
