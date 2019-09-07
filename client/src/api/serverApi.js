@@ -1,17 +1,17 @@
 import axios from 'axios';
-import { SERVER_URL, REACT_ENV } from 'react-native-dotenv';
+import { SERVER_URL, REACT_ENV, USER_ID } from 'react-native-dotenv';
 import * as SecureStore from 'expo-secure-store';
 
 //get the auth token from secure_store
 // console.log('server url', SERVER_URL);
-
-// const data = {};
-// if (REACT_ENV !== 'production') {
-//   data.userId = USER_ID;
-// }
+const userId = USER_ID || null;
+const data = {};
+if (REACT_ENV !== 'production' && userId) {
+  data.userId = userId;
+}
 const serverApi = axios.create({
   baseURL: SERVER_URL + '/api',
-  // data,
+  data,
 });
 
 serverApi.interceptors.request.use(async request => {
