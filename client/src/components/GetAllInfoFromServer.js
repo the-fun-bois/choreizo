@@ -7,16 +7,23 @@ import {
   getMarketChoresThunk,
 } from './../redux/creators';
 
-const GetAllInfoFromServer = ({ userInfo }) => {
-
-  // get user info
-  // then get user chores
-  // then get market chores
+const GetAllInfoFromServer = ({
+  userInfo,
+  getUserInfo,
+  getMarketChores,
+  getUserChores,
+}) => {
+  // to do:
+  // get all users in the group
+  // get all the other chores in the group for swaps
+  // admin stuff
 
   // get user info on load
   useEffect(() => {
     console.log('getting user info');
-    getUserInfo();
+    if (!userInfo.id) {
+      getUserInfo();
+    }
   }, []);
   // get user chores and market chores when group id changes
   useEffect(() => {
@@ -28,6 +35,7 @@ const GetAllInfoFromServer = ({ userInfo }) => {
     }
   }, [userInfo.groups[0].id]);
 
+  // this component does not display anything
   return null;
 };
 const mapState = ({ userInfo }) => ({ userInfo });

@@ -23,8 +23,6 @@ const RootSwitch = createSwitchNavigator(
     Login: LoginScreen,
     Theme: ThemeScreen,
     Main: MainNav,
-    // Testing bc it's not navigating away
-    // Home: HomeScreen,
   },
   {
     initialRouteName: INITIAL_SCREEN || 'Login',
