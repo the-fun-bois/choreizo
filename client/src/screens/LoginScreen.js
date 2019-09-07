@@ -59,12 +59,13 @@ const LoginScreen = ({
       <Button
         style={styles.fbButtonContainer}
         onPress={() => {
-          Linking.getInitialURL().then(url => {
-            const [protocol, domain] = url.split('://');
-            Linking.openURL(
-              `${SERVER_URL}/api/auth/facebook?protocol=${protocol}&domain=${domain}`
-            );
-          });
+          fbLoginDisp();
+          // Linking.getInitialURL().then(url => {
+          //   const [protocol, domain] = url.split('://');
+          //   Linking.openURL(
+          //     `${SERVER_URL}/api/auth/facebook?protocol=${protocol}&domain=${domain}`
+          //   );
+          // });
         }}
       >
         <AntDesign name="facebook-square" style={styles.iconStyle} />
