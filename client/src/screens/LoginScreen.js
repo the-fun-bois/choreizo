@@ -26,7 +26,7 @@ const LoginScreen = ({
     for redirects back to the app.
   */
   getToken();
-  Linking.addEventListener('url', handleAuthRedirect);
+  // Linking.addEventListener('url', handleAuthRedirect);
   return (
     <View>
       <Text style={styles.loginText}>Login Screen</Text>
@@ -38,6 +38,7 @@ const LoginScreen = ({
           <Text style={styles.buttonText}>Theme Guide</Text>
         </Button>
       ) : null}
+
       <Button
         style={styles.googleButtonContainer}
         onPress={() => {
@@ -58,12 +59,13 @@ const LoginScreen = ({
       <Button
         style={styles.fbButtonContainer}
         onPress={() => {
-          Linking.getInitialURL().then(url => {
-            const [protocol, domain] = url.split('://');
-            Linking.openURL(
-              `${SERVER_URL}/api/auth/facebook?protocol=${protocol}&domain=${domain}`
-            );
-          });
+          fbLoginDisp();
+          // Linking.getInitialURL().then(url => {
+          //   const [protocol, domain] = url.split('://');
+          //   Linking.openURL(
+          //     `${SERVER_URL}/api/auth/facebook?protocol=${protocol}&domain=${domain}`
+          //   );
+          // });
         }}
       >
         <AntDesign name="facebook-square" style={styles.iconStyle} />

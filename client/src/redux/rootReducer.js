@@ -1,8 +1,11 @@
 import { combineReducers } from 'redux';
 import userInfoReducer from './reducers/userInfoReducer';
-
+import userChoresReducer from './reducers/userChoresReducer';
+import marketChoresReducer from './reducers/marketChoresReducer';
 const appReducer = combineReducers({
   userInfo: userInfoReducer,
+  userChores: userChoresReducer,
+  marketChores: marketChoresReducer,
 });
 
 const rootReducer = (state, action) => {

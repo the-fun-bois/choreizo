@@ -1,17 +1,21 @@
-import { SET_BEARER_TOKEN, GET_USER_PROFILE } from '../creators';
-
-// this is just a place holder
-const { GET_FBUSER_INFO, GET_USER_CHORES } = require('./../creators');
+import {
+  SET_BEARER_TOKEN_STATE,
+  GET_USER_PROFILE,
+  GET_FBUSER_INFO,
+  GET_USER_CHORES,
+} from '../creators';
 
 const initialState = {
-  name: '',
+  id: '',
   pictureUrl: '',
   isSignedIn: false,
   firstName: '',
   surName: '',
   email: '',
   token: '',
-  chores: {},
+  groups: [
+    { id: '', name: '', description: '', userGroup: { userIsAdmin: false } },
+  ],
 };
 
 export default userInfoReducer = (state = initialState, action) => {
@@ -21,28 +25,20 @@ export default userInfoReducer = (state = initialState, action) => {
         ...state,
         name: action.name,
         pictureUrl: action.pictureUrl,
+        email: action.email,
         isSignedIn: true,
       };
     }
-    case SET_BEARER_TOKEN:
+    case SET_BEARER_TOKEN_STATE:
       return {
         ...state,
         token: action.token,
+        id: action.userId,
       };
     case GET_USER_PROFILE:
-      return {
-        ...state,
-        id: action.user.id,
-        email: action.user.email,
-        firstName: action.user.firstName,
-        surName: action.user.surName,
-      };
-    case GET_USER_CHORES: {
-      return {
-        ...state,
-        chores: action.chores,
-      };
-    }
+      // console.log('get user profile user data', action.user);
+      return Object.assign({}, state, action.user);
+
     default:
       return state;
   }
