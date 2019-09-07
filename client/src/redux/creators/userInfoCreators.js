@@ -73,7 +73,7 @@ export const secureStoreBearerToken = (userId, token) => async dispatch => {
     /*
     Save the token to secure storage with the key 'Bearer' 
     */
-    await SecureStore.setItemAsync('jwt', token);
+    await SecureStore.setItemAsync('Bearer', token);
     // sets token to state
     dispatch(setBearerTokenState(userId, token));
   } catch (e) {
