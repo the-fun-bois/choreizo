@@ -2,6 +2,7 @@ const router = require('express').Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const auth = require('../config/auth');
+const { User } = require('../database/index');
 
 module.exports = router;
 
@@ -65,3 +66,33 @@ router.get(
     res.redirect(`${req.query.state}?${token}`);
   }
 );
+
+// for front end fbauth method
+router.post('/facebook/token', (req, res) => {
+  // check body for id and email
+  const { email } = req.body;
+
+  // add to db if doesn't exist, otherwise return user?
+  User.findOne({
+    where: {
+      email,
+    },
+  })
+    .then(user => {
+      // eslint-disable-line
+      if (!user) {
+        return User.create({ email });
+      }
+      return user;
+    })
+    .then(user => {
+      const userDecode = {
+        id: user.id,
+        email,
+      };
+      // jwt send ... req.body contains user data id and email
+      const token = jwt.sign(userDecode, auth.secret);
+      res.send(`${user.id}-${token}`);
+    })
+    .catch(e => console.error('Couldnt create user', e));
+});

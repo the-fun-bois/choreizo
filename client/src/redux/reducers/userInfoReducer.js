@@ -1,6 +1,9 @@
-import { SET_BEARER_TOKEN, GET_USER_PROFILE } from '../creators';
-// this is just a place holder
-const { GET_FBUSER_INFO, GET_USER_CHORES } = require('./../creators');
+import {
+  SET_BEARER_TOKEN_STATE,
+  GET_USER_PROFILE,
+  GET_FBUSER_INFO,
+  GET_USER_CHORES,
+} from '../creators';
 
 const initialState = {
   id: '',
@@ -22,13 +25,15 @@ export default userInfoReducer = (state = initialState, action) => {
         ...state,
         name: action.name,
         pictureUrl: action.pictureUrl,
+        email: action.email,
         isSignedIn: true,
       };
     }
-    case SET_BEARER_TOKEN:
+    case SET_BEARER_TOKEN_STATE:
       return {
         ...state,
         token: action.token,
+        id: action.userId,
       };
     case GET_USER_PROFILE:
       // console.log('get user profile user data', action.user);
