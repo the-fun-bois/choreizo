@@ -15,7 +15,7 @@ import marketChoresReducer from '../redux/reducers/marketChoresReducer';
 import { Spinner } from 'native-base';
 
 const HomeScreen = props => {
-  const { userInfo, navigation, getToken } = props;
+  const { userInfo, userChores, marketChores, navigation } = props;
   // if there's a token in state, then do nothing, otherwise set it again via getToken
   // if (!userInfo.token) getToken();
   // console.log('TOKEN', userInfo.token);

@@ -21,11 +21,6 @@ export const setBearerTokenState = (userId, token) => ({
 
 // action creators
 
-export const getUserChores = chores => ({
-  type: GET_USER_CHORES,
-  chores,
-});
-
 export const getFbUserInfo = (name, pictureUrl, email) => ({
   type: GET_FBUSER_INFO,
   name,
@@ -66,20 +61,6 @@ export const fbLogin = () => dispatch => {
     })
     .catch(err => {
       Alert.alert(`Facebook Login Error: ${err}`);
-    });
-};
-
-// User chore thunk
-export const fetchChores = userId => dispatch => {
-  return serverApi
-    .post('/chores/all_personal_chores', {
-      userId,
-    })
-    .then(({ data }) => {
-      dispatch(getUserChores(data));
-    })
-    .catch(err => {
-      console.log('Cannot fetch chores', err.response);
     });
 };
 
