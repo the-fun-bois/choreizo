@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Group } = require('../database');
+const { User, Group, EthereumWallet } = require('../database');
 
 router.get('/profile', (req, res, next) => {
   User.findByPk(req.body.userId, { include: [Group] })
@@ -13,10 +13,8 @@ router.get('/profile', (req, res, next) => {
 });
 
 router.post('/profile', (req, res, next) => {
-  console.log('req body', req.body);
   const { userId } = req.body;
-  // console.log('reqbody', req.body);
-  User.findByPk(userId, { include: [Group] })
+  User.findByPk(userId, { include: [Group, EthereumWallet] })
     .then(user => {
       if (!user) {
         return res.status(400).send({ error: 'User not found' });
