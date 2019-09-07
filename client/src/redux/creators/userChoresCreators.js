@@ -8,14 +8,19 @@ export const gotUserChores = userChores => ({
 });
 
 export const getUserChoresThunk = () => {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const userInfo = getState().userInfo;
+    if (!userInfo.id) {
+      return;
+    }
+    const userId = userInfo.id;
     return serverApi
-      .post('/chores/all_personal_chores', { userId: 1 })
+      .post('/chores/all_personal_chores', { userId })
       .then(response => {
         const allChores = response.data;
-        // console.log('*********** all chores', allChores);
+        const groups = Object.keys(allChores);
         // grab chores from 1st group b/c we are limiting user to 1 group at the moment
-        dispatch(gotUserChores(allChores[0]));
+        dispatch(gotUserChores(allChores[groups[0]]));
       })
       .catch(e => {
         console.log('error fetching users chores', e);

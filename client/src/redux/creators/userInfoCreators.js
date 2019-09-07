@@ -75,7 +75,7 @@ export const retrieveToken = () => async dispatch => {
 
 export const getUserInfo = () => async dispatch => {
   try {
-    const userProfile = await serverApi.get('/user/profile');
+    const userProfile = await serverApi.post('/user/profile');
     // console.log('user profile data', userProfile.data);
     if (!userProfile.data.email) throw new Error('Auth error');
     dispatch(getUserProfile(userProfile.data));
