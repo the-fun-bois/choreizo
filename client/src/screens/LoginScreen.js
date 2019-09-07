@@ -13,7 +13,7 @@ import { AntDesign } from '@expo/vector-icons';
 import theme from './../styles/theme.style';
 
 import { connect } from 'react-redux';
-import { fbLogin, retrieveToken, getBearerToken } from '../redux/creators';
+import { fbLogin, retrieveToken, secureStoreBearerToken, getBearerToken } from '../redux/creators';
 
 const LoginScreen = ({
   navigation,
@@ -26,7 +26,6 @@ const LoginScreen = ({
     for redirects back to the app.
   */
   getToken();
-  // Linking.addEventListener('url', handleAuthRedirect);
   return (
     <View>
       <Text style={styles.loginText}>Login Screen</Text>
@@ -38,13 +37,13 @@ const LoginScreen = ({
           <Text style={styles.buttonText}>Theme Guide</Text>
         </Button>
       ) : null}
-
       <Button
         style={styles.googleButtonContainer}
         onPress={() => {
           /*
           Send appUrl as query string to the server.
           */
+          Linking.addEventListener('url', handleAuthRedirect);
           Linking.getInitialURL().then(url => {
             const [protocol, domain] = url.split('://');
             Linking.openURL(
@@ -129,6 +128,7 @@ const mapDispatchToState = dispatch => {
       */
       const bearerToken = url.split('?')[1];
       if (bearerToken) dispatch(getBearerToken(bearerToken));
+      Linking.removeAllListeners('url');
     },
   };
 };

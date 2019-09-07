@@ -1,8 +1,9 @@
 import {
-  SET_BEARER_TOKEN_STATE,
+  SET_BEARER_TOKEN,
   GET_USER_PROFILE,
   GET_FBUSER_INFO,
   GET_USER_CHORES,
+  SET_BEARER_TOKEN_STATE,
 } from '../creators';
 
 const initialState = {
@@ -33,12 +34,21 @@ export default userInfoReducer = (state = initialState, action) => {
       return {
         ...state,
         token: action.token,
-        id: action.userId,
+        userId: action.userId,
+      };
+    case SET_BEARER_TOKEN:
+      return {
+        ...state,
+        token: action.token,
       };
     case GET_USER_PROFILE:
-      // console.log('get user profile user data', action.user);
-      return Object.assign({}, state, action.user);
-
+      return {
+        ...state,
+        id: action.user.id,
+        firstName: action.user.firstName,
+        surName: action.user.surName,
+        email: action.user.email,
+      }
     default:
       return state;
   }
