@@ -9,7 +9,7 @@ export const GET_USER_CHORES = 'GET_USER_CHORES';
 
 export const SET_BEARER_TOKEN = 'SET_BEARER_TOKEN';
 
-export const GET_USER_PROFILE = 'USER_PROFILE';
+export const GET_USER_PROFILE = 'GET_USER_PROFILE';
 
 export const setBearerToken = token => ({
   type: SET_BEARER_TOKEN,
@@ -18,9 +18,10 @@ export const setBearerToken = token => ({
 
 // action creators
 
-export const getUserChores = chores => {
-  type: GET_USER_CHORES, chores;
-};
+// export const getUserChores = chores => ({
+//   type: GET_USER_CHORES,
+//   chores,
+// });
 
 export const getFbUserInfo = (name, pictureUrl) => ({
   type: GET_FBUSER_INFO,
@@ -75,7 +76,7 @@ export const retrieveToken = () => async dispatch => {
 export const getUserInfo = () => async dispatch => {
   try {
     const userProfile = await serverApi.get('/user/profile');
-    console.log('user profile data', userProfile.data);
+    // console.log('user profile data', userProfile.data);
     if (!userProfile.data.email) throw new Error('Auth error');
     dispatch(getUserProfile(userProfile.data));
   } catch (e) {

@@ -2,7 +2,8 @@ const router = require('express').Router();
 const { User, Group } = require('../database');
 
 router.get('/profile', (req, res, next) => {
-  User.findByPk(req.body.userId, { include: [Group] })
+  req.body.userId = 1;
+  User.findByPk(1, { include: [Group] })
     .then(user => {
       if (!user) {
         return res.status(400).send({ error: 'User not found' });

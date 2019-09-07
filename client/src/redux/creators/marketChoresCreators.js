@@ -9,14 +9,19 @@ export const gotMarketChores = marketChores => ({
 
 export const getMarketChoresThunk = () => {
   return (dispatch, getState) => {
-    const groupId = getState.userInfo.groups[0].id;
+    if (!getState().userInfo.groups[0]) {
+      return;
+    }
+    const groupId = getState().userInfo.groups[0].id;
+    const userId = getState().userInfo.id;
     if (!groupId) {
       return;
     }
     return serverApi
-      .post('/chores/market_chores', { groupId })
-      .then(marketChores => {
-        return dispatch(gotMarketChores(marketChores));
+      .post('/chores/market_chores', { userId, groupId })
+      .then(response => {
+        const marketChores = response.data;
+        dispatch(gotMarketChores(marketChores));
       })
       .catch(e => {
         console.log('error fetching market chores', e);

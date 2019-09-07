@@ -7,22 +7,26 @@ import {
   getMarketChoresThunk,
 } from './../redux/creators';
 
-const GetAllInfoFromServer = ({ userInfo }) => {
-
+const GetAllInfoFromServer = ({
+  userInfo,
+  getUserInfo,
+  getMarketChores,
+  getUserChores,
+}) => {
   // get user info
   // then get user chores
   // then get market chores
 
   // get user info on load
   useEffect(() => {
-    console.log('getting user info');
+    // console.log('getting user info');
     getUserInfo();
   }, []);
   // get user chores and market chores when group id changes
   useEffect(() => {
     const groupId = userInfo.groups[0].id;
     if (groupId) {
-      console.log('getting your chores and market chores');
+      // console.log('getting your chores and market chores');
       getUserChores();
       getMarketChores();
     }
