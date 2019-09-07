@@ -7,23 +7,30 @@ export const gotUserChores = userChores => ({
   userChores,
 });
 
-export const getUserChoresThunk = () => {
+export const getUserChoresThunk = groupId => {
+  console.log('get user chores thunk', groupId);
   return (dispatch, getState) => {
-    const userInfo = getState().userInfo;
-    if (!userInfo.id) {
-      return;
+    if (!groupId) {
+      dispatch(gotUserChores([]));
+    } else {
+      const userInfo = getState().userInfo;
+      if (!userInfo.id) {
+        return;
+      }
+      const userId = userInfo.id;
+      return serverApi
+        .post('/chores/all_personal_chores', { userId })
+        .then(response => {
+          const allChores = response.data;
+          const groups = Object.keys(allChores);
+          const userChores = allChores[groups[0]];
+          // grab chores from 1st group b/c we are limiting user to 1 group at the moment
+
+          dispatch(gotUserChores(userChores));
+        })
+        .catch(e => {
+          console.log('error fetching users chores', e);
+        });
     }
-    const userId = userInfo.id;
-    return serverApi
-      .post('/chores/all_personal_chores', { userId })
-      .then(response => {
-        const allChores = response.data;
-        const groups = Object.keys(allChores);
-        // grab chores from 1st group b/c we are limiting user to 1 group at the moment
-        dispatch(gotUserChores(allChores[groups[0]]));
-      })
-      .catch(e => {
-        console.log('error fetching users chores', e);
-      });
   };
 };

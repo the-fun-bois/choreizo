@@ -24,26 +24,22 @@ const HomeScreen = props => {
     <View style={styles.mainContainer}>
       {/* GetALLInfoFromServer is an empty component that runs all the redux thunks */}
       <GetAllInfoFromServer />
-      {userChores[0].id && marketChores[0].id ? (
+      <View>
         <View>
-          <View>
-            <Text>Home Screen</Text>
-          </View>
-          <View>
-            <Button onPress={() => navigation.navigate('Chores')}>
-              <Text>Chores</Text>
-            </Button>
-            <ScrollView>
-              <Text>****** My goddam chores:</Text>
-              <Text>{JSON.stringify(userChores)}</Text>
-              <Text>****** Goddam market chores:</Text>
-              <Text>{JSON.stringify(marketChores)}</Text>
-            </ScrollView>
-          </View>
+          <Text>Home Screen</Text>
         </View>
-      ) : (
-        <Spinner />
-      )}
+        <View>
+          <Button onPress={() => navigation.navigate('Chores')}>
+            <Text>Chores</Text>
+          </Button>
+          <ScrollView>
+            <Text>****** My goddam chores:</Text>
+            <Text>{JSON.stringify(userChores)}</Text>
+            <Text>****** Goddam market chores:</Text>
+            <Text>{JSON.stringify(marketChores)}</Text>
+          </ScrollView>
+        </View>
+      </View>
     </View>
   );
 };
@@ -68,5 +64,5 @@ const mapDispatch = dispatch => {
 };
 export default connect(
   mapState,
-  mapDispatch
+  mapDispatch,
 )(HomeScreen);

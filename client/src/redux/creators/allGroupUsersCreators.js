@@ -6,40 +6,40 @@ export const gotAllGroupUsers = groupMembers => ({
   groupMembers,
 });
 
-export const getAllGroupUsers = () => {
-  return (dispatch, getState) => {
-    const groupId = getState().userInfo.groups[0].id;
+export const getAllGroupUsers = groupId => {
+  return dispatch => {
     if (!groupId) {
-      return;
-    }
-    return serverApi
-      .post('/user/group_members', { groupId })
-      .then(response => {
-        let groupMembers = response.data;
-        groupMembers = groupMembers.map(member => {
-          const {
-            id,
-            firstName,
-            surName,
-            email,
-            groups: {
-              '0': {
-                userGroup: { userIsAdmin, userStatus, groupId },
+      dispatch(gotAllGroupUsers([]));
+    } else {
+      return serverApi
+        .post('/user/group_members', { groupId })
+        .then(response => {
+          let groupMembers = response.data;
+          groupMembers = groupMembers.map(member => {
+            const {
+              id,
+              firstName,
+              surName,
+              email,
+              groups: {
+                '0': {
+                  userGroup: { userIsAdmin, userStatus, groupId },
+                },
               },
-            },
-          } = member;
-          return {
-            id,
-            firstName,
-            surName,
-            email,
-            userIsAdmin,
-            userStatus,
-            groupId,
-          };
-        });
-        dispatch(gotAllGroupUsers(groupMembers));
-      })
-      .catch(e => console.error('error getting group members', e));
+            } = member;
+            return {
+              id,
+              firstName,
+              surName,
+              email,
+              userIsAdmin,
+              userStatus,
+              groupId,
+            };
+          });
+          dispatch(gotAllGroupUsers(groupMembers));
+        })
+        .catch(e => console.error('error getting group members', e));
+    }
   };
 };
