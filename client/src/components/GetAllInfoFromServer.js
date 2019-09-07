@@ -5,6 +5,7 @@ import {
   getUserChoresThunk,
   getUserInfo,
   getMarketChoresThunk,
+  getAllGroupUsers,
 } from './../redux/creators';
 
 const GetAllInfoFromServer = ({
@@ -12,6 +13,7 @@ const GetAllInfoFromServer = ({
   getUserInfo,
   getMarketChores,
   getUserChores,
+  getGroupUsers,
 }) => {
   // to do:
   // get all users in the group
@@ -32,6 +34,7 @@ const GetAllInfoFromServer = ({
       console.log('getting your chores and market chores');
       getUserChores();
       getMarketChores();
+      getGroupUsers();
     }
   }, [userInfo.groups[0].id]);
 
@@ -43,6 +46,7 @@ const mapDispatch = dispatch => ({
   getUserChores: () => dispatch(getUserChoresThunk()),
   getUserInfo: () => dispatch(getUserInfo()),
   getMarketChores: () => dispatch(getMarketChoresThunk()),
+  getGroupUsers: () => dispatch(getAllGroupUsers()),
 });
 
 export default connect(
