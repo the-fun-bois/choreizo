@@ -9,13 +9,16 @@ import {
 } from 'react-native';
 import { Button } from 'native-base';
 import { connect } from 'react-redux';
-import { getUserInfo } from './../redux/creators';
+import { getUserInfo, retrieveToken } from './../redux/creators';
 import GetAllInfoFromServer from './../components/GetAllInfoFromServer';
 import marketChoresReducer from '../redux/reducers/marketChoresReducer';
 import { Spinner } from 'native-base';
 
 const HomeScreen = props => {
-  const { userInfo, userChores, marketChores, navigation } = props;
+  const { userInfo, navigation, getToken } = props;
+  // if there's a token in state, then do nothing, otherwise set it again via getToken
+  // if (!userInfo.token) getToken();
+  // console.log('TOKEN', userInfo.token);
 
   return (
     <View style={styles.mainContainer}>
@@ -60,9 +63,10 @@ const mapState = ({ userInfo, userChores, marketChores }) => ({
 const mapDispatch = dispatch => {
   return {
     getUser: () => dispatch(getUserInfo()),
+    getToken: () => dispatch(retrieveToken()),
   };
 };
 export default connect(
   mapState,
-  mapDispatch,
+  mapDispatch
 )(HomeScreen);

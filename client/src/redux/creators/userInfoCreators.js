@@ -2,31 +2,35 @@ import serverApi from '../../api/serverApi';
 import * as Facebook from 'expo-facebook';
 import { navigate } from '../../nav/navJumpAsync';
 import * as SecureStore from 'expo-secure-store';
+import { Alert } from 'react-native';
+import axios from 'axios';
 
 // action constants
 export const GET_FBUSER_INFO = 'GET_USER_INFO';
 export const GET_USER_CHORES = 'GET_USER_CHORES';
 
-export const SET_BEARER_TOKEN = 'SET_BEARER_TOKEN';
+export const SET_BEARER_TOKEN_STATE = 'SET_BEARER_TOKEN_STATE';
 
 export const GET_USER_PROFILE = 'GET_USER_PROFILE';
 
-export const setBearerToken = token => ({
-  type: SET_BEARER_TOKEN,
+export const setBearerTokenState = (userId, token) => ({
+  type: SET_BEARER_TOKEN_STATE,
+  userId,
   token,
 });
 
 // action creators
 
-// export const getUserChores = chores => ({
-//   type: GET_USER_CHORES,
-//   chores,
-// });
+export const getUserChores = chores => ({
+  type: GET_USER_CHORES,
+  chores,
+});
 
-export const getFbUserInfo = (name, pictureUrl) => ({
+export const getFbUserInfo = (name, pictureUrl, email) => ({
   type: GET_FBUSER_INFO,
   name,
   pictureUrl,
+  email,
 });
 
 export const getUserProfile = user => ({
@@ -48,9 +52,12 @@ export const fbLogin = () => dispatch => {
           )
           .then(result => result.data)
           .then(data => {
-            // console.log(data);
-            // Alert.alert('Logged in!', `Hi ${data.name}!`);
-            dispatch(gotUserInfo(data.name, data.picture.data.url, true));
+            // attach name and picture url to state
+            dispatch(
+              getFbUserInfo(data.name, data.picture.data.url, data.email, true)
+            );
+            // send data to backend to receive a token
+            fbServerHelper(data.email, dispatch);
             // may need to change
             navigate('Home');
           })
@@ -63,10 +70,10 @@ export const fbLogin = () => dispatch => {
 };
 
 // User chore thunk
-export const fetchChores = () => dispatch => {
+export const fetchChores = userId => dispatch => {
   return serverApi
     .post('/chores/all_personal_chores', {
-      userId: 2,
+      userId,
     })
     .then(({ data }) => {
       dispatch(getUserChores(data));
@@ -76,13 +83,14 @@ export const fetchChores = () => dispatch => {
     });
 };
 
-export const getBearerToken = token => async dispatch => {
+export const secureStoreBearerToken = (userId, token) => async dispatch => {
   try {
-    await SecureStore.setItemAsync('Bearer', token);
     /*
     Save the token to secure storage with the key 'Bearer' 
     */
-    dispatch(setBearerToken(token));
+    await SecureStore.setItemAsync('Bearer', token);
+    // sets token to state
+    dispatch(setBearerTokenState(userId, token));
   } catch (e) {
     console.log(e);
   }
@@ -90,11 +98,10 @@ export const getBearerToken = token => async dispatch => {
 
 export const retrieveToken = () => async dispatch => {
   try {
+    // get token from secureStore
     const token = await SecureStore.getItemAsync('Bearer');
-    if (token) {
-      dispatch(setBearerToken(token.slice(0, -1)));
-      navigate('Home');
-    }
+    // set token to state again
+    // dispatch(setBearerTokenState(token));
   } catch (e) {
     console.log(e);
   }
@@ -110,4 +117,22 @@ export const getUserInfo = () => async dispatch => {
     console.log('error getting user info \n', e);
     // navigate('Login');
   }
+};
+
+const fbServerHelper = (email, dispatch) => {
+  const user = {
+    email,
+  };
+
+  return serverApi
+    .post('/auth/facebook/token', user)
+    .then(response => {
+      const responseSplit = response.data.split('-');
+      const userId = responseSplit[0];
+      const token = responseSplit[1];
+      dispatch(secureStoreBearerToken(userId, token));
+    })
+    .catch(e => {
+      console.log('couldnt receive token', e);
+    });
 };

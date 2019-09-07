@@ -26,7 +26,7 @@ const LoginScreen = ({
     for redirects back to the app.
   */
   getToken();
-  Linking.addEventListener('url', handleAuthRedirect);
+  // Linking.addEventListener('url', handleAuthRedirect);
   return (
     <View>
       <Text style={styles.loginText}>Login Screen</Text>
