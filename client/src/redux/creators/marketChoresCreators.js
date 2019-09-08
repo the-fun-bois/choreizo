@@ -7,24 +7,25 @@ export const gotMarketChores = marketChores => ({
   marketChores,
 });
 
-export const getMarketChoresThunk = () => {
-  return (dispatch, getState) => {
-    if (!getState().userInfo.groups[0]) {
-      return;
-    }
-    const groupId = getState().userInfo.groups[0].id;
-    const userId = getState().userInfo.id;
+export const getMarketChoresThunk = groupId => {
+  return dispatch => {
+    // if (!getState().userInfo.groups[0]) {
+    //   return;
+    // }
+    // const groupId = getState().userInfo.groups[0].id;
+    // const userId = getState().userInfo.id;
     if (!groupId) {
-      return;
+      dispatch(gotMarketChores([]));
+    } else {
+      return serverApi
+        .post('/chores/market_chores', { groupId })
+        .then(response => {
+          const marketChores = response.data;
+          dispatch(gotMarketChores(marketChores));
+        })
+        .catch(e => {
+          console.log('error fetching market chores', e);
+        });
     }
-    return serverApi
-      .post('/chores/market_chores', { userId, groupId })
-      .then(response => {
-        const marketChores = response.data;
-        dispatch(gotMarketChores(marketChores));
-      })
-      .catch(e => {
-        console.log('error fetching market chores', e);
-      });
   };
 };

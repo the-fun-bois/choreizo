@@ -5,6 +5,8 @@ import {
   getUserChoresThunk,
   getUserInfo,
   getMarketChoresThunk,
+  getAllGroupUsers,
+  getSwappableChoresThunk,
 } from './../redux/creators';
 
 const GetAllInfoFromServer = ({
@@ -12,37 +14,47 @@ const GetAllInfoFromServer = ({
   getUserInfo,
   getMarketChores,
   getUserChores,
+  getGroupUsers,
+  getSwappableChores,
 }) => {
   // to do:
-  // get all users in the group
   // get all the other chores in the group for swaps
   // admin stuff
 
   // get user info on load
   useEffect(() => {
     console.log('getting user info');
-    if (!userInfo.id) {
+    if (userInfo.token) {
       getUserInfo();
     }
-  }, []);
+  }, [userInfo.id]);
+
   // get user chores and market chores when group id changes
   useEffect(() => {
-    const groupId = userInfo.groups[0].id;
-    if (groupId) {
+    if (userInfo.token && userInfo.id) {
+      let groupId = null;
+      if (userInfo.groups[0] && userInfo.groups[0].id) {
+        groupId = userInfo.groups[0].id;
+        console.log('group id', groupId);
+      }
       console.log('getting your chores and market chores');
-      getUserChores();
-      getMarketChores();
+      getUserChores(groupId);
+      getMarketChores(groupId);
+      getGroupUsers(groupId);
+      getSwappableChores(groupId);
     }
-  }, [userInfo.groups[0].id]);
+  }, [userInfo.groups[0]]);
 
   // this component does not display anything
   return null;
 };
 const mapState = ({ userInfo }) => ({ userInfo });
 const mapDispatch = dispatch => ({
-  getUserChores: () => dispatch(getUserChoresThunk()),
+  getUserChores: groupId => dispatch(getUserChoresThunk(groupId)),
   getUserInfo: () => dispatch(getUserInfo()),
-  getMarketChores: () => dispatch(getMarketChoresThunk()),
+  getMarketChores: groupId => dispatch(getMarketChoresThunk(groupId)),
+  getGroupUsers: groupId => dispatch(getAllGroupUsers(groupId)),
+  getSwappableChores: groupId => dispatch(getSwappableChoresThunk(groupId)),
 });
 
 export default connect(

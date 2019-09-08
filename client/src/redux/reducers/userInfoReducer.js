@@ -17,6 +17,7 @@ const initialState = {
   groups: [
     { id: '', name: '', description: '', userGroup: { userIsAdmin: false } },
   ],
+  ethereumWallet: { balance: '' },
 };
 
 export default userInfoReducer = (state = initialState, action) => {
@@ -48,7 +49,9 @@ export default userInfoReducer = (state = initialState, action) => {
         firstName: action.user.firstName,
         surName: action.user.surName,
         email: action.user.email,
-      }
+        groups: action.user.groups,
+        ethereumWallet: action.user.ethereumWallet,
+      };
     default:
       return state;
   }
