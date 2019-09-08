@@ -3,12 +3,12 @@ import { StyleSheet } from 'react-native';
 import { Container, Content, Card, CardItem, Text, Body } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 
-const ChoreCard = ({ name, diff }) => {
+const ChoreCard = ({ name, diff, details }) => {
   return (
     <Container>
       <Content padder>
         <Card>
-          <CardItem header bordered>
+          <CardItem header bordered button onPress={() => details()}>
             <Text>{name}</Text>
           </CardItem>
           <CardItem footer bordered>

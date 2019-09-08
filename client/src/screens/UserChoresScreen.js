@@ -1,13 +1,12 @@
 import React from 'react';
 import { StyleSheet, Platform, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
-import ChoreCard from '../components/ChoreCard';
-import { fetchChores } from '../redux/creators/userInfoCreators';
+import ChoreDetail from '../components/ChoreDetail';
 
-const UserChoresScreen = props => {
-  const { userInfo, allChores } = props;
-  allChores();
-  return <ChoreCard />;
+// Chore detailed screen
+
+const UserChoresScreen = ({ navigation }) => {
+  return <ChoreDetail nav={navigation} />;
 };
 
 const styles = StyleSheet.create({
@@ -18,14 +17,5 @@ const styles = StyleSheet.create({
 });
 
 const mapState = ({ userInfo }) => ({ userInfo });
-const mapDispatchToState = dispatch => {
-  return {
-    allChores: () => {
-      dispatch(fetchChores());
-    },
-  };
-};
-export default connect(
-  mapState,
-  mapDispatchToState
-)(UserChoresScreen);
+// const mapDispatchToState = dispatch => {};
+export default connect(mapState)(UserChoresScreen);

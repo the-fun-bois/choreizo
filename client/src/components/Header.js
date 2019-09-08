@@ -7,29 +7,27 @@ import theme from './../styles/theme.style';
 
 const Header = ({ title, navigation }) => {
   return (
-    <SafeAreaView>
-      <View style={styles.headerContainer}>
-        <MaterialCommunityIcons
-          name="broom"
+    <View style={styles.headerContainer}>
+      <MaterialCommunityIcons
+        name="broom"
+        size={theme.ICON_SIZE_MEDIUM}
+        color="white"
+        style={styles.iconStyle}
+      />
+      <Text style={styles.headerText}>Choreizo</Text>
+      <TouchableOpacity
+        style={styles.drawerButton}
+        onPress={() => {
+          navigation.openDrawer();
+        }}
+      >
+        <Octicons
+          name="three-bars"
           size={theme.ICON_SIZE_MEDIUM}
           color="white"
-          style={styles.iconStyle}
         />
-        <Text style={styles.headerText}>Choreizo</Text>
-        <TouchableOpacity
-          style={styles.drawerButton}
-          onPress={() => {
-            navigation.openDrawer();
-          }}
-        >
-          <Octicons
-            name="three-bars"
-            size={theme.ICON_SIZE_MEDIUM}
-            color="white"
-          />
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+      </TouchableOpacity>
+    </View>
   );
 };
 

@@ -18,9 +18,8 @@ serverApi.interceptors.request.use(async request => {
   try {
     const token = await SecureStore.getItemAsync('Bearer');
     if (token) {
-      console.log('serverApi', token);
       request.headers.authorization = `jwt ${token.slice(0, -1)}`;
-    };
+    }
     return request;
   } catch (e) {
     throw new Error('error retrieving token');
