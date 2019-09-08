@@ -20,7 +20,11 @@ const GetAllInfoFromServer = ({
   // to do:
   // get all the other chores in the group for swaps
   // admin stuff
-
+  // - add remove user
+  // - assign chores
+  // - add/remove chores
+  // - extend time
+  // -
   // get user info on load
   useEffect(() => {
     console.log('getting user info');
