@@ -3,6 +3,8 @@ const {
   TradeChore,
   TransferChore,
   User,
+  Chore,
+  AssignedChore,
 } = require('./../../database');
 
 const checkIfChoreIsAlreadyInMarketPlace = assignedChore => {
@@ -55,14 +57,22 @@ const createChoreIncludeParamsForMarket = userId => {
       as: 'swapAssignedChore1',
       where: { status: 'pending', user1Id: userId },
       required: false,
-      include: [{ model: User, as: 'user2' }],
+      include: [
+        { model: User, as: 'user2' },
+        { model: AssignedChore, as: 'swapAssignedChore1', include: [Chore] },
+        { model: AssignedChore, as: 'swapAssignedChore2', include: [Chore] },
+      ],
     },
     {
       model: SwapChore,
       as: 'swapAssignedChore2',
       where: { status: 'pending', user2Id: userId },
       required: false,
-      include: [{ model: User, as: 'user1' }],
+      include: [
+        { model: User, as: 'user1' },
+        { model: AssignedChore, as: 'swapAssignedChore1', include: [Chore] },
+        { model: AssignedChore, as: 'swapAssignedChore2', include: [Chore] },
+      ],
     },
   ];
   return choreIncludeParamsForMarket;
