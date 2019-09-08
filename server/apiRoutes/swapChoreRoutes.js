@@ -77,7 +77,7 @@ const acceptSwap = (userId, swapChoreId, res, next) =>
       if (swapChore.status === 'accepted') {
         return res
           .status(400)
-          .sent({ error: 'Trade has already been accepted.' });
+          .send({ error: 'Trade has already been accepted.' });
       }
       // swap assigned chores and change swapChore status to 'accepted;
       const {
