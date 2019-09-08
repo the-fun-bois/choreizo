@@ -13,7 +13,8 @@ passport.use(
     },
     (accessToken, refreshToken, profile, done) => {
       const email = profile.emails[0].value;
-      console.log('user profile: ', profile);
+      const imageUrl = profile.photos[0].value;
+      console.log('imageUrl: ', imageUrl);
       User.findOne({
         where: {
           email,
@@ -25,6 +26,7 @@ passport.use(
         } else {
           return User.create({
             email,
+            imageUrl: 
           }).then(newUser => {
             done(null, newUser);
           });
