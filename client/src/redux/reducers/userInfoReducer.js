@@ -4,6 +4,7 @@ import {
   GET_FBUSER_INFO,
   GET_USER_CHORES,
   SET_BEARER_TOKEN_STATE,
+  GOT_USER_WALLET,
 } from '../creators';
 
 const initialState = {
@@ -52,6 +53,8 @@ export default userInfoReducer = (state = initialState, action) => {
         groups: action.user.groups,
         ethereumWallet: action.user.ethereumWallet,
       };
+    case GOT_USER_WALLET:
+      return Object.assign({}, state, { ethereumWallet: action.wallet });
     default:
       return state;
   }

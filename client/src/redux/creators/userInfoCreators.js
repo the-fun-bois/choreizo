@@ -11,6 +11,7 @@ export const GET_USER_CHORES = 'GET_USER_CHORES';
 export const SET_BEARER_TOKEN = 'SET_BEARER_TOKEN';
 export const SET_BEARER_TOKEN_STATE = 'SET_BEARER_TOKEN_STATE';
 export const GET_USER_PROFILE = 'GET_USER_PROFILE';
+export const GOT_USER_WALLET = 'GOT_USER_WALLET';
 
 export const setBearerToken = token => ({
   type: SET_BEARER_TOKEN,
@@ -36,6 +37,7 @@ export const getUserProfile = user => ({
   type: GET_USER_PROFILE,
   user,
 });
+export const gotUserWallet = wallet => ({ type: GOT_USER_WALLET, wallet });
 // Thunks
 export const fbLogin = () => dispatch => {
   Facebook.logInWithReadPermissionsAsync('895184290846348', {
@@ -114,6 +116,15 @@ export const getUserInfo = () => async dispatch => {
   } catch (e) {
     console.log('error getting user info \n', e);
   }
+};
+
+export const getUserWalletThunk = () => {
+  return dispatch => {
+    serverApi.post('/user/wallet').then(response => {
+      const wallet = response.data;
+      dispatch(gotUserWallet(wallet));
+    });
+  };
 };
 
 const fbServerHelper = (email, dispatch) => {

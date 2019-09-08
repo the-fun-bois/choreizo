@@ -36,4 +36,16 @@ router.post('/group_members', (req, res, next) => {
     .catch(next);
 });
 
+router.post('/wallet', (req, res, next) => {
+  const { userId } = req.body;
+  EthereumWallet.findOne({ where: { userId } })
+    .then(userWallet => {
+      if (!userWallet) {
+        return res.status(400).send({ error: 'no wallet found' });
+      }
+      res.status(200).send(userWallet);
+    })
+    .catch(next);
+});
+
 module.exports = router;
