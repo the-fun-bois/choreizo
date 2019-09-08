@@ -8,6 +8,7 @@ import {
   Body,
   List,
   ListItem,
+  Grid,
 } from 'native-base';
 import { FlatList, Text, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
@@ -18,15 +19,18 @@ import { getMarketChoresThunk } from '../redux/creators/marketChoresCreators';
 const Market = props => {
   return (
     <View>
-      <FlatList
-        data={props.marketChores}
-        keyExtractor={chore => `${chore.id}${chore.choreId}`}
-        renderItem={({ item }) => {
-          return <MarketChoreSingle chore={item} />;
-        }}
-      />
+      <Text>Current Items in the Market</Text>
+
+      <List>
+        <FlatList
+          data={props.marketChores}
+          keyExtractor={chore => `${chore.id}${chore.choreId}`}
+          renderItem={({ item }) => {
+            return <MarketChoreSingle chore={item} />;
+          }}
+        />
+      </List>
     </View>
-    //<MarketChoreSingle />
   );
 };
 
