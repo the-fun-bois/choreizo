@@ -13,10 +13,6 @@ const MarketScreen = () => {
         <Text>Market Screen</Text>
         <MarketComponent />
       </View>
-      {/* testing */}
-      <AcceptButton />
-      <DeclineButton />
-      <CancelButton />
     </View>
   );
 };

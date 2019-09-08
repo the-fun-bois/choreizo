@@ -12,6 +12,9 @@ import {
 import { FlatList, Text, View } from 'react-native';
 import severApi from '../../src/api/serverApi';
 import serverApi from '../../src/api/serverApi';
+import AcceptButton from './marketChoreButtons/AcceptButton';
+import CancelButton from './marketChoreButtons/CancelButton';
+import DeclineButton from './marketChoreButtons/DeclineButton';
 
 const MarketChoreSingle = props => {
   const { chore } = props;
@@ -52,12 +55,10 @@ const MarketChoreSingle = props => {
                 {chore.transferChore.price}
               </Text>
             </View>
-            <Button>
-              <Text>Accept</Text>
-            </Button>
-            <Button>
-              <Text>Decline</Text>
-            </Button>
+            <AcceptButton
+              type='transfer'
+              body={{ userId: chore.userId, choreId: chore.chore.id }}
+            />
           </Row>
         </Card>
       </View>
