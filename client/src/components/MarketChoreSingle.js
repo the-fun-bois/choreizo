@@ -17,6 +17,7 @@ const MarketChoreSingle = props => {
   const { chore } = props;
   if (chore.transferChore !== null) {
     chore.type = 'Transfer';
+    console.log('transfer');
     return (
       <View alignment='stretch'>
         <Card>
@@ -63,6 +64,7 @@ const MarketChoreSingle = props => {
     );
   } else if (chore.tradeChore !== null) {
     chore.type = 'Trade';
+    console.log('trade');
     return (
       <View alignment='stretch'>
         <Card>
@@ -108,8 +110,9 @@ const MarketChoreSingle = props => {
         </Card>
       </View>
     );
-  } else if (chore.swapAssignedChore1 !== null) {
+  } else if (chore.swapAssignedChore2 !== null) {
     chore.type = 'My Swap';
+    console.log('swap2');
     return (
       <View alignment='stretch'>
         <Card>
@@ -122,16 +125,30 @@ const MarketChoreSingle = props => {
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
               <Text>
-                Difficulty:{'\n'}
+                Your Chore:{'\n'}
+                {chore.swapAssignedChore2}
+              </Text>
+            </View>
+            <View style={{ flex: 1, flexDirection: 'column' }}>
+              <Text>
+                Their Chore:{'\n'}
+                {chore.chore.name}
+              </Text>
+            </View>
+            <View style={{ flex: 1, flexDirection: 'column' }}>
+              <Text>
+                Their Difficulty:{'\n'}
                 {chore.chore.difficulty}
               </Text>
             </View>
+
             <View style={{ flex: 1, flexDirection: 'column' }}>
               <Text>
                 Time:{'\n'}
                 {chore.chore.timeLimit} days
               </Text>
             </View>
+
             <Button>
               <Text>Accept</Text>
             </Button>
@@ -142,11 +159,57 @@ const MarketChoreSingle = props => {
         </Card>
       </View>
     );
-  } else {
+  } else if (chore.swapAssignedChore1 !== null) {
     // we know that its someone else's chore to swap
-    chore.type = "Other's Swap";
+    chore.type = 'Swap';
+    console.log('swap1');
+    return (
+      <View alignment='stretch'>
+        <Card>
+          <Row>
+            <View style={{ flex: 1, flexDirection: 'column' }}>
+              <Text>
+                Type:{'\n'}
+                {chore.type}
+              </Text>
+            </View>
+            <View style={{ flex: 1, flexDirection: 'column' }}>
+              <Text>
+                Your Chore:{'\n'}
+                {chore.swapAssignedChore2}
+              </Text>
+            </View>
+            <View style={{ flex: 1, flexDirection: 'column' }}>
+              <Text>
+                Their Chore:{'\n'}
+                {chore.chore.name}
+              </Text>
+            </View>
+            <View style={{ flex: 1, flexDirection: 'column' }}>
+              <Text>
+                Their Difficulty:{'\n'}
+                {chore.chore.difficulty}
+              </Text>
+            </View>
+
+            <View style={{ flex: 1, flexDirection: 'column' }}>
+              <Text>
+                Time:{'\n'}
+                {chore.chore.timeLimit} days
+              </Text>
+            </View>
+
+            <Button>
+              <Text>Accept</Text>
+            </Button>
+            <Button>
+              <Text>Decline</Text>
+            </Button>
+          </Row>
+        </Card>
+      </View>
+    );
   }
-  return <Text>{chore.type}</Text>;
 };
 
 export default MarketChoreSingle;
