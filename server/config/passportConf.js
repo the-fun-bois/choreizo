@@ -13,6 +13,7 @@ passport.use(
     },
     (accessToken, refreshToken, profile, done) => {
       const email = profile.emails[0].value;
+      console.log('user profile: ', profile);
       User.findOne({
         where: {
           email,

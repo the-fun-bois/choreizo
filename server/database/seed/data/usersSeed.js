@@ -1,6 +1,9 @@
 const usersSeed = [
   [
-    { email: 'fsacapstone001@gmail.com' },
+    {
+      email: 'fsacapstone001@gmail.com',
+      
+    },
     {
       firstName: 'Kevin',
       surName: 'Yu',

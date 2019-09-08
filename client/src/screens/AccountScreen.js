@@ -1,29 +1,52 @@
 import React from 'react';
-import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, Platform, StatusBar, SafeAreaView, Image } from 'react-native';
 import theme from '../styles/theme.style';
+import { connect } from 'react-redux';
 
-const AccountScreen = () => {
+const AccountScreen = ({ userInfo }) => {
   return (
-    <View style={styles.mainContainer}>
-      <View>
-        <Text>Account Screen</Text>
+    <SafeAreaView style={styles.mainContainer}>
+      <View style={styles.profileImgContainer}>
+        <Image style={styles.profileImg}></Image>
       </View>
-    </View>
+      <View style={styles.infoContainer}>
+        <Text></Text>
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    flex: 1,
     height: '50%',
-    backgroundColor: theme.PRIMARY_COLOR,
   },
   infoContainer: {
     fontSize: theme.FONT_SIZE_HEADING,
     height: '50%',
   },
+  profileImgContainer: {
+    alignSelf: 'center',
+    marginLeft: 8,
+    height: 150,
+    width: 150,
+    borderRadius: 150/2,
+    borderWidth: 1
+  },
+  // profileImg: {
+  //   alignSelf: 'center',
+  //   height: 150,
+  //   width: 150,
+  //   borderRadius: 150/2,
+  // },
 });
 
-export default AccountScreen;
+const mapStateToProps = ({ userInfo }) => ({
+  userInfo,
+});
+
+
+export default connect(mapStateToProps)(AccountScreen);
