@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { User, UserGroup, Group, EthereumWallet } = require('../database');
+const Op = require('sequelize').Op;
 
 router.get('/profile', (req, res, next) => {
   User.findByPk(req.body.userId, { include: [Group] })
@@ -25,8 +26,9 @@ router.post('/profile', (req, res, next) => {
 });
 
 router.post('/group_members', (req, res, next) => {
-  const { groupId } = req.body;
+  const { userId, groupId } = req.body;
   User.findAll({
+    where: { id: { [Op.ne]: userId } },
     include: [{ model: Group, where: { id: groupId }, attributes: ['id'] }],
   })
     .then(users => {
