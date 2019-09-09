@@ -7,6 +7,7 @@ import {
   getMarketChoresThunk,
   getAllGroupUsers,
   getSwappableChoresThunk,
+  getChoreHistoryThunk,
 } from './../redux/creators';
 
 const GetAllInfoFromServer = ({
@@ -16,6 +17,7 @@ const GetAllInfoFromServer = ({
   getUserChores,
   getGroupUsers,
   getSwappableChores,
+  getChoreHistory,
 }) => {
   // to do:
   // get all the other chores in the group for swaps
@@ -46,6 +48,7 @@ const GetAllInfoFromServer = ({
       getMarketChores(groupId);
       getGroupUsers(groupId);
       getSwappableChores(groupId);
+      getChoreHistory();
     }
   }, [userInfo.groups[0]]);
 
@@ -59,6 +62,7 @@ const mapDispatch = dispatch => ({
   getMarketChores: groupId => dispatch(getMarketChoresThunk(groupId)),
   getGroupUsers: groupId => dispatch(getAllGroupUsers(groupId)),
   getSwappableChores: groupId => dispatch(getSwappableChoresThunk(groupId)),
+  getChoreHistory: () => dispatch(getChoreHistoryThunk()),
 });
 
 export default connect(

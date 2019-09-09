@@ -100,4 +100,16 @@ router.post('/swappable_chores', (req, res, next) => {
     .catch(next);
 });
 
+router.post('/chore_history', (req, res, next) => {
+  const { userId } = req.body;
+  AssignedChore.findAll({
+    where: { userId, status: { [Op.ne]: 'pending' } },
+    include: [Chore],
+    order: [['createdAt', 'asc']],
+  })
+    .then(choreHistory => {
+      res.status(200).send(choreHistory);
+    })
+    .catch(next);
+});
 module.exports = router;

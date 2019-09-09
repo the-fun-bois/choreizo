@@ -7,19 +7,24 @@ import {
   StatusBar,
   SafeAreaView,
   ScrollView,
+  FlatList,
 } from 'react-native';
+import { connect } from 'react-redux';
 
 import theme from './../styles/theme.style';
 
-const ChoreHistoryScreen = () => {
+const ChoreHistoryScreen = ({ choreHistory }) => {
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View>
         <View>
           <Text>Chore History</Text>
           <ScrollView>
-            <Text>Chore</Text>
-            <Text>Chore</Text>
+            <FlatList
+              data={choreHistory}
+              keyExtractor={item => item.id.toString()}
+              renderItem={({ item }) => <Text>item.chore.name</Text>}
+            />
           </ScrollView>
         </View>
       </View>
@@ -35,4 +40,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChoreHistoryScreen;
+const mapState = ({ choreHistory }) => ({ choreHistory });
+
+export default connect(mapState)(ChoreHistoryScreen);

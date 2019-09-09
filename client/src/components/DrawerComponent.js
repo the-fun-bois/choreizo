@@ -8,13 +8,19 @@ import {
   StatusBar,
   StyleSheet,
   Dimensions,
+  Image,
 } from 'react-native';
 import theme from './../styles/theme.style';
 import DrawerNavItem from './DrawerNavItem';
 import Logout from './../components/Logout';
 import { EvilIcons } from '@expo/vector-icons';
+import { connect } from 'react-redux';
+const defaultAvatarUri = require('./../assets/default_avatar.png');
 
 const DrawerComponent = props => {
+  const { userInfo } = props;
+  const { email, pictureUrl } = userInfo;
+
   return (
     <ScrollView style={{ flex: 1 }}>
       <View
@@ -23,8 +29,11 @@ const DrawerComponent = props => {
       >
         {/* user name header */}
         <View style={styles.headingContainer}>
-          <EvilIcons name="user" size={60} />
-          <Text>user name goes here</Text>
+          <Image
+            source={pictureUrl ? { uri: pictureUrl } : defaultAvatarUri}
+            style={{ height: 50, width: 50, marginVertical: 5 }}
+          />
+          <Text>{email}</Text>
         </View>
 
         {/* regular user options */}
@@ -118,4 +127,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.PRIMARY_COLOR,
   },
 });
-export default DrawerComponent;
+
+const mapState = ({ userInfo }) => ({ userInfo });
+export default connect(mapState)(DrawerComponent);
