@@ -49,13 +49,13 @@ export const fbLogin = () => dispatch => {
         // Get the user's name using Facebook's Graph API
         axios
           .get(
-            `https://graph.facebook.com/me?fields=name,email,hometown,picture&access_token=${token}`,
+            `https://graph.facebook.com/me?fields=name,email,hometown,picture&access_token=${token}`
           )
           .then(result => result.data)
           .then(data => {
             // attach name and picture url to state
             dispatch(
-              getFbUserInfo(data.name, data.picture.data.url, data.email, true),
+              getFbUserInfo(data.name, data.picture.data.url, data.email, true)
             );
             // send data to backend to receive a token
             fbServerHelper(data.email, dispatch);
@@ -108,6 +108,7 @@ export const retrieveToken = () => async dispatch => {
 };
 
 export const getUserInfo = () => async dispatch => {
+  console.log('get user thunk');
   try {
     const response = await serverApi.post('/user/profile');
     console.log('response', response.data);

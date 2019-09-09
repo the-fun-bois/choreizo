@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
-
+import MarketComponent from '../components/MarketComponent';
 import theme from './../styles/theme.style';
 
 import AcceptButton from '../components/marketChoreButtons/AcceptButton';
@@ -11,11 +11,8 @@ const MarketScreen = () => {
     <View style={styles.mainContainer}>
       <View>
         <Text>Market Screen</Text>
+        <MarketComponent />
       </View>
-      {/* testing */}
-      <AcceptButton />
-      <DeclineButton />
-      <CancelButton />
     </View>
   );
 };
