@@ -14,7 +14,6 @@ router.get('/profile', (req, res, next) => {
 
 router.post('/profile', (req, res, next) => {
   const { userId } = req.body;
-  console.log('user id', userId);
   User.findByPk(userId, { include: [Group, EthereumWallet] })
     .then(user => {
       if (!user) {

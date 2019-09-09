@@ -44,6 +44,7 @@ export default userInfoReducer = (state = initialState, action) => {
         token: action.token,
       };
     case GET_USER_PROFILE:
+      console.log(action.user.imageUrl);
       return {
         ...state,
         id: action.user.id,
