@@ -30,19 +30,17 @@ const GetAllInfoFromServer = ({
   // get user info on load
   useEffect(() => {
     console.log('getting user info');
-    if (userInfo.token) {
-      getUserInfo();
-    }
+    getUserInfo();
   }, [userInfo.id]);
 
   // get user chores and market chores when group id changes
   useEffect(() => {
-    if (userInfo.token && userInfo.id) {
+    if (userInfo.id) {
       let groupId = null;
       if (userInfo.groups[0] && userInfo.groups[0].id) {
         groupId = userInfo.groups[0].id;
-        console.log('group id', groupId);
       }
+
       console.log('getting your chores and market chores');
       getUserChores(groupId);
       getMarketChores(groupId);

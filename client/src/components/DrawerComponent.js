@@ -31,7 +31,12 @@ const DrawerComponent = props => {
         <View style={styles.headingContainer}>
           <Image
             source={pictureUrl ? { uri: pictureUrl } : defaultAvatarUri}
-            style={{ height: 50, width: 50, marginVertical: 5 }}
+            style={{
+              height: 50,
+              width: 50,
+              marginVertical: 5,
+              borderRadius: 25,
+            }}
           />
           <Text>{email}</Text>
         </View>
