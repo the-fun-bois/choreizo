@@ -30,9 +30,9 @@ const usersSeed = [
         'https://cdn.xl.thumbs.canstockphoto.com/cattail-detailed-illustration-background-clip-art-vector_csp19117867.jpg',
     },
     {
-      firstName: 'Crystal ',
-      surName: 'Fields-Sam',
-      email: 'crystal@gmail.com',
+      firstName: 'Ryan',
+      surName: 'Jasinski',
+      email: 'ryan@gmail.com',
       imageUrl:
         'https://cdn.xl.thumbs.canstockphoto.com/cattail-detailed-illustration-background-clip-art-vector_csp19117867.jpg',
     },
