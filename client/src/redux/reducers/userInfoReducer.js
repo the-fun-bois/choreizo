@@ -51,6 +51,7 @@ export default userInfoReducer = (state = initialState, action) => {
         surName: action.user.surName,
         email: action.user.email,
         groups: action.user.groups,
+        pictureUrl: action.user.imageUrl,
         ethereumWallet: action.user.ethereumWallet,
       };
     case GOT_USER_WALLET:

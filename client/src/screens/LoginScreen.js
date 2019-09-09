@@ -112,7 +112,6 @@ const styles = StyleSheet.create({
     fontSize: theme.FONT_SIZE_HEADING,
     color: 'white',
     fontWeight: 'bold',
-    // flexGrow: 1,
     textAlign: 'center',
   },
 });
