@@ -21,6 +21,7 @@ export const getAllGroupUsers = groupId => {
               firstName,
               surName,
               email,
+              imageUrl,
               groups: {
                 '0': {
                   userGroup: { userIsAdmin, userStatus, groupId },
@@ -35,6 +36,7 @@ export const getAllGroupUsers = groupId => {
               userIsAdmin,
               userStatus,
               groupId,
+              imageUrl,
             };
           });
           dispatch(gotAllGroupUsers(groupMembers));

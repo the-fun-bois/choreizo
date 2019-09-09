@@ -9,6 +9,7 @@ const initialState = [
     userIsAdmin: false,
     userStatus: '',
     groupId: '',
+    imageUrl: '',
   },
 ];
 
