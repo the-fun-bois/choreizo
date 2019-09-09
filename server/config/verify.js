@@ -11,9 +11,9 @@ module.exports = (req, res, next) => {
       const token = req.headers.authorization.split(' ');
       const decoded = jwt.verify(token[1], auth.secret);
       req.body.userId = decoded.id;
+      next();
     } catch (err) {
       res.sendStatus(401);
     }
-    next();
   }
 };

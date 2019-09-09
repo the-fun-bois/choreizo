@@ -1,6 +1,10 @@
 const router = require('express').Router();
-const { AssignedChore, Chore, UserGroup } = require('../database/index');
-const { createChoreIncludeParamsForMarket } = require('./utils/choreUtils');
+const { AssignedChore, Chore, UserGroup, User } = require('../database/index');
+const {
+  createChoreIncludeParamsForMarket,
+  checkIfChoreIsAlreadyInMarketPlace,
+  choreIncludeParams,
+} = require('./utils/choreUtils');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 //assumes only UserId is coming in for each route
@@ -65,6 +69,33 @@ router.post('/market_chores', (req, res, next) => {
         );
       });
       res.status(200).send(marketChores);
+    })
+    .catch(next);
+});
+
+router.post('/swappable_chores', (req, res, next) => {
+  const { groupId } = req.body;
+  const includeParams = [
+    ...choreIncludeParams,
+    {
+      model: Chore,
+      where: { groupId },
+      attributes: ['name', 'details', 'groupId'],
+    },
+    { model: User, attributes: ['id', 'firstName', 'surName', 'email'] },
+  ];
+  AssignedChore.findAll({
+    where: {
+      status: 'pending',
+    },
+    attributes: ['id', 'status', 'userId', 'choreId', 'expiresOn'],
+    include: includeParams,
+  })
+    .then(swappableChores => {
+      const filteredSwappableChores = swappableChores.filter(chore => {
+        return !checkIfChoreIsAlreadyInMarketPlace(chore);
+      });
+      res.send(filteredSwappableChores);
     })
     .catch(next);
 });

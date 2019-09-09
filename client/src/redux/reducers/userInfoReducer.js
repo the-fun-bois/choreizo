@@ -1,17 +1,24 @@
-import { SET_BEARER_TOKEN, GET_USER_PROFILE } from '../creators';
-
-// this is just a place holder
-const { GET_FBUSER_INFO, GET_USER_CHORES } = require('./../creators');
+import {
+  SET_BEARER_TOKEN,
+  GET_USER_PROFILE,
+  GET_FBUSER_INFO,
+  GET_USER_CHORES,
+  SET_BEARER_TOKEN_STATE,
+  GOT_USER_WALLET,
+} from '../creators';
 
 const initialState = {
-  name: '',
+  id: '',
   pictureUrl: '',
   isSignedIn: false,
   firstName: '',
   surName: '',
   email: '',
   token: '',
-  chores: {},
+  groups: [
+    { id: '', name: '', description: '', userGroup: { userIsAdmin: false } },
+  ],
+  ethereumWallet: { balance: '' },
 };
 
 export default userInfoReducer = (state = initialState, action) => {
@@ -21,9 +28,16 @@ export default userInfoReducer = (state = initialState, action) => {
         ...state,
         name: action.name,
         pictureUrl: action.pictureUrl,
+        email: action.email,
         isSignedIn: true,
       };
     }
+    case SET_BEARER_TOKEN_STATE:
+      return {
+        ...state,
+        token: action.token,
+        userId: action.userId,
+      };
     case SET_BEARER_TOKEN:
       return {
         ...state,
@@ -33,16 +47,15 @@ export default userInfoReducer = (state = initialState, action) => {
       return {
         ...state,
         id: action.user.id,
-        email: action.user.email,
         firstName: action.user.firstName,
         surName: action.user.surName,
+        email: action.user.email,
+        groups: action.user.groups,
+        pictureUrl: action.user.imageUrl,
+        ethereumWallet: action.user.ethereumWallet,
       };
-    case GET_USER_CHORES: {
-      return {
-        ...state,
-        chores: action.chores,
-      };
-    }
+    case GOT_USER_WALLET:
+      return Object.assign({}, state, { ethereumWallet: action.wallet });
     default:
       return state;
   }

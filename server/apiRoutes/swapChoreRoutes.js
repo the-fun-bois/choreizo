@@ -77,7 +77,7 @@ const acceptSwap = (userId, swapChoreId, res, next) =>
       if (swapChore.status === 'accepted') {
         return res
           .status(400)
-          .sent({ error: 'Trade has already been accepted.' });
+          .send({ error: 'Trade has already been accepted.' });
       }
       // swap assigned chores and change swapChore status to 'accepted;
       const {
@@ -120,6 +120,30 @@ const cancelSwap = (userId, swapChoreId, res, next) =>
     })
     .catch(next);
 
+const declineSwap = (userId, swapChoreId, res, next) =>
+  SwapChore.findOne({
+    where: {
+      user2Id: userId,
+      id: swapChoreId,
+    },
+  })
+    .then(swapChore => {
+      if (!swapChore) {
+        return res.status(400).send({ error: 'Could not find selected swap' });
+      }
+      if (swapChore.status === 'accepted') {
+        return res.status(400).send({
+          error: 'Error canceling swap. Swap has already been accepted',
+        });
+      }
+      swapChore
+        .update({ status: 'declined' })
+        .then(() =>
+          res.status(200).send({ message: 'Swap declined successfully' }),
+        );
+    })
+    .catch(next);
+
 /*
  * @ROUTE: POST to /api/swap_chore/create_swap
  * @DESC: create a swap
@@ -149,6 +173,17 @@ router.put('/accept_swap', (req, res, next) => {
 router.delete('/cancel_swap', (req, res, next) => {
   const { userId, swapChoreId } = req.body;
   cancelSwap(userId, swapChoreId, res, next);
+});
+
+/*
+ * @ROUTE: PUT to /api/swap_chore/decline_swap
+ * @DESC: decline a swap offer
+ * @ACCESS: private
+ */
+
+router.put('/decline_swap', (req, res, next) => {
+  const { userId, swapChoreId } = req.body;
+  declineSwap(userId, swapChoreId, res, next);
 });
 
 module.exports = router;
