@@ -57,7 +57,10 @@ const MarketChoreSingle = props => {
             </View>
             <AcceptButton
               type='transfer'
-              body={{ userId: chore.userId, choreId: chore.chore.id }}
+              body={{
+                userId: chore.userId,
+                transferChoreId: chore.transferChore.id,
+              }}
             />
           </Row>
         </Card>
@@ -65,7 +68,6 @@ const MarketChoreSingle = props => {
     );
   } else if (chore.tradeChore !== null) {
     chore.type = 'Trade';
-    console.log('trade');
     return (
       <View alignment='stretch'>
         <Card>
@@ -101,19 +103,19 @@ const MarketChoreSingle = props => {
                 {chore.tradeChore.tradeTerms}
               </Text>
             </View>
-            <Button>
-              <Text>Accept</Text>
-            </Button>
-            <Button>
-              <Text>Decline</Text>
-            </Button>
+            <AcceptButton
+              type='trade'
+              body={{
+                userId: chore.tradeChore.originalOwnerId,
+                tradeChoreId: chore.tradeChore.id,
+              }}
+            />
           </Row>
         </Card>
       </View>
     );
   } else if (chore.swapAssignedChore2 !== null) {
     chore.type = 'My Swap';
-    console.log('swap2');
     return (
       <View alignment='stretch'>
         <Card>
@@ -150,12 +152,14 @@ const MarketChoreSingle = props => {
               </Text>
             </View>
 
-            <Button>
-              <Text>Accept</Text>
-            </Button>
-            <Button>
-              <Text>Decline</Text>
-            </Button>
+            <AcceptButton
+              type='transfer'
+              body={{ userId: chore.userId, choreId: chore.chore.id }}
+            />
+            <CancelButton
+              type='swap'
+              body={{ userId: chore.userId, choreId: chore.id }}
+            />
           </Row>
         </Card>
       </View>
@@ -200,12 +204,16 @@ const MarketChoreSingle = props => {
               </Text>
             </View>
 
-            <Button>
-              <Text>Accept</Text>
-            </Button>
-            <Button>
-              <Text>Decline</Text>
-            </Button>
+            <AcceptButton
+              type='swap'
+              body={{ userId: chore.userId, choreId: chore.chore.id }}
+            />
+            <DeclineButton
+              body={{
+                userId: chore.swapAssignedChore1.user2.id,
+                choreId: chore.id,
+              }}
+            />
           </Row>
         </Card>
       </View>
