@@ -13,10 +13,11 @@ import serverApi from '../../api/serverApi';
 // swap chore
 
 const cancelSwap = (userId, swapChoreId) => {
+  console.log('userId', userId, 'swap chore id', swapChoreId);
   return serverApi
-    .put('/swap_chore/cancel_swap', { userId, swapChoreId })
+    .delete('/swap_chore/cancel_swap', { data: { userId, swapChoreId } })
     .then(response => {
-      console.log('swap accepted');
+      console.log('swap canceled');
       return response.data;
     })
     .catch(e => console.error('error canceling chore', e));
@@ -24,7 +25,7 @@ const cancelSwap = (userId, swapChoreId) => {
 
 const cancelTrade = (userId, tradeChoreId) => {
   return serverApi
-    .put('/trade_chore/cancel_trade', { userId, tradeChoreId })
+    .delete('/trade_chore/cancel_trade', { data: { userId, tradeChoreId } })
     .then(response => {
       return response.data;
     })
@@ -33,7 +34,9 @@ const cancelTrade = (userId, tradeChoreId) => {
 
 const cancelTransfer = (userId, transferChoreId) => {
   return serverApi
-    .put('/transfer_chore/cancel_transfer', { userId, transferChoreId })
+    .delete('/transfer_chore/cancel_transfer', {
+      data: { userId, transferChoreId },
+    })
     .then(response => {
       return response.data;
     })
@@ -92,5 +95,5 @@ const mapDispatch = dispatch => ({
 });
 export default connect(
   mapState,
-  mapDispatch,
+  mapDispatch
 )(CancelButton);

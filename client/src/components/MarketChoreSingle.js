@@ -115,7 +115,7 @@ const MarketChoreSingle = props => {
       </View>
     );
   } else if (chore.swapAssignedChore2 !== null) {
-    chore.type = 'My Swap';
+    chore.type = 'Swap';
     return (
       <View alignment='stretch'>
         <Card>
@@ -154,19 +154,16 @@ const MarketChoreSingle = props => {
 
             <AcceptButton
               type='transfer'
-              body={{ userId: chore.userId, choreId: chore.chore.id }}
+              body={{ userId: chore.userId, choreId: swapChore.chore.id }}
             />
-            <CancelButton
-              type='swap'
-              body={{ userId: chore.userId, choreId: chore.id }}
-            />
+            <DeclineButton />
           </Row>
         </Card>
       </View>
     );
   } else if (chore.swapAssignedChore1 !== null) {
     // we know that its someone else's chore to swap
-    chore.type = 'Swap';
+    chore.type = 'My Swap';
     console.log('swap1');
     return (
       <View alignment='stretch'>
@@ -180,38 +177,34 @@ const MarketChoreSingle = props => {
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
               <Text>
-                Your Chore:{'\n'}
-                {chore.swapAssignedChore2}
+                Their Chore:{'\n'}
+                {chore.swapAssignedChore1.swapAssignedChore2.chore.name}
               </Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
               <Text>
-                Their Chore:{'\n'}
+                Their Chore Difficulty:{'\n'}
+                {chore.swapAssignedChore1.swapAssignedChore2.chore.difficulty}
+              </Text>
+            </View>
+            <View style={{ flex: 1, flexDirection: 'column' }}>
+              <Text>
+                Your Chore:{'\n'}
                 {chore.chore.name}
               </Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
               <Text>
-                Their Difficulty:{'\n'}
+                Your Difficulty:{'\n'}
                 {chore.chore.difficulty}
               </Text>
             </View>
 
-            <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text>
-                Time:{'\n'}
-                {chore.chore.timeLimit} days
-              </Text>
-            </View>
-
-            <AcceptButton
+            <CancelButton
               type='swap'
-              body={{ userId: chore.userId, choreId: chore.chore.id }}
-            />
-            <DeclineButton
               body={{
-                userId: chore.swapAssignedChore1.user2.id,
-                choreId: chore.id,
+                userId: chore.userId,
+                swapChoreId: chore.swapAssignedChore1.id,
               }}
             />
           </Row>
