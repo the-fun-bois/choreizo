@@ -9,10 +9,7 @@ import DeclineButton from '../components/marketChoreButtons/DeclineButton';
 const MarketScreen = () => {
   return (
     <View style={styles.mainContainer}>
-      <View>
-        <Text>Market Screen</Text>
-        <MarketComponent />
-      </View>
+      <MarketComponent />
     </View>
   );
 };

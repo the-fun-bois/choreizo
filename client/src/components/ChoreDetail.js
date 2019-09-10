@@ -24,6 +24,7 @@ const ChoreDetail = ({ nav }) => {
   const lastName = nav.getParam('lastName', 'No User Assigned');
   const daysRemaining = nav.getParam('timeLimit', 'No Limit');
   const currChoreId = nav.getParam('currChoreId', 'None');
+  const currUserId = nav.getParam('currUserId', 'No current user');
 
   return (
     <Container>
@@ -87,7 +88,18 @@ const ChoreDetail = ({ nav }) => {
               </Button>
             </Left>
             <Body>
-              <Button transparent style={styles.ecoButtonMiddle}>
+              <Button
+                transparent
+                style={styles.ecoButtonMiddle}
+                // put necssary params here
+                onPress={() =>
+                  nav.navigate('Sell', {
+                    name: choreName,
+                    choreId: currChoreId,
+                    userId: currUserId,
+                  })
+                }
+              >
                 {/* <Text>Swap Chore</Text> */}
                 <Feather name="dollar-sign" size={20} color="white" />
                 <Text style={{ color: 'white' }}>Sell</Text>
@@ -97,7 +109,7 @@ const ChoreDetail = ({ nav }) => {
               <Button transparent style={styles.ecoButton}>
                 {/* <Text>Swap Chore</Text> */}
                 <AntDesign name="sync" size={20} color="white" />
-                <Text style={{ color: 'white' }}>Exchange</Text>
+                <Text style={{ color: 'white' }}>Trade</Text>
               </Button>
             </Right>
           </CardItem>
@@ -110,7 +122,7 @@ const ChoreDetail = ({ nav }) => {
 const styles = StyleSheet.create({
   assignedButton: {
     backgroundColor: theme.PRIMARY_COLOR,
-    width: 43,
+    width: 45,
     height: 42,
     borderRadius: 100,
     marginLeft: 10,

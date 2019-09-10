@@ -6,6 +6,7 @@ import {
   Platform,
   StatusBar,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import { Button } from 'native-base';
 import { connect } from 'react-redux';
@@ -40,21 +41,27 @@ const HomeScreen = props => {
         </Body>
         <Right />
       </Header>
-
-      <ChoreCard
-        name={userChores[0].chore.name}
-        diff={userChores[0].chore.difficulty}
-        currUserInfo={userInfo}
-        details={() =>
-          navigation.navigate('Chores', {
-            choreName: userChores[0].chore.name,
-            details: userChores[0].chore.details[0],
-            userName: userInfo.firstName,
-            lastName: userInfo.surName,
-            timeLimit: userChores[0].chore.timeLimit,
-            currChoreId: userChores[0].id,
-          })
-        }
+      <FlatList
+        data={userChores}
+        keyExtractor={item => item.id.toString()}
+        renderItem={({ item }) => (
+          <ChoreCard
+            name={item.chore.name}
+            diff={item.chore.difficulty}
+            currUserInfo={userInfo}
+            details={() =>
+              navigation.navigate('Chores', {
+                choreName: item.chore.name,
+                details: item.chore.details[0],
+                userName: userInfo.firstName,
+                lastName: userInfo.surName,
+                timeLimit: item.chore.timeLimit,
+                currChoreId: item.id,
+                currUserId: userInfo.id,
+              })
+            }
+          />
+        )}
       />
     </Container>
   );
