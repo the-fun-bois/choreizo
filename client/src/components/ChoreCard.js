@@ -99,7 +99,7 @@ const swapCreator = (user1Id, user2Id, assignedChore1Id, assignedChore2Id) => {
       console.log(resp);
     })
     .catch(err => {
-      console.error('Could not swap chore', err.response);
+      err ? Alert.alert('Chore already in the marketplace') : '';
     });
 };
 

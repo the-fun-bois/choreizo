@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Platform, StatusBar, FlatList } from 'react-native';
+import React from 'react';
+import { StyleSheet, Platform, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { getUserInfo, retrieveToken } from './../redux/creators';
-import ChoreCard from '../components/ChoreCard';
+import SellChoreCard from '../components/SellChoreCard';
 import theme from './../styles/theme.style';
 import {
   Container,
@@ -16,32 +16,22 @@ import {
   Text,
 } from 'native-base';
 
-const SwapScreen = props => {
-  const { userInfo, navigation, swappableChores } = props;
-  const currChoreId = navigation.getParam('currChoreId');
-  console.log(swappableChores);
+const TransferScreen = props => {
+  const { userInfo, navigation } = props;
+  //   const currChoreId = navigation.getParam('currChoreId');
   return (
     <Container>
       <Header style={styles.headerBack}>
         <Left />
         <Body>
-          <Title style={{ color: 'white' }}>SWAP CHORES</Title>
+          <Title style={{ color: 'white' }}>SELL CHORE</Title>
         </Body>
         <Right />
       </Header>
-      <FlatList
-        data={swappableChores}
-        keyExtractor={item => item.id.toString()}
-        renderItem={({ item }) => (
-          <ChoreCard
-            name={item.chore.name}
-            swapUserInfo={item.user}
-            swapCurrId={userInfo.id}
-            currChoreId={currChoreId}
-            swapChoreId={item.id}
-          />
-        )}
-      />
+      <Content>
+        {/* some form that will take a price and send it to back end */}
+        <SellChoreCard nav={navigation} />
+      </Content>
     </Container>
   );
 };
@@ -69,4 +59,4 @@ const mapDispatch = dispatch => {
 export default connect(
   mapState,
   mapDispatch
-)(SwapScreen);
+)(TransferScreen);
