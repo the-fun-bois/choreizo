@@ -97,5 +97,5 @@ const mapDispatch = dispatch => ({
 });
 export default connect(
   mapState,
-  mapDispatch,
+  mapDispatch
 )(AcceptButton);
