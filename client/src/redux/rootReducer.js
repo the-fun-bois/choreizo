@@ -4,12 +4,15 @@ import userChoresReducer from './reducers/userChoresReducer';
 import marketChoresReducer from './reducers/marketChoresReducer';
 import allGroupUsersReducer from './reducers/allGroupUsersReducer';
 import swappableChoresReducer from './reducers/swappableChoresReducer';
+import choreHistoryReducer from './reducers/choreHistoryReducer';
+
 const appReducer = combineReducers({
   userInfo: userInfoReducer,
   userChores: userChoresReducer,
   marketChores: marketChoresReducer,
   allGroupUsers: allGroupUsersReducer,
   swappableChores: swappableChoresReducer,
+  choreHistory: choreHistoryReducer,
 });
 
 const rootReducer = (state, action) => {

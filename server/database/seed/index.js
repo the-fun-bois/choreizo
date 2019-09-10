@@ -23,7 +23,7 @@ const seed = async () => {
 
     console.log('creating groups');
     const groups = await Promise.all(
-      groupsSeed.map(group => Group.create(group))
+      groupsSeed.map(group => Group.create(group)),
     );
 
     for (let groupIdx = 0; groupIdx < groups.length; groupIdx++) {
@@ -31,30 +31,30 @@ const seed = async () => {
       const currentGroup = groups[groupIdx];
       console.log('creating users');
       const users = await Promise.all(
-        usersSeed[groupIdx].map(user => User.create(user))
+        usersSeed[groupIdx].map(user => User.create(user)),
       );
       console.log('assigning users to groups');
       await Promise.all(users.map(user => user.addGroup(currentGroup)));
       // make first user of each group the admin
       await UserGroup.update(
         { userIsAdmin: true },
-        { where: { userId: users[0].id } }
+        { where: { userId: users[0].id } },
       );
       console.log('creating wallets');
       await Promise.all(
         users.map(user =>
           EthereumWallet.create({
             userId: user.id,
-            balance: Math.random() * 100,
-          })
-        )
+            balance: Math.floor(Math.random() * 100000),
+          }),
+        ),
       );
       console.log('creating chores');
       const groupChores = await Promise.all(
         choresSeed[groupIdx].map(chore => {
           chore.groupId = groups[groupIdx].id;
           return Chore.create(chore);
-        })
+        }),
       );
       console.log('assigning chores');
       const totalUsers = users.length;

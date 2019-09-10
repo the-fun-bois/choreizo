@@ -111,7 +111,6 @@ export const getUserInfo = () => async dispatch => {
   console.log('get user thunk');
   try {
     const response = await serverApi.post('/user/profile');
-    console.log('response', response.data);
     dispatch(getUserProfile(response.data));
     return;
   } catch (e) {

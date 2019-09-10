@@ -8,7 +8,6 @@ export const gotUserChores = userChores => ({
 });
 
 export const getUserChoresThunk = groupId => {
-  console.log('get user chores thunk', groupId);
   return (dispatch, getState) => {
     if (!groupId) {
       dispatch(gotUserChores([]));

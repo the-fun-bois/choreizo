@@ -29,7 +29,7 @@ const RootSwitch = createSwitchNavigator(
     defaultNavigationOptions: {
       header: null,
     },
-  }
+  },
 );
 
 const Navigation = createAppContainer(RootSwitch);
