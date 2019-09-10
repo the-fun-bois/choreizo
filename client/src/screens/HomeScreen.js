@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { getUserInfo, retrieveToken } from './../redux/creators';
 import GetAllInfoFromServer from './../components/GetAllInfoFromServer';
 import marketChoresReducer from '../redux/reducers/marketChoresReducer';
+import ChoreCard from '../components/ChoreCard';
 import { Spinner } from 'native-base';
 
 const HomeScreen = props => {
@@ -25,20 +26,16 @@ const HomeScreen = props => {
       {/* GetALLInfoFromServer is an empty component that runs all the redux thunks */}
       <GetAllInfoFromServer />
       <View>
-        <View>
-          <Text>Home Screen</Text>
-        </View>
-        <View>
-          <Button onPress={() => navigation.navigate('Chores')}>
-            <Text>Chores</Text>
-          </Button>
-          <ScrollView>
-            <Text>****** My goddam chores:</Text>
-            <Text>{JSON.stringify(userChores)}</Text>
-            <Text>****** Goddam market chores:</Text>
-            <Text>{JSON.stringify(marketChores)}</Text>
-          </ScrollView>
-        </View>
+        <ScrollView>
+          <Text>****** My goddam chores:</Text>
+          <ChoreCard
+            name={userChores[0].chore.name}
+            diff={userChores[0].chore.difficulty}
+          />
+          <Text>{JSON.stringify(userChores)}</Text>
+          <Text>****** Goddam market chores:</Text>
+          <Text>{JSON.stringify(marketChores)}</Text>
+        </ScrollView>
       </View>
     </View>
   );
@@ -64,5 +61,5 @@ const mapDispatch = dispatch => {
 };
 export default connect(
   mapState,
-  mapDispatch,
+  mapDispatch
 )(HomeScreen);
