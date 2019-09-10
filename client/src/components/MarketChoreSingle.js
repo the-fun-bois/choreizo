@@ -114,7 +114,7 @@ const MarketChoreSingle = props => {
         </Card>
       </View>
     );
-  } else if (chore.swapAssignedChore2 !== null) {
+  } else if (chore.swapAssignedChore2 != null) {
     chore.type = 'Swap';
     return (
       <View alignment='stretch'>
@@ -124,12 +124,6 @@ const MarketChoreSingle = props => {
               <Text>
                 Type:{'\n'}
                 {chore.type}
-              </Text>
-            </View>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text>
-                Your Chore:{'\n'}
-                {chore.swapAssignedChore2}
               </Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
@@ -144,24 +138,37 @@ const MarketChoreSingle = props => {
                 {chore.chore.difficulty}
               </Text>
             </View>
-
             <View style={{ flex: 1, flexDirection: 'column' }}>
               <Text>
-                Time:{'\n'}
-                {chore.chore.timeLimit} days
+                Your Chore:{'\n'}
+                {chore.swapAssignedChore2.swapAssignedChore1.chore.name}
               </Text>
             </View>
-
+            <View style={{ flex: 1, flexDirection: 'column' }}>
+              <Text>
+                Your Difficulty:{'\n'}
+                {chore.swapAssignedChore2.swapAssignedChore1.chore.difficulty}
+              </Text>
+            </View>
             <AcceptButton
-              type='transfer'
-              body={{ userId: chore.userId, choreId: swapChore.chore.id }}
+              type='swap'
+              body={{
+                userId: chore.userId,
+                swapChoreId: chore.swapAssignedChore2.id,
+              }}
             />
-            <DeclineButton />
+            <DeclineButton
+              type='swap'
+              body={{
+                userId: chore.userId,
+                swapChoreId: chore.swapAssignedChore2.id,
+              }}
+            />
           </Row>
         </Card>
       </View>
     );
-  } else if (chore.swapAssignedChore1 !== null) {
+  } else if (chore.swapAssignedChore1 != null) {
     // we know that its someone else's chore to swap
     chore.type = 'My Swap';
     console.log('swap1');
