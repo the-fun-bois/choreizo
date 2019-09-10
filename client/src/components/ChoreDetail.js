@@ -15,42 +15,41 @@ import {
   Right,
   Title,
 } from 'native-base';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, Feather, AntDesign } from '@expo/vector-icons';
 
 const ChoreDetail = ({ nav }) => {
   const choreName = nav.getParam('choreName', 'No Name');
   const details = nav.getParam('details', 'No Details');
   const userName = nav.getParam('userName', 'No User Assigned');
+  const lastName = nav.getParam('lastName', 'No User Assigned');
   const daysRemaining = nav.getParam('timeLimit', 'No Limit');
+  const currChoreId = nav.getParam('currChoreId', 'None');
 
   return (
     <Container>
       <Content>
         <Card style={styles.choreName}>
           <Title style={{ margin: 10 }}>
-            <Text>{choreName}</Text>
-          </Title>
-        </Card>
-        <Card style={styles.assignedTo}>
-          <Title style={{ margin: 10 }}>
-            <Text>Assigned To:</Text>
+            <Text style={{ color: 'white' }}>{choreName}</Text>
           </Title>
           <CardItem button style={styles.assignedButton}>
-            <Text style={{ color: 'white', fontWeight: 'bold' }}>
-              {userName[0]}
+            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 10 }}>
+              {`${userName[0]}${lastName[0]}`}
             </Text>
           </CardItem>
         </Card>
         <Card style={styles.time}>
           <Title style={{ margin: 10 }}>
-            <Text>Due Date / Elapsed Time</Text>
+            <Text style={{ color: 'white' }}>Due Date / Elapsed Time</Text>
           </Title>
-          <CardItem>
+          <CardItem style={styles.time}>
             <Left>
-              <Text>Sept 12, 2019</Text>
+              <Text style={{ color: 'white' }}>Sept 12, 2019</Text>
             </Left>
             <Right>
-              <Text style={{ marginRight: 10 }}>{daysRemaining} days</Text>
+              <Text style={{ marginRight: 10, color: 'white' }}>
+                {daysRemaining} days
+              </Text>
             </Right>
           </CardItem>
         </Card>
@@ -64,17 +63,43 @@ const ChoreDetail = ({ nav }) => {
                 }}
                 style={{ height: 200, width: 375, flex: 1 }}
               />
-              <Text>{details}</Text>
+              <CardItem footer>
+                <Text>{details}</Text>
+              </CardItem>
             </Body>
           </CardItem>
-          <CardItem>
-            <Left style={{ flexDirection: 'column' }}>
-              <Button transparent textStyle={{ color: '#87838B' }}>
+        </Card>
+        <Card>
+          <CardItem style={styles.econoptions}>
+            <Left>
+              <Button
+                transparent
+                style={styles.ecoButton}
+                onPress={() =>
+                  nav.navigate('Swap', {
+                    currChoreId: currChoreId,
+                  })
+                }
+              >
                 {/* <Text>Swap Chore</Text> */}
-                <Entypo name="swap" size={30} />
+                <Entypo name="swap" size={20} color="white" />
+                <Text style={{ color: 'white' }}>Swap</Text>
               </Button>
-              <Text>Swap</Text>
             </Left>
+            <Body>
+              <Button transparent style={styles.ecoButtonMiddle}>
+                {/* <Text>Swap Chore</Text> */}
+                <Feather name="dollar-sign" size={20} color="white" />
+                <Text style={{ color: 'white' }}>Sell</Text>
+              </Button>
+            </Body>
+            <Right>
+              <Button transparent style={styles.ecoButton}>
+                {/* <Text>Swap Chore</Text> */}
+                <AntDesign name="sync" size={20} color="white" />
+                <Text style={{ color: 'white' }}>Exchange</Text>
+              </Button>
+            </Right>
           </CardItem>
         </Card>
       </Content>
@@ -83,18 +108,37 @@ const ChoreDetail = ({ nav }) => {
 };
 
 const styles = StyleSheet.create({
-  assignedTo: {
-    height: 90,
-  },
   assignedButton: {
     backgroundColor: theme.PRIMARY_COLOR,
-    width: 40,
+    width: 43,
+    height: 42,
     borderRadius: 100,
     marginLeft: 10,
     marginBottom: 10,
   },
   choreName: {
     backgroundColor: theme.SECONDARY_COLOR,
+    height: 90,
+  },
+  econoptions: {
+    backgroundColor: theme.SECONDARY_COLOR,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  ecoButton: {
+    color: '#87838B',
+    flexDirection: 'column',
+    alignContent: 'center',
+  },
+  ecoButtonMiddle: {
+    color: '#87838B',
+    flexDirection: 'column',
+    alignContent: 'center',
+    marginRight: 20,
+  },
+  time: {
+    backgroundColor: theme.SECONDARY_COLOR,
+    color: 'white',
   },
 });
 

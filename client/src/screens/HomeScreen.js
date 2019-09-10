@@ -36,44 +36,26 @@ const HomeScreen = props => {
       <Header style={styles.headerBack}>
         <Left />
         <Body>
-          <Title>My Chores</Title>
+          <Title style={{ color: 'white' }}>My Chores</Title>
         </Body>
         <Right />
       </Header>
-      <Content>
-        <ChoreCard
-          name={userChores[0].chore.name}
-          diff={userChores[0].chore.difficulty}
-          details={() =>
-            navigation.navigate('Chores', {
-              choreName: userChores[0].chore.name,
-              details: userChores[0].chore.details[0],
-              userName: userInfo.firstName,
-              timeLimit: userChores[0].chore.timeLimit,
-            })
-          }
-        />
-      </Content>
 
-      {/* GetALLInfoFromServer is an empty component that runs all the redux thunks */}
-      {/* 
-      <View style={styles.mainContainer}>
-        <Container>
-          <Header>
-            <Left />
-            <Body>
-              <Title>My Chores</Title>
-            </Body>
-            <Right />
-          </Header>
-        </Container>
-      </View> */}
-      {/* <ScrollView> */}
-      {/* 
-            <Text>{JSON.stringify(userChores)}</Text>
-            <Text>****** Goddam market chores:</Text>
-            <Text>{JSON.stringify(marketChores)}</Text> */}
-      {/* </ScrollView> */}
+      <ChoreCard
+        name={userChores[0].chore.name}
+        diff={userChores[0].chore.difficulty}
+        currUserInfo={userInfo}
+        details={() =>
+          navigation.navigate('Chores', {
+            choreName: userChores[0].chore.name,
+            details: userChores[0].chore.details[0],
+            userName: userInfo.firstName,
+            lastName: userInfo.surName,
+            timeLimit: userChores[0].chore.timeLimit,
+            currChoreId: userChores[0].id,
+          })
+        }
+      />
     </Container>
   );
 };
@@ -84,7 +66,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   headerBack: {
-    backgroundColor: theme.PRIMARY_COLOR,
+    backgroundColor: theme.SECONDARY_COLOR,
   },
 });
 
