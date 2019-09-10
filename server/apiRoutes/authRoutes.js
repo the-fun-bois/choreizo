@@ -68,7 +68,7 @@ router.get(
 );
 
 // for front end fbauth method
-router.post('/facebook/token', (req, res) => {
+router.post('/facebook/token', (req, res, next) => {
   // check body for id and email
   const { email } = req.body;
 
@@ -91,8 +91,9 @@ router.post('/facebook/token', (req, res) => {
         email,
       };
       // jwt send ... req.body contains user data id and email
+      req.body.userId = user.id;
       const token = jwt.sign(userDecode, auth.secret);
-      res.send(`${user.id}-${token}`);
+      res.send(`${user.id}-${token}#`);
     })
     .catch(e => console.error('Couldnt create user', e));
 });
