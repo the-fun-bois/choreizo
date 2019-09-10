@@ -51,7 +51,7 @@ const choresSeed = [
       details: createArrayOfSentences(Math.floor(Math.random() * 3) + 1),
     },
     {
-      name: 'REACTO',
+      name: 'Teach REACTO',
       difficulty: Math.floor(Math.random() * 10) + 1,
       penalty: Math.random() * 5,
       isActive: true,

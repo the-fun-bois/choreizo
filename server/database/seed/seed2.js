@@ -36,10 +36,15 @@ const createChoreHistory = async (
       .isBefore(endDate)
   ) {
     const assignee = getRandomUser(users);
+    const getRandomStatus = () => {
+      const statuses = ['completed', 'incomplete'];
+      const index = Math.floor(Math.random() + 0.25);
+      return statuses[index];
+    };
     await AssignedChore.create({
       choreId: chore.id,
       userId: assignee.id,
-      status: 'completed',
+      status: getRandomStatus(),
       expiresOn: moment(currentDate).add(timeLimit, 'days'),
     });
     currentDate = moment(currentDate).add(timeLimit, 'days');

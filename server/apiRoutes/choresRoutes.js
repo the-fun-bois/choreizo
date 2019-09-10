@@ -105,7 +105,7 @@ router.post('/chore_history', (req, res, next) => {
   AssignedChore.findAll({
     where: { userId, status: { [Op.ne]: 'pending' } },
     include: [Chore],
-    order: [['createdAt', 'asc']],
+    order: [['expiresOn', 'desc']],
   })
     .then(choreHistory => {
       res.status(200).send(choreHistory);
