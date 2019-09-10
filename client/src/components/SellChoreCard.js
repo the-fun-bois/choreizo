@@ -27,10 +27,6 @@ class SellChore extends Component {
     this.state = {
       price: '',
     };
-    this.handlePrice = this.handlePrice.bind(this);
-  }
-  handlePrice(chorePrice) {
-    this.setState({ price: chorePrice });
   }
   render() {
     const { nav } = this.props;

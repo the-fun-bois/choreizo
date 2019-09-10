@@ -59,6 +59,7 @@ const ChoreDetail = ({ nav }) => {
             <Body>
               <Image
                 source={{
+                  // TO-DO dynamically have pictures assigned or be able to upload
                   uri:
                     'https://cdnb.artstation.com/p/assets/images/images/001/281/285/large/arvie-alba-render-dark.jpg?1443552726',
                 }}
