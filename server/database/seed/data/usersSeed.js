@@ -39,9 +39,9 @@ const usersSeed = [
   ],
   [
     {
-      firstName: 'Ryan',
-      surName: 'Jasinski',
-      email: 'ryan@gmail.com',
+      firstName: 'Bob',
+      surName: 'Dole',
+      email: 'bobbyd@gmail.com',
       imageUrl:
         'https://cdn.xl.thumbs.canstockphoto.com/cattail-detailed-illustration-background-clip-art-vector_csp19117867.jpg',
     },
