@@ -42,7 +42,7 @@ beforeEach(async () => {
   chore1 = await Chore.create({
     name: 'clean kitchen',
     difficulty: 3,
-    penalty: 0.5,
+    penalty: 20,
     timeLimit: 2,
     details: ['wash dishes', 'take out trash'],
   });
@@ -51,7 +51,7 @@ beforeEach(async () => {
   chore2 = await Chore.create({
     name: 'take out trash',
     difficulty: 1,
-    penalty: 0.3,
+    penalty: 10,
     timeLimit: 1,
     details: ['take out trash and recycle', 'replace bags'],
   });
@@ -254,7 +254,7 @@ describe('/api/swap_chore/accept_swap', () => {
     const chore3 = await Chore.create({
       name: 'clean bathroom',
       difficulty: 3,
-      penalty: 0.5,
+      penalty: 20,
       timeLimit: 2,
       details: ['scrub toilet', 'wipe down sink'],
     });

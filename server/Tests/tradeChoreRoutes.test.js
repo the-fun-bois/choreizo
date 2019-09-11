@@ -40,7 +40,7 @@ beforeEach(async () => {
   chore = await Chore.create({
     name: 'clean kitchen',
     difficulty: 3,
-    penalty: 0.5,
+    penalty: 20,
     timeLimit: 2,
     details: ['wash dishes', 'take out trash'],
   });
@@ -215,7 +215,6 @@ describe('/api/trade_chore/cancel_trade', () => {
   test('a user can not cancel a trade that has already been accepted by another user', async done => {
     let tradeChoreId;
     const tradeTerms = 'dinner';
-
     await request(app)
       .post('/api/trade_chore/create_trade')
       .send({
