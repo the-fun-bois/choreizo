@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Alert } from 'react-native';
 import {
   Container,
   Content,
@@ -14,6 +14,7 @@ import {
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import serverApi from '../api/serverApi';
 import theme from '../styles/theme.style';
+import navigate from '../nav/navJumpAsync';
 
 const ChoreCard = ({
   name,
@@ -97,6 +98,7 @@ const swapCreator = (user1Id, user2Id, assignedChore1Id, assignedChore2Id) => {
     })
     .then(resp => {
       console.log(resp);
+      navigate('Home');
     })
     .catch(err => {
       err ? Alert.alert('Chore already in the marketplace') : '';
