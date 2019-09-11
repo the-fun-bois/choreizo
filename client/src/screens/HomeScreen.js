@@ -11,7 +11,7 @@ import {
 import { connect } from 'react-redux';
 import { getUserInfo, retrieveToken } from './../redux/creators';
 import GetAllInfoFromServer from './../components/GetAllInfoFromServer';
-import marketChoresReducer from '../redux/reducers/marketChoresReducer';
+import { submitChore } from '../redux/creators';
 import ChoreCard from '../components/ChoreCard';
 import theme from './../styles/theme.style';
 import {
@@ -25,11 +25,10 @@ import {
 } from 'native-base';
 
 const HomeScreen = props => {
-  const { userInfo, userChores, marketChores, navigation } = props;
+  const { userInfo, userChores, marketChores, navigation, submitChore } = props;
   // if there's a token in state, then do nothing, otherwise set it again via getToken
   // if (!userInfo.token) getToken();
   // console.log('TOKEN', userInfo.token);
-
   return (
     <Container>
       <GetAllInfoFromServer />
@@ -48,7 +47,9 @@ const HomeScreen = props => {
             <ChoreCard
               name={item.chore.name}
               diff={item.chore.difficulty}
+              currChoreIdComp={item.id}
               currUserInfo={userInfo}
+              submitChore={submitChore}
               details={() =>
                 navigation.navigate('Chores', {
                   choreName: item.chore.name,
@@ -86,6 +87,7 @@ const mapDispatch = dispatch => {
   return {
     getUser: () => dispatch(getUserInfo()),
     getToken: () => dispatch(retrieveToken()),
+    submitChore: (choreId, groupId) => dispatch(submitChore(choreId, groupId)),
   };
 };
 export default connect(

@@ -32,13 +32,27 @@ const ChoreCard = ({
   swapChoreId,
   swapCurrId,
   nav,
+  currChoreIdComp,
+  submitChore,
 }) => {
   return (
     <Content padder>
       <Card>
         <Swipeable
           // added logic here so user not able to swipe complete in swap view, probably should split this component out in future
-          renderLeftActions={!swapUserInfo ? LeftActions : () => <Text />}
+          renderLeftActions={(progress, dragX) =>
+            !swapUserInfo ? (
+              <LeftActions
+                progress={progress}
+                dragX={dragX}
+                handleSubmit={() => {
+                  submitChore(currChoreIdComp, currUserInfo.groups[0].id);
+                }}
+              />
+            ) : (
+              <Text />
+            )
+          }
         >
           <CardItem
             header
@@ -118,7 +132,7 @@ const swapCreator = (user1Id, user2Id, assignedChore1Id, assignedChore2Id) => {
 };
 
 // component for the sliding of chores on homescreen
-const LeftActions = (progress, dragX) => {
+const LeftActions = ({ progress, dragX, handleSubmit }) => {
   const scale = dragX.interpolate({
     inputRange: [0, 20],
     outputRange: [0, 1],
@@ -126,7 +140,7 @@ const LeftActions = (progress, dragX) => {
   });
   return (
     // TO-DO on press you can complete the chore
-    <TouchableOpacity style={styles.leftAction}>
+    <TouchableOpacity style={styles.leftAction} onPress={handleSubmit}>
       <Animated.Text
         style={[styles.leftActionText, { transform: [{ scale }] }]}
       >
