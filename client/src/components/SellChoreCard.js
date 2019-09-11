@@ -20,7 +20,6 @@ import {
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import serverApi from '../api/serverApi';
 import theme from '../styles/theme.style';
-import navigate from '../nav/navJumpAsync';
 
 class SellChore extends Component {
   constructor() {
@@ -59,7 +58,8 @@ class SellChore extends Component {
             onPress={() => {
               const price = parseFloat(this.state.price);
               price
-                ? sellChore(currUserId, currChoreId, price)
+                ? (sellChore(currUserId, currChoreId, price),
+                  nav.navigate('Home'))
                 : Alert.alert('No price inputted');
             }}
           >
@@ -88,7 +88,6 @@ const sellChore = (userId, assignedChoreId, price) => {
     })
     .then(resp => {
       console.log(resp);
-      navigate('Home');
     })
     .catch(err => {
       err ? Alert.alert('Chore already in the marketplace') : '';

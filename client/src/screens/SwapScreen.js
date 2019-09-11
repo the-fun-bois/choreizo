@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Platform, StatusBar, FlatList } from 'react-native';
+import {
+  StyleSheet,
+  Platform,
+  StatusBar,
+  FlatList,
+  ScrollView,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { getUserInfo, retrieveToken } from './../redux/creators';
 import ChoreCard from '../components/ChoreCard';
@@ -29,19 +35,22 @@ const SwapScreen = props => {
         </Body>
         <Right />
       </Header>
-      <FlatList
-        data={swappableChores}
-        keyExtractor={item => item.id.toString()}
-        renderItem={({ item }) => (
-          <ChoreCard
-            name={item.chore.name}
-            swapUserInfo={item.user}
-            swapCurrId={userInfo.id}
-            currChoreId={currChoreId}
-            swapChoreId={item.id}
-          />
-        )}
-      />
+      <ScrollView>
+        <FlatList
+          data={swappableChores}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({ item }) => (
+            <ChoreCard
+              name={item.chore.name}
+              swapUserInfo={item.user}
+              swapCurrId={userInfo.id}
+              currChoreId={currChoreId}
+              swapChoreId={item.id}
+              nav={navigation}
+            />
+          )}
+        />
+      </ScrollView>
     </Container>
   );
 };

@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, Alert } from 'react-native';
+import {
+  StyleSheet,
+  Alert,
+  View,
+  Animated,
+  TouchableOpacity,
+} from 'react-native';
 import {
   Container,
   Content,
@@ -14,7 +20,7 @@ import {
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import serverApi from '../api/serverApi';
 import theme from '../styles/theme.style';
-import navigate from '../nav/navJumpAsync';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 const ChoreCard = ({
   name,
@@ -25,64 +31,71 @@ const ChoreCard = ({
   currChoreId,
   swapChoreId,
   swapCurrId,
+  nav,
 }) => {
   return (
     <Content padder>
       <Card>
-        <CardItem
-          header
-          bordered
-          button
-          onPress={() => (details ? details() : '')}
+        <Swipeable
+          // added logic here so user not able to swipe complete in swap view, probably should split this component out in future
+          renderLeftActions={!swapUserInfo ? LeftActions : () => <Text />}
         >
-          <Text>{name}</Text>
-        </CardItem>
-        <CardItem footer bordered>
-          <CardItem style={styles.circleTag}>
-            <Text
-              style={{
-                color: 'white',
-                fontWeight: 'bold',
-                fontSize: 10,
-              }}
-            >
-              {currUserInfo
-                ? `${currUserInfo.firstName[0]}${currUserInfo.surName[0]}`
-                : `${swapUserInfo.firstName[0]}${swapUserInfo.surName[0]}`}
-            </Text>
+          <CardItem
+            header
+            bordered
+            button
+            onPress={() => (details ? details() : '')}
+          >
+            <Text>{name}</Text>
           </CardItem>
-          {/* if there's difficulty then show it otherwise dont */}
-          <Body style={{ marginRight: 60 }} />
-
-          {diff ? (
-            <Right style={styles.diff}>
+          <CardItem footer bordered>
+            <CardItem style={styles.circleTag}>
               <Text
-                style={{ marginRight: 15, fontSize: 15, color: 'white' }}
-              >{`Difficulty ${diff}`}</Text>
-            </Right>
-          ) : (
-            swapUserInfo && (
-              <Right>
-                <Button
-                  transparent
-                  style={styles.swapButton}
-                  onPress={() => {
-                    // will create the swap
-                    swapCreator(
-                      swapCurrId,
-                      swapUserInfo.id,
-                      currChoreId,
-                      swapChoreId
-                    );
-                  }}
-                >
-                  <Entypo name="swap" size={20} />
-                  <Text>Swap</Text>
-                </Button>
+                style={{
+                  color: 'white',
+                  fontWeight: 'bold',
+                  fontSize: 10,
+                }}
+              >
+                {currUserInfo
+                  ? `${currUserInfo.firstName[0]}${currUserInfo.surName[0]}`
+                  : `${swapUserInfo.firstName[0]}${swapUserInfo.surName[0]}`}
+              </Text>
+            </CardItem>
+            {/* if there's difficulty then show it otherwise dont */}
+            <Body style={{ marginRight: 60 }} />
+
+            {diff ? (
+              <Right style={styles.diff}>
+                <Text
+                  style={{ marginRight: 15, fontSize: 15, color: 'white' }}
+                >{`Difficulty ${diff}`}</Text>
               </Right>
-            )
-          )}
-        </CardItem>
+            ) : (
+              swapUserInfo && (
+                <Right>
+                  <Button
+                    transparent
+                    style={styles.swapButton}
+                    onPress={() => {
+                      // will create the swap
+                      swapCreator(
+                        swapCurrId,
+                        swapUserInfo.id,
+                        currChoreId,
+                        swapChoreId
+                      );
+                      nav.navigate('Home');
+                    }}
+                  >
+                    <Entypo name="swap" size={20} />
+                    <Text>Swap</Text>
+                  </Button>
+                </Right>
+              )
+            )}
+          </CardItem>
+        </Swipeable>
       </Card>
     </Content>
   );
@@ -98,11 +111,29 @@ const swapCreator = (user1Id, user2Id, assignedChore1Id, assignedChore2Id) => {
     })
     .then(resp => {
       console.log(resp);
-      navigate('Home');
     })
     .catch(err => {
       err ? Alert.alert('Chore already in the marketplace') : '';
     });
+};
+
+// component for the sliding of chores on homescreen
+const LeftActions = (progress, dragX) => {
+  const scale = dragX.interpolate({
+    inputRange: [0, 20],
+    outputRange: [0, 1],
+    extrapolate: 'clamp',
+  });
+  return (
+    // TO-DO on press you can complete the chore
+    <TouchableOpacity style={styles.leftAction}>
+      <Animated.Text
+        style={[styles.leftActionText, { transform: [{ scale }] }]}
+      >
+        Complete
+      </Animated.Text>
+    </TouchableOpacity>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -125,6 +156,16 @@ const styles = StyleSheet.create({
   swapButton: {
     flexDirection: 'column',
     alignContent: 'center',
+  },
+  leftAction: {
+    backgroundColor: theme.SECONDARY_COLOR,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
+  leftActionText: {
+    color: 'white',
+    padding: 20,
+    fontWeight: 'bold',
   },
 });
 

@@ -20,7 +20,6 @@ import {
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import serverApi from '../api/serverApi';
 import theme from '../styles/theme.style';
-import navigate from '../nav/navJumpAsync';
 
 class TradeChoreCard extends Component {
   constructor() {
@@ -57,7 +56,8 @@ class TradeChoreCard extends Component {
             onPress={() => {
               const tradeTerms = this.state.tradeTerms;
               tradeTerms
-                ? tradeChore(currUserId, currChoreId, tradeTerms)
+                ? (tradeChore(currUserId, currChoreId, tradeTerms),
+                  nav.navigate('Home'))
                 : Alert.alert('No trade found');
             }}
           >
@@ -86,7 +86,6 @@ const tradeChore = (userId, assignedChoreId, tradeTerms) => {
     })
     .then(resp => {
       console.log(resp);
-      navigate('Home');
     })
     .catch(err => {
       err ? Alert.alert('Chore already in the marketplace') : '';
