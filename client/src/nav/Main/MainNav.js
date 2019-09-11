@@ -4,6 +4,7 @@ import GroupInfoScreen from './../../screens/GroupInfoScreen';
 import ChoreHistoryScreen from './../../screens/ChoreHistoryScreen';
 import SettingsScreen from './../../screens/SettingsScreen';
 import EditChoresScreen from './../../screens/EditChoresScreen';
+import EditUsersScreen from '../../screens/EditUsersScreen';
 import { Platform, StatusBar } from 'react-native';
 const marginTop = Platform.OS === 'ios' ? 0 : -StatusBar.currentHeight;
 import theme from './../../styles/theme.style';
@@ -16,6 +17,7 @@ const MainStack = createStackNavigator(
     ChoreHistory: ChoreHistoryScreen,
     Settings: SettingsScreen,
     EditChores: EditChoresScreen,
+    EditUsers: EditUsersScreen,
     // signout
     // *** admin only
     // add user

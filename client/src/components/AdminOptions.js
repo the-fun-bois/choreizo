@@ -26,6 +26,13 @@ const AdminOptions = ({ userIsAdmin }) => {
             title="Edit Chores"
             navLink="EditChores"
           />
+          <DrawerNavItem
+            iconPack="FontAwesome"
+            iconName="group"
+            iconSize={theme.ICON_SIZE_SMALL}
+            title="Edit Users"
+            navLink="EditUsers"
+          />
         </View>
       </View>
     );
