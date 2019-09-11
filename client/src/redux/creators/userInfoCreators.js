@@ -12,6 +12,8 @@ export const SET_BEARER_TOKEN = 'SET_BEARER_TOKEN';
 export const SET_BEARER_TOKEN_STATE = 'SET_BEARER_TOKEN_STATE';
 export const GET_USER_PROFILE = 'GET_USER_PROFILE';
 export const GOT_USER_WALLET = 'GOT_USER_WALLET';
+export const DISPLAY_UPDATE = 'DISPLAY_UPDATE';
+export const UPDATE_USER_NAME = 'UPDATE_USER_NAME';
 
 export const setBearerToken = token => ({
   type: SET_BEARER_TOKEN,
@@ -31,6 +33,16 @@ export const getFbUserInfo = (name, pictureUrl, email) => ({
   name,
   pictureUrl,
   email,
+});
+
+export const updateUserName = (firstName, surName) => ({
+  type: UPDATE_USER_NAME,
+  firstName,
+  surName,
+});
+
+export const displayUserEdit = () => ({
+  type: DISPLAY_UPDATE
 });
 
 export const getUserProfile = user => ({
@@ -108,7 +120,6 @@ export const retrieveToken = () => async dispatch => {
 };
 
 export const getUserInfo = () => async dispatch => {
-  console.log('get user thunk');
   try {
     const response = await serverApi.post('/user/profile');
     dispatch(getUserProfile(response.data));
@@ -124,6 +135,18 @@ export const getUserWalletThunk = () => {
       const wallet = response.data;
       dispatch(gotUserWallet(wallet));
     });
+  };
+};
+
+export const updateName = (firstName, surName) => async dispatch => {
+  try {
+    const { data } = await serverApi.put('/user/update', {
+      firstName,
+      surName,
+    });
+    dispatch(updateUserName(data.firstName, data.surName))
+  } catch (e) {
+    console.error(e)
   };
 };
 

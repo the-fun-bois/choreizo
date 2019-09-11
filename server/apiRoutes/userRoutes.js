@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, UserGroup, Group, EthereumWallet } = require('../database');
+const { User, Group, EthereumWallet } = require('../database');
 const Op = require('sequelize').Op;
 
 router.get('/profile', (req, res, next) => {
@@ -45,6 +45,22 @@ router.post('/wallet', (req, res, next) => {
         return res.status(400).send({ error: 'no wallet found' });
       }
       res.status(200).send(userWallet);
+    })
+    .catch(next);
+});
+
+router.put('/update', (req, res, next) => {
+  const firstName = req.body.firstName;
+  const surName = req.body.surName;
+  User.findByPk(req.body.userId)
+    .then(user => {
+      return user.update({
+        firstName,
+        surName,
+      })
+    })
+    .then(updatedUser => {
+      res.json(updatedUser);
     })
     .catch(next);
 });

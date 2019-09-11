@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useState} from 'react';
 import {
   Image,
   ImageBackground,
@@ -7,9 +7,12 @@ import {
   StyleSheet,
   Text,
   View,
+  TextInput,
 } from 'react-native'
-import { Card, CardItem, Left, Body } from 'native-base';
+import { Button } from 'native-base';
+import { Card, CardItem, Right } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
+import { displayUserEdit, updateName } from '../redux/creators';
 import theme from '../styles/theme.style';
 import { connect } from 'react-redux';
 
@@ -34,7 +37,69 @@ const profileHeader = userInfo => (
   </View>
 );
 
-const AccountScreen = ({ userInfo }) => {
+const updateUserInfo = (firstName, lastName, updateDetails) => {
+  const [currentFirstName, updateFirstName] = useState(firstName);
+  const [currentSurName, updateSurName] = useState(lastName);
+
+  return (
+    <View style={styles.editContainer}>
+    <CardItem>
+      <View>      
+        <AntDesign name="user" style={{
+        color: theme.PRIMARY_COLOR,
+        fontSize: theme.ICON_SIZE_LARGE,
+      }}/>
+      </View>
+    </CardItem>
+
+    <CardItem style={styles.container}>
+      <View>
+      <Text>Update First Name</Text>
+      <TextInput
+        editable
+        placeholder={firstName}
+        style={styles.editField}
+        maxLength={50}
+        value={currentFirstName}
+        onChangeText={(value) => {
+          updateFirstName(value);
+        }}
+      />
+      </View>
+      </CardItem>
+    <CardItem style={styles.container}>
+      <View>
+      <Text>Update Last Name</Text>
+      <TextInput
+        editable
+        placeholder={lastName}
+        style={styles.editField}
+        maxLength={50}
+        value={currentSurName}
+        onChangeText={(value) => {
+          updateSurName(value);
+        }}
+      />
+    </View>
+    </CardItem>
+    <CardItem style={styles.container}>
+      <View>
+      <Button onPress={() => updateDetails(currentFirstName, currentSurName)}>
+        <AntDesign name="check"
+        style={{
+          color: theme.PRIMARY_COLOR,
+          backgroundColor: '#FFF',
+          fontSize: theme.ICON_SIZE_LARGE,
+        }}/>
+      </Button>
+    </View>
+  </CardItem>
+  </View>
+  );
+};
+
+const AccountScreen = ({ userInfo, editDetails, updateDetails }) => {
+
   return (  
     <ScrollView style={styles.scroll}>
       <View style={styles.container}>
@@ -54,14 +119,26 @@ const AccountScreen = ({ userInfo }) => {
               marginLeft: 5,
             }}>{userInfo.email}</Text> 
           </CardItem>
-          <CardItem>
-            <AntDesign name="user" style={{
-              color: theme.PRIMARY_COLOR,
-              fontSize: theme.ICON_SIZE_LARGE,
-            }} />
-            <Text>{userInfo.firstName}</Text>
-            <Text>{userInfo.surName}</Text>
-          </CardItem>
+          {
+            userInfo.display === true ? (
+              updateUserInfo(userInfo.firstName, userInfo.surName, updateDetails)
+            ) : (
+              <CardItem>
+              <AntDesign name="user" style={{
+                color: theme.PRIMARY_COLOR,
+                fontSize: theme.ICON_SIZE_LARGE,
+              }}/>
+              <Text>{userInfo.firstName} </Text>
+              <Text>{userInfo.surName}</Text>
+              <Right>
+                <AntDesign name="edit" style={{
+                color: theme.PRIMARY_COLOR,
+                fontSize: theme.ICON_SIZE_LARGE,
+                }} onPress={() => editDetails()}/>
+              </Right>
+            </CardItem>
+            )
+          }
           <CardItem>
             <AntDesign name="wallet" style={{
               color: theme.PRIMARY_COLOR,
@@ -84,8 +161,13 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     flex: 1,
   },
+  editContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
   container: {
     flex: 1,
+    justifyContent: 'center',
   },
   headerContainer: {
     alignItems: 'center',
@@ -97,10 +179,10 @@ const styles = StyleSheet.create({
   },
   userImage: {
     borderColor: '#01C89E',
-    borderRadius: 85,
-    borderWidth: 3,
-    height: 170,
-    width: 170,
+    borderRadius: 50,
+    borderWidth: 1,
+    height: 100,
+    width: 100,
   },
   userNameText: {
     color: '#FFF',
@@ -112,6 +194,10 @@ const styles = StyleSheet.create({
   headerBackgroundImage: {
     width: '100%',
     height: '100%',
+  },
+  editField: {
+    borderBottomWidth: 1,
+    flex: 1,
   },
   headerColumn: {
     backgroundColor: 'transparent',
@@ -138,5 +224,13 @@ const mapStateToProps = ({ userInfo }) => ({
   userInfo,
 });
 
+const mapDispatchToProps = dispatch => ({
+  editDetails: () => {
+    dispatch(displayUserEdit());
+  },
+  updateDetails: (firstName, surName) => {
+    dispatch(updateName(firstName, surName));
+  },
+});
 
-export default connect(mapStateToProps)(AccountScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(AccountScreen);
