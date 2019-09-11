@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'native-base';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import {
   getMarketChoresThunk,
@@ -9,6 +9,7 @@ import {
   getWalletThunk,
 } from '../../redux/creators';
 import serverApi from '../../api/serverApi';
+import theme from '../../styles/theme.style';
 
 // swap chore
 
@@ -72,6 +73,7 @@ export const CancelButton = ({
   const groupId = userInfo.groups[0].id;
   return (
     <Button
+      style={styles.circleTag}
       onPress={() => {
         cancelChore(type, body)
           .then(() => {
@@ -83,7 +85,15 @@ export const CancelButton = ({
           .catch(e => console.error('error canceling chore', e));
       }}
     >
-      <Text>Cancel</Text>
+      <Text
+        style={{
+          color: 'white',
+          fontWeight: 'bold',
+          fontSize: 18,
+        }}
+      >
+        Cancel
+      </Text>
     </Button>
   );
 };
@@ -93,6 +103,16 @@ const mapDispatch = dispatch => ({
   getSwappableChores: groupId => dispatch(getSwappableChoresThunk(groupId)),
   getUserChores: groupId => dispatch(getUserChoresThunk(groupId)),
 });
+
+const styles = StyleSheet.create({
+  circleTag: {
+    backgroundColor: theme.PRIMARY_COLOR,
+    height: 40,
+    borderRadius: 100,
+    marginLeft: 10,
+  },
+});
+
 export default connect(
   mapState,
   mapDispatch
