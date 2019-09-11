@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, UserGroup, Group, EthereumWallet } = require('../database');
+const { User, Group, EthereumWallet } = require('../database');
 const Op = require('sequelize').Op;
 
 router.get('/profile', (req, res, next) => {

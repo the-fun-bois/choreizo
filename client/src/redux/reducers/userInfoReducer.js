@@ -6,6 +6,7 @@ import {
   SET_BEARER_TOKEN_STATE,
   GOT_USER_WALLET,
   DISPLAY_UPDATE,
+  UPDATE_USER_NAME,
 } from '../creators';
 
 const initialState = {
@@ -58,6 +59,13 @@ export default userInfoReducer = (state = initialState, action) => {
       };
     case GOT_USER_WALLET:
       return Object.assign({}, state, { ethereumWallet: action.wallet });
+    case UPDATE_USER_NAME:
+      return {
+        ...state,
+        firstName: action.firstName,
+        surName: action.surName,
+        display: !state.display,
+      };
     case DISPLAY_UPDATE:
       return {
         ...state,

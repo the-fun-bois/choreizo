@@ -12,7 +12,7 @@ import {
 import { Button } from 'native-base';
 import { Card, CardItem, Right } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
-import { displayUserEdit } from '../redux/creators';
+import { displayUserEdit, updateName } from '../redux/creators';
 import theme from '../styles/theme.style';
 import { connect } from 'react-redux';
 
@@ -37,9 +37,12 @@ const profileHeader = userInfo => (
   </View>
 );
 
-const updateUserInfo = (firstName, lastName) => {
+const updateUserInfo = (firstName, lastName, updateDetails) => {
+  const [currentFirstName, updateFirstName] = useState(firstName);
+  const [currentSurName, updateSurName] = useState(lastName);
+
   return (
-    <View>
+    <View style={styles.editContainer}>
     <CardItem>
       <View>      
         <AntDesign name="user" style={{
@@ -49,7 +52,7 @@ const updateUserInfo = (firstName, lastName) => {
       </View>
     </CardItem>
 
-    <CardItem>
+    <CardItem style={styles.container}>
       <View>
       <Text>Update First Name</Text>
       <TextInput
@@ -57,11 +60,14 @@ const updateUserInfo = (firstName, lastName) => {
         placeholder={firstName}
         style={styles.editField}
         maxLength={50}
-        value={firstName}
+        value={currentFirstName}
+        onChangeText={(value) => {
+          updateFirstName(value);
+        }}
       />
       </View>
       </CardItem>
-    <CardItem>
+    <CardItem style={styles.container}>
       <View>
       <Text>Update Last Name</Text>
       <TextInput
@@ -69,15 +75,22 @@ const updateUserInfo = (firstName, lastName) => {
         placeholder={lastName}
         style={styles.editField}
         maxLength={50}
-        value={lastName}
+        value={currentSurName}
+        onChangeText={(value) => {
+          updateSurName(value);
+        }}
       />
-
     </View>
     </CardItem>
-    <CardItem>
+    <CardItem style={styles.container}>
       <View>
-      <Button>
-        <Text> Update </Text>
+      <Button onPress={() => updateDetails(currentFirstName, currentSurName)}>
+        <AntDesign name="check"
+        style={{
+          color: theme.PRIMARY_COLOR,
+          backgroundColor: '#FFF',
+          fontSize: theme.ICON_SIZE_LARGE,
+        }}/>
       </Button>
     </View>
   </CardItem>
@@ -85,7 +98,7 @@ const updateUserInfo = (firstName, lastName) => {
   );
 };
 
-const AccountScreen = ({ userInfo, editDetails }) => {
+const AccountScreen = ({ userInfo, editDetails, updateDetails }) => {
 
   return (  
     <ScrollView style={styles.scroll}>
@@ -108,14 +121,14 @@ const AccountScreen = ({ userInfo, editDetails }) => {
           </CardItem>
           {
             userInfo.display === true ? (
-              updateUserInfo(userInfo.firstName, userInfo.surName)
+              updateUserInfo(userInfo.firstName, userInfo.surName, updateDetails)
             ) : (
               <CardItem>
               <AntDesign name="user" style={{
                 color: theme.PRIMARY_COLOR,
                 fontSize: theme.ICON_SIZE_LARGE,
               }}/>
-              <Text>{userInfo.firstName}</Text>
+              <Text>{userInfo.firstName} </Text>
               <Text>{userInfo.surName}</Text>
               <Right>
                 <AntDesign name="edit" style={{
@@ -126,7 +139,6 @@ const AccountScreen = ({ userInfo, editDetails }) => {
             </CardItem>
             )
           }
-
           <CardItem>
             <AntDesign name="wallet" style={{
               color: theme.PRIMARY_COLOR,
@@ -155,6 +167,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    justifyContent: 'center',
   },
   headerContainer: {
     alignItems: 'center',
@@ -213,8 +226,10 @@ const mapStateToProps = ({ userInfo }) => ({
 
 const mapDispatchToProps = dispatch => ({
   editDetails: () => {
-    //dispatch edit details
     dispatch(displayUserEdit());
+  },
+  updateDetails: (firstName, surName) => {
+    dispatch(updateName(firstName, surName));
   },
 });
 
