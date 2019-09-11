@@ -1,11 +1,34 @@
 import serverApi from '../../api/serverApi';
 
 export const GOT_USER_CHORES = 'GOT_USER_CHORES';
+export const COMPLETED_USER_CHORE = 'COMPLETED_USER_CHORE';
 
 export const gotUserChores = userChores => ({
   type: GOT_USER_CHORES,
   userChores,
 });
+
+export const completedUserChore = choreId => ({
+  type: COMPLETED_USER_CHORE,
+  choreId,
+});
+
+export const submitChore = (assignedChoreId, groupId) => {
+  console.log(assignedChoreId, groupId);
+  return dispatch => {
+    serverApi
+      .post('/chores/submit_chore', {
+        assignedChoreId,
+      })
+      .then(resp => {
+        dispatch(completedUserChore(assignedChoreId));
+        dispatch(getUserChoresThunk(groupId));
+      })
+      .catch(err => {
+        err ? Alert.alert('Chore already complete') : '';
+      });
+  };
+};
 
 export const getUserChoresThunk = groupId => {
   return (dispatch, getState) => {
