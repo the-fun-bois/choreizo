@@ -12,6 +12,7 @@ export const SET_BEARER_TOKEN = 'SET_BEARER_TOKEN';
 export const SET_BEARER_TOKEN_STATE = 'SET_BEARER_TOKEN_STATE';
 export const GET_USER_PROFILE = 'GET_USER_PROFILE';
 export const GOT_USER_WALLET = 'GOT_USER_WALLET';
+export const DISPLAY_UPDATE = 'DISPLAY_UPDATE';
 
 export const setBearerToken = token => ({
   type: SET_BEARER_TOKEN,
@@ -31,6 +32,10 @@ export const getFbUserInfo = (name, pictureUrl, email) => ({
   name,
   pictureUrl,
   email,
+});
+
+export const displayUserEdit = () => ({
+  type: DISPLAY_UPDATE
 });
 
 export const getUserProfile = user => ({

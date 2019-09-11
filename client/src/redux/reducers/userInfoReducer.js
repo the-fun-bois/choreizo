@@ -5,6 +5,7 @@ import {
   GET_USER_CHORES,
   SET_BEARER_TOKEN_STATE,
   GOT_USER_WALLET,
+  DISPLAY_UPDATE,
 } from '../creators';
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
   isSignedIn: false,
   firstName: '',
   surName: '',
+  display: false,
   email: '',
   token: '',
   groups: [
@@ -56,6 +58,11 @@ export default userInfoReducer = (state = initialState, action) => {
       };
     case GOT_USER_WALLET:
       return Object.assign({}, state, { ethereumWallet: action.wallet });
+    case DISPLAY_UPDATE:
+      return {
+        ...state,
+        display: !state.display
+      };
     default:
       return state;
   }

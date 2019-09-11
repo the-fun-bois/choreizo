@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useState} from 'react';
 import {
   Image,
   ImageBackground,
@@ -7,9 +7,12 @@ import {
   StyleSheet,
   Text,
   View,
+  TextInput,
 } from 'react-native'
-import { Card, CardItem, Left, Body } from 'native-base';
+import { Button } from 'native-base';
+import { Card, CardItem, Right } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
+import { displayUserEdit } from '../redux/creators';
 import theme from '../styles/theme.style';
 import { connect } from 'react-redux';
 
@@ -34,7 +37,56 @@ const profileHeader = userInfo => (
   </View>
 );
 
-const AccountScreen = ({ userInfo }) => {
+const updateUserInfo = (firstName, lastName) => {
+  return (
+    <View>
+    <CardItem>
+      <View>      
+        <AntDesign name="user" style={{
+        color: theme.PRIMARY_COLOR,
+        fontSize: theme.ICON_SIZE_LARGE,
+      }}/>
+      </View>
+    </CardItem>
+
+    <CardItem>
+      <View>
+      <Text>Update First Name</Text>
+      <TextInput
+        editable
+        placeholder={firstName}
+        style={styles.editField}
+        maxLength={50}
+        value={firstName}
+      />
+      </View>
+      </CardItem>
+    <CardItem>
+      <View>
+      <Text>Update Last Name</Text>
+      <TextInput
+        editable
+        placeholder={lastName}
+        style={styles.editField}
+        maxLength={50}
+        value={lastName}
+      />
+
+    </View>
+    </CardItem>
+    <CardItem>
+      <View>
+      <Button>
+        <Text> Update </Text>
+      </Button>
+    </View>
+  </CardItem>
+  </View>
+  );
+};
+
+const AccountScreen = ({ userInfo, editDetails }) => {
+
   return (  
     <ScrollView style={styles.scroll}>
       <View style={styles.container}>
@@ -54,14 +106,27 @@ const AccountScreen = ({ userInfo }) => {
               marginLeft: 5,
             }}>{userInfo.email}</Text> 
           </CardItem>
-          <CardItem>
-            <AntDesign name="user" style={{
-              color: theme.PRIMARY_COLOR,
-              fontSize: theme.ICON_SIZE_LARGE,
-            }} />
-            <Text>{userInfo.firstName}</Text>
-            <Text>{userInfo.surName}</Text>
-          </CardItem>
+          {
+            userInfo.display === true ? (
+              updateUserInfo(userInfo.firstName, userInfo.surName)
+            ) : (
+              <CardItem>
+              <AntDesign name="user" style={{
+                color: theme.PRIMARY_COLOR,
+                fontSize: theme.ICON_SIZE_LARGE,
+              }}/>
+              <Text>{userInfo.firstName}</Text>
+              <Text>{userInfo.surName}</Text>
+              <Right>
+                <AntDesign name="edit" style={{
+                color: theme.PRIMARY_COLOR,
+                fontSize: theme.ICON_SIZE_LARGE,
+                }} onPress={() => editDetails()}/>
+              </Right>
+            </CardItem>
+            )
+          }
+
           <CardItem>
             <AntDesign name="wallet" style={{
               color: theme.PRIMARY_COLOR,
@@ -84,6 +149,10 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     flex: 1,
   },
+  editContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
   container: {
     flex: 1,
   },
@@ -97,10 +166,10 @@ const styles = StyleSheet.create({
   },
   userImage: {
     borderColor: '#01C89E',
-    borderRadius: 85,
-    borderWidth: 3,
-    height: 170,
-    width: 170,
+    borderRadius: 50,
+    borderWidth: 1,
+    height: 100,
+    width: 100,
   },
   userNameText: {
     color: '#FFF',
@@ -112,6 +181,10 @@ const styles = StyleSheet.create({
   headerBackgroundImage: {
     width: '100%',
     height: '100%',
+  },
+  editField: {
+    borderBottomWidth: 1,
+    flex: 1,
   },
   headerColumn: {
     backgroundColor: 'transparent',
@@ -138,5 +211,11 @@ const mapStateToProps = ({ userInfo }) => ({
   userInfo,
 });
 
+const mapDispatchToProps = dispatch => ({
+  editDetails: () => {
+    //dispatch edit details
+    dispatch(displayUserEdit());
+  },
+});
 
-export default connect(mapStateToProps)(AccountScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(AccountScreen);
