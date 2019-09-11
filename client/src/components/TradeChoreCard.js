@@ -21,11 +21,11 @@ import { AntDesign, Entypo } from '@expo/vector-icons';
 import serverApi from '../api/serverApi';
 import theme from '../styles/theme.style';
 
-class SellChore extends Component {
+class TradeChoreCard extends Component {
   constructor() {
     super();
     this.state = {
-      price: '',
+      tradeTerms: '',
     };
   }
   render() {
@@ -37,30 +37,28 @@ class SellChore extends Component {
       <KeyboardAvoidingView behavior="padding" enabled>
         <Card>
           <CardItem header bordered>
-            <Left>
+            <Title>
               <Text>{name}</Text>
-            </Left>
-            <Right style={{ flexDirection: 'row' }}>
-              <Text>$ </Text>
-              <TextInput
-                placeholder="Asking price $$"
-                keyboardType="decimal-pad"
-                onChangeText={price => {
-                  this.setState({ price });
-                }}
-                value={this.state.price}
-              />
-            </Right>
+            </Title>
+          </CardItem>
+          <CardItem>
+            <TextInput
+              placeholder="Trade terms (ie. bottle of beer, a donkey, etc.)"
+              onChangeText={tradeTerms => {
+                this.setState({ tradeTerms });
+              }}
+              value={this.state.tradeTerms}
+            />
           </CardItem>
           <CardItem
             button
             style={styles.confirmButton}
             onPress={() => {
-              const price = parseFloat(this.state.price);
-              price
-                ? (sellChore(currUserId, currChoreId, price),
+              const tradeTerms = this.state.tradeTerms;
+              tradeTerms
+                ? (tradeChore(currUserId, currChoreId, tradeTerms),
                   nav.navigate('Home'))
-                : Alert.alert('No price inputted');
+                : Alert.alert('No trade found');
             }}
           >
             <Left />
@@ -68,7 +66,7 @@ class SellChore extends Component {
               <Text
                 style={{ marginLeft: 10, color: 'white', fontWeight: 'bold' }}
               >
-                Confirm Sell
+                Confirm Trade
               </Text>
             </Body>
             <Right />
@@ -79,12 +77,12 @@ class SellChore extends Component {
   }
 }
 
-const sellChore = (userId, assignedChoreId, price) => {
+const tradeChore = (userId, assignedChoreId, tradeTerms) => {
   serverApi
-    .post('/transfer_chore/create_transfer', {
+    .post('/trade_chore/create_trade', {
       userId,
       assignedChoreId,
-      price,
+      tradeTerms,
     })
     .then(resp => {
       console.log(resp);
@@ -100,4 +98,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SellChore;
+export default TradeChoreCard;

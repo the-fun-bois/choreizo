@@ -8,7 +8,6 @@ import {
   ScrollView,
   FlatList,
 } from 'react-native';
-import { Button } from 'native-base';
 import { connect } from 'react-redux';
 import { getUserInfo, retrieveToken } from './../redux/creators';
 import GetAllInfoFromServer from './../components/GetAllInfoFromServer';
@@ -41,32 +40,33 @@ const HomeScreen = props => {
         </Body>
         <Right />
       </Header>
-      <FlatList
-        data={userChores}
-        keyExtractor={item => item.id.toString()}
-        renderItem={({ item }) => (
-          <ChoreCard
-            name={item.chore.name}
-            diff={item.chore.difficulty}
-            currUserInfo={userInfo}
-            details={() =>
-              navigation.navigate('Chores', {
-                choreName: item.chore.name,
-                details: item.chore.details[0],
-                userName: userInfo.firstName,
-                lastName: userInfo.surName,
-                timeLimit: item.chore.timeLimit,
-                currChoreId: item.id,
-                currUserId: userInfo.id,
-              })
-            }
-          />
-        )}
-      />
+      <ScrollView>
+        <FlatList
+          data={userChores}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({ item }) => (
+            <ChoreCard
+              name={item.chore.name}
+              diff={item.chore.difficulty}
+              currUserInfo={userInfo}
+              details={() =>
+                navigation.navigate('Chores', {
+                  choreName: item.chore.name,
+                  details: item.chore.details[0],
+                  userName: userInfo.firstName,
+                  lastName: userInfo.surName,
+                  timeLimit: item.chore.timeLimit,
+                  currChoreId: item.id,
+                  currUserId: userInfo.id,
+                })
+              }
+            />
+          )}
+        />
+      </ScrollView>
     </Container>
   );
 };
-
 const styles = StyleSheet.create({
   mainContainer: {
     paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
