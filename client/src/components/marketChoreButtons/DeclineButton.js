@@ -60,15 +60,7 @@ export const DeclineButton = ({
           .catch(e => console.error('error accepting chore', e));
       }}
     >
-      <Text
-        style={{
-          color: 'white',
-          fontWeight: 'bold',
-          fontSize: 18,
-        }}
-      >
-        Decline
-      </Text>
+      <Text style={styles.buttonText}>Decline</Text>
     </Button>
   );
 };
@@ -85,6 +77,13 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 100,
     marginLeft: 10,
+  },
+  buttonText: {
+    textAlignVertical: 'center',
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 18,
   },
 });
 

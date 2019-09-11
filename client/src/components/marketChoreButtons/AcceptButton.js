@@ -86,15 +86,7 @@ export const AcceptButton = ({
           .catch(e => console.error('error accepting chore', e));
       }}
     >
-      <Text
-        style={{
-          color: 'white',
-          fontWeight: 'bold',
-          fontSize: 18,
-        }}
-      >
-        Accept
-      </Text>
+      <Text style={styles.buttonText}>Accept</Text>
     </Button>
   );
 };
@@ -112,6 +104,12 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 100,
     marginLeft: 10,
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 18,
   },
 });
 

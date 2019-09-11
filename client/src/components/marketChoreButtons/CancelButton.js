@@ -85,15 +85,7 @@ export const CancelButton = ({
           .catch(e => console.error('error canceling chore', e));
       }}
     >
-      <Text
-        style={{
-          color: 'white',
-          fontWeight: 'bold',
-          fontSize: 18,
-        }}
-      >
-        Cancel
-      </Text>
+      <Text style={styles.buttonText}>Cancel</Text>
     </Button>
   );
 };
@@ -110,6 +102,13 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 100,
     marginLeft: 10,
+  },
+  buttonText: {
+    textAlignVertical: 'center',
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 18,
   },
 });
 

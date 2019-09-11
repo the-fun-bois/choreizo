@@ -34,41 +34,31 @@ const MarketChoreSingle = props => {
                 flexDirection: 'column',
               }}
             >
-              <Text
-                style={{ textAlignVertical: 'center', textAlign: 'center' }}
-              >
+              <Text style={styles.text}>
                 Type:{'\n'}
                 {chore.type}
               </Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text
-                style={{ textAlignVertical: 'center', textAlign: 'center' }}
-              >
+              <Text style={styles.text}>
                 Name:{'\n'}
                 {chore.chore.name}
               </Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text
-                style={{ textAlignVertical: 'center', textAlign: 'center' }}
-              >
+              <Text style={styles.text}>
                 Difficulty:{'\n'}
                 {chore.chore.difficulty}
               </Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text
-                style={{ textAlignVertical: 'center', textAlign: 'center' }}
-              >
+              <Text style={styles.text}>
                 Time:{'\n'}
                 {chore.chore.timeLimit} days
               </Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text
-                style={{ textAlignVertical: 'center', textAlign: 'center' }}
-              >
+              <Text style={styles.text}>
                 Price:
                 {'\n'}
                 {chore.transferChore.price}
@@ -93,42 +83,32 @@ const MarketChoreSingle = props => {
         <Card>
           <Row>
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text
-                style={{ textAlignVertical: 'center', textAlign: 'center' }}
-              >
+              <Text style={styles.text}>
                 Type:{'\n'}
                 {chore.type}
               </Text>
             </View>
 
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text
-                style={{ textAlignVertical: 'center', textAlign: 'center' }}
-              >
+              <Text style={styles.text}>
                 Name:{'\n'}
                 {chore.chore.name}
               </Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text
-                style={{ textAlignVertical: 'center', textAlign: 'center' }}
-              >
+              <Text style={styles.text}>
                 Difficulty:{'\n'}
                 {chore.chore.difficulty}
               </Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text
-                style={{ textAlignVertical: 'center', textAlign: 'center' }}
-              >
+              <Text style={styles.text}>
                 Time:{'\n'}
                 {chore.chore.timeLimit} days
               </Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text
-                style={{ textAlignVertical: 'center', textAlign: 'center' }}
-              >
+              <Text style={styles.text}>
                 Terms:{'\n'}
                 {chore.tradeChore.tradeTerms}
               </Text>
@@ -152,41 +132,31 @@ const MarketChoreSingle = props => {
         <Card>
           <Row>
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text
-                style={{ textAlignVertical: 'center', textAlign: 'center' }}
-              >
+              <Text style={styles.text}>
                 Type:{'\n'}
                 {chore.type}
               </Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text
-                style={{ textAlignVertical: 'center', textAlign: 'center' }}
-              >
+              <Text style={styles.text}>
                 Their Chore:{'\n'}
                 {chore.chore.name}
               </Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text
-                style={{ textAlignVertical: 'center', textAlign: 'center' }}
-              >
+              <Text style={styles.text}>
                 Their Difficulty:{'\n'}
                 {chore.chore.difficulty}
               </Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text
-                style={{ textAlignVertical: 'center', textAlign: 'center' }}
-              >
+              <Text style={styles.text}>
                 Your Chore:{'\n'}
                 {chore.swapAssignedChore2.swapAssignedChore1.chore.name}
               </Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text
-                style={{ textAlignVertical: 'center', textAlign: 'center' }}
-              >
+              <Text style={styles.text}>
                 Your Difficulty:{'\n'}
                 {chore.swapAssignedChore2.swapAssignedChore1.chore.difficulty}
               </Text>
@@ -222,31 +192,31 @@ const MarketChoreSingle = props => {
         <Card>
           <Row>
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text>
+              <Text style={styles.text}>
                 Type:{'\n'}
                 {chore.type}
               </Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text>
+              <Text style={styles.text}>
                 Their Chore:{'\n'}
                 {chore.swapAssignedChore1.swapAssignedChore2.chore.name}
               </Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text>
+              <Text style={styles.text}>
                 Their Chore Difficulty:{'\n'}
                 {chore.swapAssignedChore1.swapAssignedChore2.chore.difficulty}
               </Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text>
+              <Text style={styles.text}>
                 Your Chore:{'\n'}
                 {chore.chore.name}
               </Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'column' }}>
-              <Text>
+              <Text style={styles.text}>
                 Your Difficulty:{'\n'}
                 {chore.chore.difficulty}
               </Text>
@@ -267,25 +237,16 @@ const MarketChoreSingle = props => {
 };
 
 const styles = StyleSheet.create({
-  bottomCard: {
+  text: {
+    fontSize: theme.FONT_SIZE_MEDIUM,
+    textAlignVertical: 'center',
+    textAlign: 'center',
+    color: '#3F51B5',
+    fontWeight: 'bold',
+  },
+  view: {
     flex: 1,
-  },
-  diff: {
-    backgroundColor: theme.PRIMARY_COLOR,
-    height: 40,
-    borderRadius: 100,
-    marginLeft: 10,
-    justifyContent: 'center',
-  },
-  circleTag: {
-    backgroundColor: theme.PRIMARY_COLOR,
-    height: 40,
-    borderRadius: 100,
-    marginLeft: 10,
-  },
-  swapButton: {
     flexDirection: 'column',
-    alignContent: 'center',
   },
 });
 
