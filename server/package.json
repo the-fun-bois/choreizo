@@ -10,6 +10,7 @@
     "dev:start-server": "./node_modules/.bin/nodemon ./index.js",
     "dev": "npm run dev:start-server",
     "seed": "node ./database/seed/index.js",
+    "alt-seed": "node ./database/seed/seed2.js",
     "lint": "./node_modules/.bin/eslint --ignore-path ../.gitignore . --ext .js",
     "lint-fix": "./node_modules/.bin/eslint --ignore-path ../.gitignore . --ext .js --fix"
   },

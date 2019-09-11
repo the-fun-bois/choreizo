@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'native-base';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import {
   getMarketChoresThunk,
@@ -9,14 +9,16 @@ import {
   getWalletThunk,
 } from '../../redux/creators';
 import serverApi from '../../api/serverApi';
+import theme from '../../styles/theme.style';
 
 // swap chore
 
 const cancelSwap = (userId, swapChoreId) => {
+  console.log('userId', userId, 'swap chore id', swapChoreId);
   return serverApi
-    .put('/swap_chore/cancel_swap', { userId, swapChoreId })
+    .delete('/swap_chore/cancel_swap', { data: { userId, swapChoreId } })
     .then(response => {
-      console.log('swap accepted');
+      console.log('swap canceled');
       return response.data;
     })
     .catch(e => console.error('error canceling chore', e));
@@ -24,7 +26,7 @@ const cancelSwap = (userId, swapChoreId) => {
 
 const cancelTrade = (userId, tradeChoreId) => {
   return serverApi
-    .put('/trade_chore/cancel_trade', { userId, tradeChoreId })
+    .delete('/trade_chore/cancel_trade', { data: { userId, tradeChoreId } })
     .then(response => {
       return response.data;
     })
@@ -33,7 +35,9 @@ const cancelTrade = (userId, tradeChoreId) => {
 
 const cancelTransfer = (userId, transferChoreId) => {
   return serverApi
-    .put('/transfer_chore/cancel_transfer', { userId, transferChoreId })
+    .delete('/transfer_chore/cancel_transfer', {
+      data: { userId, transferChoreId },
+    })
     .then(response => {
       return response.data;
     })
@@ -69,6 +73,7 @@ export const CancelButton = ({
   const groupId = userInfo.groups[0].id;
   return (
     <Button
+      style={styles.circleTag}
       onPress={() => {
         cancelChore(type, body)
           .then(() => {
@@ -80,7 +85,7 @@ export const CancelButton = ({
           .catch(e => console.error('error canceling chore', e));
       }}
     >
-      <Text>Cancel</Text>
+      <Text style={styles.buttonText}> Cancel </Text>
     </Button>
   );
 };
@@ -90,7 +95,25 @@ const mapDispatch = dispatch => ({
   getSwappableChores: groupId => dispatch(getSwappableChoresThunk(groupId)),
   getUserChores: groupId => dispatch(getUserChoresThunk(groupId)),
 });
+
+const styles = StyleSheet.create({
+  circleTag: {
+    backgroundColor: theme.PRIMARY_COLOR,
+    height: 40,
+    borderRadius: 100,
+    marginLeft: 10,
+    justifyContent: 'center',
+  },
+  buttonText: {
+    textAlignVertical: 'center',
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+});
+
 export default connect(
   mapState,
-  mapDispatch,
+  mapDispatch
 )(CancelButton);

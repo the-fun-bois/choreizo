@@ -9,7 +9,10 @@ module.exports = (req, res, next) => {
       Use the app secret to verify the auth header.
       */
       const token = req.headers.authorization.split(' ');
+      console.log('verify token', token);
       const decoded = jwt.verify(token[1], auth.secret);
+      console.log('verify middleware', decoded);
+
       req.body.userId = decoded.id;
       next();
     } catch (err) {

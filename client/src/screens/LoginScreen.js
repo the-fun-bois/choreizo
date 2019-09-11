@@ -13,7 +13,12 @@ import { AntDesign } from '@expo/vector-icons';
 import theme from './../styles/theme.style';
 
 import { connect } from 'react-redux';
-import { fbLogin, retrieveToken, secureStoreBearerToken, getBearerToken } from '../redux/creators';
+import {
+  fbLogin,
+  retrieveToken,
+  secureStoreBearerToken,
+  getBearerToken,
+} from '../redux/creators';
 
 const LoginScreen = ({
   navigation,
@@ -27,8 +32,8 @@ const LoginScreen = ({
   */
   getToken();
   return (
-    <View>
-      <Text style={styles.loginText}>Login Screen</Text>
+    <View style={styles.mainContainer}>
+      <Text style={styles.loginText}>Welcome to Choreizo</Text>
       {REACT_ENV === 'development' ? (
         <Button
           style={styles.themeButtonContainer}
@@ -93,10 +98,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     backgroundColor: 'red',
+    alignSelf: 'center',
+    width: 300,
   },
   fbButtonContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
+    alignSelf: 'center',
+    width: 300,
   },
   iconStyle: {
     fontSize: 30,
@@ -110,8 +119,11 @@ const styles = StyleSheet.create({
   },
   loginText: {
     fontSize: theme.FONT_SIZE_HEADING,
+    marginBottom: 100,
     color: 'white',
     fontWeight: 'bold',
+    fontFamily: 'pacifico-regular',
+    // flexGrow: 1,
     textAlign: 'center',
   },
 });

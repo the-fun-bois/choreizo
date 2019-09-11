@@ -45,7 +45,7 @@ const seed = async () => {
         users.map(user =>
           EthereumWallet.create({
             userId: user.id,
-            balance: Math.random() * 100,
+            balance: Math.floor(Math.random() * 100000) + 100,
           }),
         ),
       );
@@ -90,7 +90,7 @@ const seed = async () => {
           await TransferChore.create({
             originalOwnerId: users[currentUser].id,
             assignedChoreId: assignedChores[choreIdx].id,
-            price: 0.25,
+            price: 100,
           });
         }
         currentUser += 1;

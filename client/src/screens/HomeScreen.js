@@ -6,13 +6,24 @@ import {
   Platform,
   StatusBar,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import { Button } from 'native-base';
 import { connect } from 'react-redux';
 import { getUserInfo, retrieveToken } from './../redux/creators';
 import GetAllInfoFromServer from './../components/GetAllInfoFromServer';
 import marketChoresReducer from '../redux/reducers/marketChoresReducer';
-import { Spinner } from 'native-base';
+import ChoreCard from '../components/ChoreCard';
+import theme from './../styles/theme.style';
+import {
+  Container,
+  Header,
+  Left,
+  Body,
+  Right,
+  Title,
+  Content,
+} from 'native-base';
 
 const HomeScreen = props => {
   const { userInfo, userChores, marketChores, navigation } = props;
@@ -21,33 +32,48 @@ const HomeScreen = props => {
   // console.log('TOKEN', userInfo.token);
 
   return (
-    <View style={styles.mainContainer}>
-      {/* GetALLInfoFromServer is an empty component that runs all the redux thunks */}
+    <Container>
       <GetAllInfoFromServer />
-      <View>
-        <View>
-          <Text>Home Screen</Text>
-        </View>
-        <View>
-          <Button onPress={() => navigation.navigate('Chores')}>
-            <Text>Chores</Text>
-          </Button>
-          <ScrollView>
-            <Text>****** My goddam chores:</Text>
-            <Text>{JSON.stringify(userChores)}</Text>
-            <Text>****** Goddam market chores:</Text>
-            <Text>{JSON.stringify(marketChores)}</Text>
-          </ScrollView>
-        </View>
-      </View>
-    </View>
+      <Header style={styles.headerBack}>
+        <Left />
+        <Body>
+          <Title style={{ color: 'white' }}>My Chores</Title>
+        </Body>
+        <Right />
+      </Header>
+      <FlatList
+        data={userChores}
+        keyExtractor={item => item.id.toString()}
+        renderItem={({ item }) => (
+          <ChoreCard
+            name={item.chore.name}
+            diff={item.chore.difficulty}
+            currUserInfo={userInfo}
+            details={() =>
+              navigation.navigate('Chores', {
+                choreName: item.chore.name,
+                details: item.chore.details[0],
+                userName: userInfo.firstName,
+                lastName: userInfo.surName,
+                timeLimit: item.chore.timeLimit,
+                currChoreId: item.id,
+                currUserId: userInfo.id,
+              })
+            }
+          />
+        )}
+      />
+    </Container>
   );
 };
 
 const styles = StyleSheet.create({
   mainContainer: {
     paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
-    flex: 1,
+    flexDirection: 'column',
+  },
+  headerBack: {
+    backgroundColor: theme.SECONDARY_COLOR,
   },
 });
 
@@ -64,5 +90,5 @@ const mapDispatch = dispatch => {
 };
 export default connect(
   mapState,
-  mapDispatch,
+  mapDispatch
 )(HomeScreen);
