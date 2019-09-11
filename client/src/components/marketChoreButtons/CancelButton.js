@@ -85,7 +85,7 @@ export const CancelButton = ({
           .catch(e => console.error('error canceling chore', e));
       }}
     >
-      <Text style={styles.buttonText}>Cancel</Text>
+      <Text style={styles.buttonText}> Cancel </Text>
     </Button>
   );
 };
@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 100,
     marginLeft: 10,
+    justifyContent: 'center',
   },
   buttonText: {
     textAlignVertical: 'center',

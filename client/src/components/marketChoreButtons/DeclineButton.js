@@ -60,7 +60,7 @@ export const DeclineButton = ({
           .catch(e => console.error('error accepting chore', e));
       }}
     >
-      <Text style={styles.buttonText}>Decline</Text>
+      <Text style={styles.buttonText}> Decline </Text>
     </Button>
   );
 };
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 100,
     marginLeft: 10,
+    justifyContent: 'center',
   },
   buttonText: {
     textAlignVertical: 'center',

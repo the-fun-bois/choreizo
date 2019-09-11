@@ -9,6 +9,9 @@ import {
   Row,
   Col,
   Button,
+  Right,
+  Center,
+  Left,
 } from 'native-base';
 import { FlatList, Text, View } from 'react-native';
 import severApi from '../../src/api/serverApi';
@@ -28,36 +31,31 @@ const MarketChoreSingle = props => {
       <View alignment='stretch'>
         <Card>
           <Row>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'column',
-              }}
-            >
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Type:{'\n'}
                 {chore.type}
               </Text>
             </View>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Name:{'\n'}
                 {chore.chore.name}
               </Text>
             </View>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Difficulty:{'\n'}
                 {chore.chore.difficulty}
               </Text>
             </View>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Time:{'\n'}
                 {chore.chore.timeLimit} days
               </Text>
             </View>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Price:
                 {'\n'}
@@ -65,14 +63,18 @@ const MarketChoreSingle = props => {
               </Text>
             </View>
           </Row>
-          <AcceptButton
-            style={styles.circleTag}
-            type='transfer'
-            body={{
-              userId: chore.userId,
-              transferChoreId: chore.transferChore.id,
-            }}
-          />
+          <CardItem>
+            <Left>
+              <AcceptButton
+                style={styles.circleTag}
+                type='transfer'
+                body={{
+                  userId: chore.userId,
+                  transferChoreId: chore.transferChore.id,
+                }}
+              />
+            </Left>
+          </CardItem>
         </Card>
       </View>
     );
@@ -82,46 +84,48 @@ const MarketChoreSingle = props => {
       <View alignment='stretch'>
         <Card>
           <Row>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Type:{'\n'}
                 {chore.type}
               </Text>
             </View>
-
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Name:{'\n'}
                 {chore.chore.name}
               </Text>
             </View>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Difficulty:{'\n'}
                 {chore.chore.difficulty}
               </Text>
             </View>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Time:{'\n'}
                 {chore.chore.timeLimit} days
               </Text>
             </View>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Terms:{'\n'}
                 {chore.tradeChore.tradeTerms}
               </Text>
             </View>
-
-            <AcceptButton
-              type='trade'
-              body={{
-                userId: chore.tradeChore.originalOwnerId,
-                tradeChoreId: chore.tradeChore.id,
-              }}
-            />
           </Row>
+          <CardItem>
+            <Left>
+              <AcceptButton
+                type='trade'
+                body={{
+                  userId: chore.tradeChore.originalOwnerId,
+                  tradeChoreId: chore.tradeChore.id,
+                }}
+              />
+            </Left>
+          </CardItem>
         </Card>
       </View>
     );
@@ -131,39 +135,39 @@ const MarketChoreSingle = props => {
       <View alignment='stretch'>
         <Card>
           <Row>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Type:{'\n'}
                 {chore.type}
               </Text>
             </View>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Their Chore:{'\n'}
                 {chore.chore.name}
               </Text>
             </View>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Their Difficulty:{'\n'}
                 {chore.chore.difficulty}
               </Text>
             </View>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Your Chore:{'\n'}
                 {chore.swapAssignedChore2.swapAssignedChore1.chore.name}
               </Text>
             </View>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Your Difficulty:{'\n'}
                 {chore.swapAssignedChore2.swapAssignedChore1.chore.difficulty}
               </Text>
             </View>
           </Row>
-          <Row>
-            <View alignment='stretch'>
+          <CardItem>
+            <Left>
               <AcceptButton
                 type='swap'
                 body={{
@@ -171,6 +175,8 @@ const MarketChoreSingle = props => {
                   swapChoreId: chore.swapAssignedChore2.id,
                 }}
               />
+            </Left>
+            <Right>
               <DeclineButton
                 type='swap'
                 body={{
@@ -178,8 +184,8 @@ const MarketChoreSingle = props => {
                   swapChoreId: chore.swapAssignedChore2.id,
                 }}
               />
-            </View>
-          </Row>
+            </Right>
+          </CardItem>
         </Card>
       </View>
     );
@@ -191,37 +197,38 @@ const MarketChoreSingle = props => {
       <View alignment='stretch'>
         <Card>
           <Row>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Type:{'\n'}
                 {chore.type}
               </Text>
             </View>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Their Chore:{'\n'}
                 {chore.swapAssignedChore1.swapAssignedChore2.chore.name}
               </Text>
             </View>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Their Chore Difficulty:{'\n'}
                 {chore.swapAssignedChore1.swapAssignedChore2.chore.difficulty}
               </Text>
             </View>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Your Chore:{'\n'}
                 {chore.chore.name}
               </Text>
             </View>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={styles.view}>
               <Text style={styles.text}>
                 Your Difficulty:{'\n'}
                 {chore.chore.difficulty}
               </Text>
             </View>
-
+          </Row>
+          <CardItem>
             <CancelButton
               type='swap'
               body={{
@@ -229,7 +236,7 @@ const MarketChoreSingle = props => {
                 swapChoreId: chore.swapAssignedChore1.id,
               }}
             />
-          </Row>
+          </CardItem>
         </Card>
       </View>
     );
