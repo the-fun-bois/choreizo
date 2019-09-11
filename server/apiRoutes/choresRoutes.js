@@ -47,7 +47,7 @@ router.post('/personal_chore_history', (req, res, next) => {
 router.post('/market_chores', (req, res, next) => {
   const { userId, groupId } = req.body;
   const includeParams = [{ model: Chore, where: { groupId } }].concat(
-    createChoreIncludeParamsForMarket(userId),
+    createChoreIncludeParamsForMarket(userId)
   );
   AssignedChore.findAll({
     where: { status: 'pending' },
@@ -87,6 +87,7 @@ router.post('/swappable_chores', (req, res, next) => {
   AssignedChore.findAll({
     where: {
       status: 'pending',
+      userId: { [Op.ne]: req.body.userId },
     },
     attributes: ['id', 'status', 'userId', 'choreId', 'expiresOn'],
     include: includeParams,
