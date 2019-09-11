@@ -60,20 +60,20 @@ const createChoreHistory = async (
 
 const createMarketChores = async pendingChores => {
   const numberOfChores = pendingChores.length;
-  for (let idx = 1; idx < 4; idx++) {
+  for (let idx = 1; idx < 4; idx += 1) {
     if (idx >= numberOfChores) {
       break;
     }
     if (idx === 1) {
       const user1Id = pendingChores[0].userId;
-      const assignedChore1Id = pendingChores[0].id;
+      const swapAssignedChore1Id = pendingChores[0].id;
       const user2Id = pendingChores[1].userId;
-      const assignedChore2Id = pendingChores[1].id;
+      const swapAssignedChore2Id = pendingChores[1].id;
       await SwapChore.create({
         user1Id,
-        assignedChore1Id,
+        swapAssignedChore1Id,
         user2Id,
-        assignedChore2Id,
+        swapAssignedChore2Id,
       });
     }
     if (idx === 2) {
@@ -149,15 +149,11 @@ const seed = async (choreList, groupInfo, userList) => {
 
     console.log('creating market items');
     const pendingChores = await AssignedChore.findAll({
-      wherer: { status: 'pending', groupId: group.id },
+      where: { status: 'pending' },
+      include: [{ model: Chore, where: { groupId: group.id }, attributes: [] }],
     });
 
     await createMarketChores(pendingChores);
-
-    // const nextDay = moment(startDate)
-    //   .add(1, 'days')
-    //   .toISOString();
-    // shuffle chores and assign them by date
   } catch (e) {
     console.error(e);
   }
