@@ -107,7 +107,17 @@ const ChoreDetail = ({ nav }) => {
               </Button>
             </Body>
             <Right>
-              <Button transparent style={styles.ecoButton}>
+              <Button
+                transparent
+                style={styles.ecoButton}
+                onPress={() =>
+                  nav.navigate('Trade', {
+                    name: choreName,
+                    choreId: currChoreId,
+                    userId: currUserId,
+                  })
+                }
+              >
                 {/* <Text>Swap Chore</Text> */}
                 <AntDesign name="sync" size={20} color="white" />
                 <Text style={{ color: 'white' }}>Trade</Text>

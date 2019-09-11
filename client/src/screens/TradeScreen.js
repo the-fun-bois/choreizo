@@ -1,14 +1,8 @@
-import React, { useEffect } from 'react';
-import {
-  StyleSheet,
-  Platform,
-  StatusBar,
-  FlatList,
-  ScrollView,
-} from 'react-native';
+import React from 'react';
+import { StyleSheet, Platform, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { getUserInfo, retrieveToken } from './../redux/creators';
-import ChoreCard from '../components/ChoreCard';
+import SellChoreCard from '../components/SellChoreCard';
 import theme from './../styles/theme.style';
 import {
   Container,
@@ -21,36 +15,23 @@ import {
   Button,
   Text,
 } from 'native-base';
+import TradeChoreCard from '../components/TradeChoreCard';
 
-const SwapScreen = props => {
-  const { userInfo, navigation, swappableChores } = props;
-  const currChoreId = navigation.getParam('currChoreId');
-  console.log(swappableChores);
+const TradeScreen = props => {
+  const { userInfo, navigation } = props;
   return (
     <Container>
       <Header style={styles.headerBack}>
         <Left />
         <Body>
-          <Title style={{ color: 'white' }}>SWAP CHORES</Title>
+          <Title style={{ color: 'white' }}>TRADE CHORE</Title>
         </Body>
         <Right />
       </Header>
-      <ScrollView>
-        <FlatList
-          data={swappableChores}
-          keyExtractor={item => item.id.toString()}
-          renderItem={({ item }) => (
-            <ChoreCard
-              name={item.chore.name}
-              swapUserInfo={item.user}
-              swapCurrId={userInfo.id}
-              currChoreId={currChoreId}
-              swapChoreId={item.id}
-              nav={navigation}
-            />
-          )}
-        />
-      </ScrollView>
+      <Content>
+        {/* some form that will take a price and send it to back end */}
+        <TradeChoreCard nav={navigation} />
+      </Content>
     </Container>
   );
 };
@@ -78,4 +59,4 @@ const mapDispatch = dispatch => {
 export default connect(
   mapState,
   mapDispatch
-)(SwapScreen);
+)(TradeScreen);
