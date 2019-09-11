@@ -112,4 +112,16 @@ router.post('/chore_history', (req, res, next) => {
     })
     .catch(next);
 });
+
+router.post('/submit_chore', (req, res, next) => {
+  const { assignedChoreId } = req.body;
+  AssignedChore.findByPk(assignedChoreId)
+    .then(assignedChore => {
+      return assignedChore.update({ status: 'completed' });
+    })
+    .then(() => {
+      res.status(200).send({ message: 'good job' });
+    })
+    .catch(next);
+});
 module.exports = router;
