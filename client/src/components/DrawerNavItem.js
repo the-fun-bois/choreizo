@@ -33,8 +33,10 @@ const DrawerNavItem = ({
         if (custonOnPress) {
           custonOnPress(navigation);
         } else {
-          console.log('clicked');
-          navigation.navigate(navLink);
+          console.log('navigating too ', navLink);
+          if (navLink) {
+            navigation.navigate(navLink);
+          }
         }
         navigation.closeDrawer();
       }}

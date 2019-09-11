@@ -3,6 +3,7 @@ import HamburgerNav from './../Hamburger/HamburgerNav';
 import GroupInfoScreen from './../../screens/GroupInfoScreen';
 import ChoreHistoryScreen from './../../screens/ChoreHistoryScreen';
 import SettingsScreen from './../../screens/SettingsScreen';
+import EditChoresScreen from './../../screens/EditChoresScreen';
 import { Platform, StatusBar } from 'react-native';
 const marginTop = Platform.OS === 'ios' ? 0 : -StatusBar.currentHeight;
 import theme from './../../styles/theme.style';
@@ -14,6 +15,7 @@ const MainStack = createStackNavigator(
     GroupInfo: GroupInfoScreen,
     ChoreHistory: ChoreHistoryScreen,
     Settings: SettingsScreen,
+    EditChores: EditChoresScreen,
     // signout
     // *** admin only
     // add user

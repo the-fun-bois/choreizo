@@ -47,7 +47,7 @@ const GroupInfoScreen = ({ userInfo, allGroupUsers }) => {
         <View>
           <Text style={styles.header}>Group Name</Text>
           <Text style={{ fontSize: theme.FONT_SIZE_MEDIUM }}>{groupName}</Text>
-          <Text style={styles.header}>Members</Text>
+          <Text style={styles.header}>Other Members</Text>
           <FlatList
             data={allGroupUsers}
             keyExtractor={item => item.id.toString()}

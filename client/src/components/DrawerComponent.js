@@ -15,6 +15,8 @@ import DrawerNavItem from './DrawerNavItem';
 import Logout from './../components/Logout';
 import { EvilIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
+import AdminOptions from './AdminOptions';
+
 const defaultAvatarUri = require('./../assets/default_avatar.png');
 
 const DrawerComponent = props => {
@@ -66,11 +68,7 @@ const DrawerComponent = props => {
           />
         </View>
 
-        {/* admin options */}
-        {/****** only render if user is admin */}
-        {/* <View style={styles.headingContainer}>
-          <Text>Admin Options</Text>
-        </View> */}
+        <AdminOptions userIsAdmin={userInfo.groups[0].userGroup.userIsAdmin} />
 
         {/* log out */}
         <View style={styles.logoutContainer}>
@@ -110,7 +108,7 @@ const styles = StyleSheet.create({
   userOptionsContainer: {
     paddingLeft: menuPaddingLeft,
     marginVertical: menuGroupVerticalMargin,
-    flex: 1,
+    // flex: 1,
     maxHeight: 200,
     justifyContent: 'flex-start',
     alignItems: 'stretch',
