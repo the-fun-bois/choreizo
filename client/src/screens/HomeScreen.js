@@ -22,16 +22,37 @@ import {
   Right,
   Title,
   Content,
+  Spinner,
 } from 'native-base';
+
+const SpinnerComponent = () => {
+  return (
+    <Container>
+      <Content>
+        <Spinner style={{ height: 200, width: 200, flex: 1 }} />;
+      </Content>
+    </Container>
+  );
+};
 
 const HomeScreen = props => {
   const { userInfo, userChores, marketChores, navigation, submitChore } = props;
-  // if there's a token in state, then do nothing, otherwise set it again via getToken
-  // if (!userInfo.token) getToken();
-  // console.log('TOKEN', userInfo.token);
+  if (!userChores[0].id) {
+    return (
+      <View style={{ alignSelf: 'center' }}>
+        <GetAllInfoFromServer />
+        <Spinner
+          size={200}
+          style={{
+            alignSelf: 'center',
+            flex: 1,
+          }}
+        />
+      </View>
+    );
+  }
   return (
     <Container>
-      <GetAllInfoFromServer />
       <Header style={styles.headerBack}>
         <Left />
         <Body>
@@ -92,5 +113,5 @@ const mapDispatch = dispatch => {
 };
 export default connect(
   mapState,
-  mapDispatch
+  mapDispatch,
 )(HomeScreen);
